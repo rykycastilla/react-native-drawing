@@ -1,7 +1,8 @@
 {
-  "name": "expo-pixel-canvas",
-  "version": "1.0.0",
+  "name": "pixel-draw-for-expo",
+  "version": "0.5.0",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
     "lint": "eslint .",
@@ -9,23 +10,16 @@
   },
   "author": "Ryky CE",
   "license": "MIT",
-  "description": "An expo library to provide a drawing canvas",
+  "description": "An expo library to provide a drawing component",
   "dependencies": {
-    "expo-2d-context": "^0.0.4",
-    "expo-gl": "~14.0.2",
-    "typescript": "^5.5.4"
-  },
-  "peerDependencies": {
-    "expo": ">= 51.0.0",
-    "react": ">= 18.0.0",
-    "react-dom": ">= 18.0.0",
-    "react-native": ">= 0.74.0"
+    "expo-2d-context": "^0.0.4"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.7"
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "typescript": "^5.5.4"
   }
 }
