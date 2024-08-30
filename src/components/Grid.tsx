@@ -5,12 +5,6 @@ import { GridService } from '../modules/grid/services'
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
-interface Expo2DContextConstructor {
-  new ( gl:ExpoWebGLRenderingContext ): Expo2DContext
-}
-
-const Expo2DContextObject = Expo2DContext as unknown as Expo2DContextConstructor
-
 interface GridProps {
   amount: number
 }
@@ -21,7 +15,7 @@ const Grid = ( props:GridProps ): ReactElement => {
   const [ gridDisplay, setGridDisplay ] = useState<GridDisplay|null>( null )
 
   const onContextCreate = useCallback( ( gl:ExpoWebGLRenderingContext ) => {
-    const context = new Expo2DContextObject( gl )
+    const context = new Expo2DContext( gl )
     const gridDisplay = new GridDisplay( context )
     setGridDisplay( gridDisplay )
   }, [] )
