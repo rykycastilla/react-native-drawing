@@ -1,25 +1,33 @@
-import { ReactElement, useEffect } from 'react'
-
+import { CoordinatesService, DrawingService } from '../modules/draw/services'
 import { GLView } from 'expo-gl'
+import { Matrix } from '../modules/draw/models'
+import { ReactElement, useCallback, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
-import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../hooks'
-import { Matrix } from '../model'
-import { CoordinatesService, DrawingService, TouchDetectedEvent, TouchEndEvent, TouchService } from '../services'
-import { useCallback } from 'react'
-import { Tool } from '../model'
+import { Tool } from '../modules/tools/models'
+import { TouchDetectedEvent, TouchEndEvent, TouchService } from '../modules/touch/services'
+import { useCoordinatesService, useDrawingService } from '../modules/draw/hooks'
+import { useDisplay } from '../modules/display/hooks'
+import { useMatrix } from '../modules/draw/hooks'
+
+interface DisplayLayout {
+  x: number
+  y: number
+  size: number
+}
 
 interface DisplayProps<T extends string> {
   grid: number
   touch: TouchService
-  matrixPosition: [ number, number, number ]
+  layout: DisplayLayout
   tool: Tool<T>
 }
 
 const Display = <T extends string>( props:DisplayProps<T> ): ReactElement | null => {
-  const { grid, touch, matrixPosition, tool } = props
-  const [ matrixX, matrixY, size ] = matrixPosition
+
+  const { grid, touch, layout, tool } = props
+  const { x, y, size } = layout
   const { display, onContextCreate } = useDisplay()
-  const matrix: Matrix<T> = useMatrix( matrixY, matrixX, size, 512, grid, display )
+  const matrix: Matrix<T> = useMatrix( y, x, size, 512, grid, display )
   const drawingService: DrawingService<T> = useDrawingService( matrix )
   const coordinatesService: CoordinatesService<T> = useCoordinatesService( matrix )
 

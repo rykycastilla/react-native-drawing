@@ -1,7 +1,7 @@
 import Expo2DContext from 'expo-2d-context'
 import { ExpoWebGLRenderingContext, GLView } from 'expo-gl'
-import { GridDisplay } from '../controller'
-import { GridService } from '../services'
+import { GridDisplay } from '../modules/grid/controller'
+import { GridService } from '../modules/grid/services'
 import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 

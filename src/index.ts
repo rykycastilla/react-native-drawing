@@ -1,3 +1,3 @@
-export { default as Draw } from './ExpoPixelCanvas'
-export { Tool } from './services'
-export { useTouchPosition } from './hooks'
+export { default as Draw } from './components/Draw'
+export { Tool } from './modules/tools/services'
+export { useTouchPosition } from './modules/touch/hooks'
