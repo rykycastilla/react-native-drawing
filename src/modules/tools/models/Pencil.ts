@@ -1,11 +1,14 @@
+import { ColorableTool, IColorableTool } from './ColorableTool'
 import { Matrix, Pixel } from '../../draw/models'
 import { Tool } from './Tool'
 
-export class Pencil<T extends string> implements Tool<T> {
+export class Pencil<T extends string> implements Tool<T>, IColorableTool<T> {
 
-  constructor(
-    private color: T,
-  ) {}
+  private readonly colorBoard: IColorableTool<T>
+
+  constructor( color:T ) {
+    this.colorBoard = new ColorableTool( color )
+  }
 
   public use( column:number, row:number, matrix:Matrix<T> ) {
     const pixel: Pixel<T> | undefined = matrix.find( column, row )
@@ -18,7 +21,11 @@ export class Pencil<T extends string> implements Tool<T> {
   }
 
   public setColor( color:T ) {
-    this.color = color
+    this.colorBoard.setColor( color )
+  }
+
+  get color(): T {
+    return this.colorBoard.color
   }
 
 }
