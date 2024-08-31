@@ -9,5 +9,6 @@ export function useTools<T extends string>( currentTool:Tool, pencilColor:T, too
   const toolIndex: ToolIndex<T> = useToolIndex( pencilColor, toolSize )
   useUpdateColor( toolIndex.PENCIL, pencilColor )
   useUpdateSize( toolIndex.PENCIL, toolSize )
+  useUpdateSize( toolIndex.ERASER, toolSize )
   return useCurrentTool( currentTool, toolIndex )
 }

@@ -7,7 +7,7 @@ import { Tool as ITool } from '../modules/tools/models'
 import { TouchService } from '../modules/touch/services'
 import { useTools } from '../modules/tools/hooks'
 
-const DEFAULT_TOOL_SIZE = 3
+const DEFAULT_TOOL_SIZE = 4
 
 interface DrawLayout {
   x: number

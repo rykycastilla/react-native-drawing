@@ -1,4 +1,4 @@
-import { Pencil, Tool as ITool } from '../models'
+import { Eraser, Pencil, Tool as ITool } from '../models'
 import { Tool } from './Tool'
 
 export class ToolIndex<T extends string> {
@@ -7,9 +7,10 @@ export class ToolIndex<T extends string> {
 
   constructor(
     public readonly PENCIL: Pencil<T>,
+    public readonly ERASER: Eraser<T>,
   ) {
-    const toolKeyList: Tool[] = [ Tool.PENCIL ]
-    const toolList: ITool<T>[] = [ PENCIL ]
+    const toolKeyList: Tool[] = [ Tool.PENCIL, Tool.ERASER ]
+    const toolList: ITool<T>[] = [ PENCIL, ERASER ]
     this.buildIndex( toolKeyList, toolList )
   }
 
