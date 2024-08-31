@@ -16,7 +16,7 @@ interface DisplayLayout {
 }
 
 interface DisplayProps<T extends string> {
-  grid: number
+  resolution: number
   touch: TouchService
   layout: DisplayLayout
   tool: Tool<T>
@@ -24,10 +24,10 @@ interface DisplayProps<T extends string> {
 
 const Display = <T extends string>( props:DisplayProps<T> ): ReactElement | null => {
 
-  const { grid, touch, layout, tool } = props
+  const { resolution, touch, layout, tool } = props
   const { x, y, size } = layout
-  const { display, onContextCreate } = useDisplay()
-  const matrix: Matrix<T> = useMatrix( y, x, size, 512, grid, display )
+  const { display, onContextCreate } = useDisplay( resolution )
+  const matrix: Matrix<T> = useMatrix( y, x, size, resolution, resolution, display )
   const drawingService: DrawingService<T> = useDrawingService( matrix )
   const coordinatesService: CoordinatesService<T> = useCoordinatesService( matrix )
 

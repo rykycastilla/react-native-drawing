@@ -8,11 +8,11 @@ interface UseDisplayResult {
   onContextCreate: ( gl:ExpoWebGLRenderingContext ) => void
 }
 
-export function useDisplay(): UseDisplayResult {
+export function useDisplay( resolution:number ): UseDisplayResult {
 
   const display: CanvasDisplay = useMemo( () => {
-    return new CanvasDisplay( console )
-  }, [] )
+    return new CanvasDisplay( resolution, console )
+  }, [ resolution ] )
 
   const onContextCreate = ( gl:ExpoWebGLRenderingContext ) => {
     const context = new Expo2DContext( gl )

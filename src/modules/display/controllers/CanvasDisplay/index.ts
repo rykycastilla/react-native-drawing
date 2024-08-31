@@ -1,15 +1,23 @@
 import Expo2DContext from 'expo-2d-context'
 import { Display } from '../../models'
 import { Logger } from './Logger'
+import { Verbose } from '../../../../utils/Logger'
 
 export class CanvasDisplay extends Logger implements Display {
 
   private context: Expo2DContext | null = null
 
+  constructor(
+    private readonly resolution: number,
+    verbose:Verbose,
+  ) {
+    super( verbose )
+  }
+
   private initialyze() {
     if( this.context === null ) { return this.logContextWarning() }
     this.context.setTransform( 1, 0, 0, 1, 0, 0 )
-    const scale: number = this.context.width / 512
+    const scale: number = this.context.width / this.resolution
     this.context.scale( scale, scale )
     this.scene()
   }

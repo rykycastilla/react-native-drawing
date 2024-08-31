@@ -1,6 +1,6 @@
 import Display from './Display'
 import Grid from './Grid'
-import { ReactElement, useRef, useState } from 'react'
+import { ReactElement, useMemo, useRef, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Tool } from '../modules/tools/services'
 import { Tool as ITool } from '../modules/tools/models'
@@ -16,7 +16,7 @@ interface DrawLayout {
 }
 
 interface DrawProps<T extends string> {
-  grid: number
+  resolution: number
   showGrid?: boolean
   touch: TouchService
   pencilColor: T
@@ -26,10 +26,18 @@ interface DrawProps<T extends string> {
 
 const Draw = <T extends string>( props:DrawProps<T> ): ReactElement => {
 
-  const { grid, showGrid = false, touch, pencilColor, tool, toolSize = DEFAULT_TOOL_SIZE } = props
+  const {
+    resolution,
+    showGrid = false,
+    touch,
+    pencilColor,
+    tool,
+    toolSize = DEFAULT_TOOL_SIZE,
+  } = props
   const [ drawLayout, setDrawLayout ] = useState<DrawLayout>( { x: 0, y: 0, size: 0 } )
   const drawRef = useRef<View|null>( null )
   const currentTool: ITool<T> = useTools( tool, pencilColor, toolSize )
+  const fixedResolution: number = useMemo( () => resolution, [] )
 
   const onLayout = () => {
     const draw: View | null = drawRef.current
@@ -46,8 +54,8 @@ const Draw = <T extends string>( props:DrawProps<T> ): ReactElement => {
 
   return (
     <View ref={ drawRef } style={ styles.draw } onLayout={ onLayout }>
-      <Display grid={ grid } touch={ touch } layout={ drawLayout } tool={ currentTool } />
-      <Grid amount={ grid } show={ showGrid } />
+      <Display resolution={ fixedResolution } touch={ touch } layout={ drawLayout } tool={ currentTool } />
+      <Grid amount={ fixedResolution } show={ showGrid } />
     </View>
   )
 
