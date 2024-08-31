@@ -14,8 +14,9 @@ export class MatrixBuilder<T extends string> extends MatrixPositioner<T> {
   protected buildData() {
     for( let i = 1; i <= this.grid; i++ ) {
       for( let j = 1; j <= this.grid; j++ ) {
-        const { x, y } = this.calcPosition( i, j )
-        const pixel = new Pixel<T>( x, y, this.pixelSize, this.display )
+        const x: number = i - 1,
+          y = j - 1
+        const pixel = new Pixel<T>( x, y, this.display )
         this.place( i, j, pixel )
       }
     }

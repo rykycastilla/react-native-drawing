@@ -37,7 +37,7 @@ const Draw = <T extends string>( props:DrawProps<T> ): ReactElement => {
   const [ drawLayout, setDrawLayout ] = useState<DrawLayout>( { x: 0, y: 0, size: 0 } )
   const drawRef = useRef<View|null>( null )
   const currentTool: ITool<T> = useTools( tool, pencilColor, toolSize )
-  const fixedResolution: number = useMemo( () => resolution, [] )
+  const fixedResolution: number = useMemo( () => resolution, [] )  // eslint-disable-line
 
   const onLayout = () => {
     const draw: View | null = drawRef.current

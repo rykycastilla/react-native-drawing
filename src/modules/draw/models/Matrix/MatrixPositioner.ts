@@ -19,20 +19,10 @@ export class MatrixPositioner<T extends string> extends PixelMap<T> {
     return Math.ceil( axis / this.pixelSize )
   }
 
-  private calcAxisPosition( cell:number ): number {
-    return ( cell - 1 ) * this.pixelSize
-  }
-
   public calcCell( x:number, y:number ): CalcCellResult {
     const column: number = this.calcAxisCell( x ),
       row = this.calcAxisCell( y )
     return { column, row }
-  }
-
-  public calcPosition( column:number, row:number ): CalcPositionResult {
-    const x: number = this.calcAxisPosition( column ),
-      y = this.calcAxisPosition( row )
-    return { x, y }
   }
 
 }
@@ -40,9 +30,4 @@ export class MatrixPositioner<T extends string> extends PixelMap<T> {
 interface CalcCellResult {
   column: number
   row: number
-}
-
-interface CalcPositionResult {
-  x: number
-  y: number
 }

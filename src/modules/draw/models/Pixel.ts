@@ -2,25 +2,25 @@ import { Display } from '../../display/models/Display'
 
 export class Pixel<T extends string> {
 
+  public static readonly SIZE = 1
   #color: T | null = null
 
   constructor(
     private readonly x: number,
     private readonly y: number,
-    private readonly size: number,
     private readonly display: Display,
   ) {}
 
   public setColor( color:T ) {
     if( this.color === color ) { return }
     this.color = color
-    this.display.print( this.x, this.y, this.size, this.size, this.color )
+    this.display.print( this.x, this.y, Pixel.SIZE, Pixel.SIZE, this.color )
   }
 
   public clear() {
     if( this.color === null ) { return }
     this.color = null
-    this.display.clear( this.x, this.y, this.size, this.size )
+    this.display.clear( this.x, this.y, Pixel.SIZE, Pixel.SIZE )
   }
 
   get color(): T | null {
