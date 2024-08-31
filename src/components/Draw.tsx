@@ -7,6 +7,8 @@ import { Tool as ITool } from '../modules/tools/models'
 import { TouchService } from '../modules/touch/services'
 import { useTools } from '../modules/tools/hooks'
 
+const DEFAULT_TOOL_SIZE = 3
+
 interface DrawLayout {
   x: number
   y: number
@@ -17,15 +19,16 @@ interface DrawProps<T extends string> {
   grid: number
   touch: TouchService
   pencilColor: T
-  tool: Tool,
+  tool: Tool
+  toolSize?: number
 }
 
 const Draw = <T extends string>( props:DrawProps<T> ): ReactElement => {
 
-  const { grid, touch, pencilColor, tool } = props
+  const { grid, touch, pencilColor, tool, toolSize = DEFAULT_TOOL_SIZE } = props
   const [ drawLayout, setDrawLayout ] = useState<DrawLayout>( { x: 0, y: 0, size: 0 } )
   const drawRef = useRef<View|null>( null )
-  const currentTool: ITool<T> = useTools( tool, pencilColor )
+  const currentTool: ITool<T> = useTools( tool, pencilColor, toolSize )
 
   const onLayout = () => {
     const draw: View | null = drawRef.current

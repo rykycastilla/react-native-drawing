@@ -8,7 +8,7 @@ export class Pencil<T extends string> implements Tool<T>, IColorableTool<T>, IRe
   private readonly colorBoard: ColorableTool<T>
   private readonly resizableBoard: ResizableTool
 
-  constructor( color:T, size = 1 ) {
+  constructor( color:T, size:number ) {
     this.colorBoard = new ColorableTool( color )
     this.resizableBoard = new ResizableTool( size )
   }
