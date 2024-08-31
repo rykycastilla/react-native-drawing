@@ -23,11 +23,14 @@ export class GridDisplay implements Display {
     this.context.lineWidth = bold
     this.context.rect( x, y, width, height )
     this.context.stroke()
-    this.context.flush()
   }
 
   public clear() {
     this.context.clearRect( 0, 0, this.RESOLUTION, this.RESOLUTION )
+    this.context.flush()
+  }
+
+  public render() {
     this.context.flush()
   }
 

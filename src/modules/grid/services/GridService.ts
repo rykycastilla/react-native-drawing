@@ -10,8 +10,7 @@ export class GridService {
     private readonly display: Display,
   ) {}
 
-  public build() {
-    this.display.clear()
+  private buildCells() {
     const cellSize: number = this.display.RESOLUTION / this.grid
     const cell = new CellBuilder( cellSize, GridService.WIDTH, GridService.COLOR, this.display )
     for( let i = 0; i < this.grid; i++ ) {
@@ -21,6 +20,12 @@ export class GridService {
         cell.build( x, y )
       }
     }
+  }
+
+  public build() {
+    this.display.clear()
+    this.buildCells()
+    this.display.render()
   }
 
 }
