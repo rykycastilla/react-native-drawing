@@ -1,8 +1,7 @@
-import Expo2DContext from 'expo-2d-context'
-import { ExpoWebGLRenderingContext, GLView } from 'expo-gl'
-import { GridDisplay } from '../modules/grid/controller'
+import { GLView } from 'expo-gl'
 import { GridService } from '../modules/grid/services'
-import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
+import { useGridDisplay, useGridService } from '../modules/grid/hooks'
 import { StyleSheet } from 'react-native'
 
 interface GridProps {
@@ -12,18 +11,8 @@ interface GridProps {
 const Grid = ( props:GridProps ): ReactElement => {
 
   const { amount } = props
-  const [ gridDisplay, setGridDisplay ] = useState<GridDisplay|null>( null )
-
-  const onContextCreate = useCallback( ( gl:ExpoWebGLRenderingContext ) => {
-    const context = new Expo2DContext( gl )
-    const gridDisplay = new GridDisplay( context )
-    setGridDisplay( gridDisplay )
-  }, [] )
-
-  const gridService: GridService | null = useMemo( () => {
-    if( gridDisplay === null ) { return null }
-    return new GridService( amount, gridDisplay )
-  }, [ amount, gridDisplay ] )
+  const { gridDisplay, onContextCreate } = useGridDisplay()
+  const gridService: GridService | null = useGridService( amount, gridDisplay )
 
   useEffect( () => {
     if( gridService === null ) { return }
