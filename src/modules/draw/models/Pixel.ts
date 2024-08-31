@@ -12,11 +12,13 @@ export class Pixel<T extends string> {
   ) {}
 
   public setColor( color:T ) {
+    if( this.color === color ) { return }
     this.color = color
     this.display.print( this.x, this.y, this.size, this.size, this.color )
   }
 
   public clear() {
+    if( this.color === null ) { return }
     this.color = null
     this.display.clear( this.x, this.y, this.size, this.size )
   }
