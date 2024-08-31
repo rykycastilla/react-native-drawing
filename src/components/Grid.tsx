@@ -6,11 +6,12 @@ import { StyleSheet } from 'react-native'
 
 interface GridProps {
   amount: number
+  show: boolean
 }
 
 const Grid = ( props:GridProps ): ReactElement => {
 
-  const { amount } = props
+  const { amount, show } = props
   const { gridDisplay, onContextCreate } = useGridDisplay()
   const gridService: GridService | null = useGridService( amount, gridDisplay )
 
@@ -19,7 +20,11 @@ const Grid = ( props:GridProps ): ReactElement => {
     gridService.build()
   }, [ gridService ] )
 
-  return <GLView style={ styles.grid } onContextCreate={ onContextCreate } />
+  return (
+    <GLView
+      style={ [ styles.grid, show ? {} : styles.hidden ] }
+      onContextCreate={ onContextCreate } />
+  )
 
 }
 
@@ -29,6 +34,10 @@ const styles = StyleSheet.create( {
     width: '100%',
     height: '100%',
     position: 'absolute',
+  },
+
+  hidden: {
+    display: 'none',
   },
 
 } )
