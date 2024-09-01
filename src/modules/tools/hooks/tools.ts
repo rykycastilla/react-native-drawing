@@ -5,10 +5,11 @@ import { useToolIndex } from './tool_index'
 import { useUpdateColor } from './update_color'
 import { useUpdateSize } from './update_size'
 
-export function useTools( currentTool:Tool, pencilColor:string, toolSize:number ): ITool {
-  const toolIndex: ToolIndex = useToolIndex( pencilColor, toolSize )
-  useUpdateColor( toolIndex.PENCIL, pencilColor )
+export function useTools( currentTool:Tool, toolColor:string, toolSize:number ): ITool {
+  const toolIndex: ToolIndex = useToolIndex( toolColor, toolSize )
+  useUpdateColor( toolIndex.PENCIL, toolColor )
   useUpdateSize( toolIndex.PENCIL, toolSize )
   useUpdateSize( toolIndex.ERASER, toolSize )
+  useUpdateColor( toolIndex.FILLER, toolColor )
   return useCurrentTool( currentTool, toolIndex )
 }
