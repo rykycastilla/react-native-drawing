@@ -10,17 +10,17 @@ import { TouchService } from '../../modules/touch/services'
 import { useLoader } from './hooks'
 import { useTools } from '../../modules/tools/hooks'
 
-interface DrawProps<T extends string> {
+interface DrawProps {
   resolution: number
   showGrid?: boolean
   touch: TouchService
-  pencilColor: T
+  pencilColor: string
   tool: Tool
   toolSize?: number
   onLoad?: LoadEventCallback
 }
 
-const Draw = <T extends string>( props:DrawProps<T> ): ReactElement => {
+const Draw = ( props:DrawProps ): ReactElement => {
 
   const {
     resolution,
@@ -33,7 +33,7 @@ const Draw = <T extends string>( props:DrawProps<T> ): ReactElement => {
   } = props
   const [ drawLayout, setDrawLayout ] = useState<DrawLayout>( { x: 0, y: 0, size: 0 } )
   const drawRef = useRef<View|null>( null )
-  const currentTool: ITool<T> = useTools( tool, pencilColor, toolSize )
+  const currentTool: ITool = useTools( tool, pencilColor, toolSize )
   const fixedResolution: number = useMemo( () => resolution, [] )  // eslint-disable-line
   const { setDisplayLoaded, setGridLoaded } = useLoader( onLoad )
 

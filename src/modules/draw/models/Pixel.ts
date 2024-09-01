@@ -1,9 +1,9 @@
 import { Display } from './Display'
 
-export class Pixel<T extends string> {
+export class Pixel {
 
   public static readonly SIZE = 1
-  #color: T | null = null
+  #color: string | null = null
 
   constructor(
     private readonly x: number,
@@ -11,7 +11,7 @@ export class Pixel<T extends string> {
     private readonly display: Display,
   ) {}
 
-  public setColor( color:T ) {
+  public setColor( color:string ) {
     if( this.color === color ) { return }
     this.color = color
     this.display.print( this.x, this.y, Pixel.SIZE, Pixel.SIZE, this.color )
@@ -23,11 +23,11 @@ export class Pixel<T extends string> {
     this.display.clear( this.x, this.y, Pixel.SIZE, Pixel.SIZE )
   }
 
-  get color(): T | null {
+  get color(): string | null {
     return this.#color
   }
 
-  private set color( color:T|null ) {
+  private set color( color:string|null ) {
     this.#color = color
   }
 

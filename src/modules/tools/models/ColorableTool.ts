@@ -1,26 +1,26 @@
-export class ColorableTool<T extends string> implements IColorableTool<T> {
+export class ColorableTool implements IColorableTool {
 
-  #color: T
+  #color: string
 
-  constructor( color:T ) {
+  constructor( color:string ) {
     this.#color = color
   }
 
-  public setColor( color:T ) {
+  public setColor( color:string ) {
     this.color = color
   }
 
-  get color(): T {
+  get color(): string {
     return this.#color
   }
 
-  private set color( newColor:T ) {
+  private set color( newColor:string ) {
     this.#color = newColor
   }
 
 }
 
-export interface IColorableTool<T extends string> {
-  readonly color: T
-  setColor( color:T ): void
+export interface IColorableTool {
+  readonly color: string
+  setColor( color:string ): void
 }

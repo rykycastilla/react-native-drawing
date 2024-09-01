@@ -5,8 +5,8 @@ import { useToolIndex } from './tool_index'
 import { useUpdateColor } from './update_color'
 import { useUpdateSize } from './update_size'
 
-export function useTools<T extends string>( currentTool:Tool, pencilColor:T, toolSize:number ): ITool<T> {
-  const toolIndex: ToolIndex<T> = useToolIndex( pencilColor, toolSize )
+export function useTools( currentTool:Tool, pencilColor:string, toolSize:number ): ITool {
+  const toolIndex: ToolIndex = useToolIndex( pencilColor, toolSize )
   useUpdateColor( toolIndex.PENCIL, pencilColor )
   useUpdateSize( toolIndex.PENCIL, toolSize )
   useUpdateSize( toolIndex.ERASER, toolSize )

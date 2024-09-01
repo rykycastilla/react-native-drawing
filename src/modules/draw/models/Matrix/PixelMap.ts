@@ -1,19 +1,19 @@
 import { Pixel } from '../Pixel'
 
-export class PixelMap<T extends string> {
+export class PixelMap {
 
-  private readonly pixelIndex = new Map<PixelKey,Pixel<T>>()
+  private readonly pixelIndex = new Map<PixelKey,Pixel>()
 
   private buildKey( column:number, row:number ): PixelKey {
     return `${ column };${ row }`
   }
 
-  public place( column:number, row:number, pixel:Pixel<T> ) {
+  public place( column:number, row:number, pixel:Pixel ) {
     const key: PixelKey = this.buildKey( column, row )
     this.pixelIndex.set( key, pixel )
   }
 
-  public find( column:number, row:number ): Pixel<T> | undefined {
+  public find( column:number, row:number ): Pixel | undefined {
     const key: PixelKey = this.buildKey( column, row )
     return this.pixelIndex.get( key )
   }

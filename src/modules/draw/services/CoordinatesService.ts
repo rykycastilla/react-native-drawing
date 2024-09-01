@@ -1,9 +1,9 @@
 import { Matrix } from '../models'
 
-export class CoordinatesService<T extends string> {
+export class CoordinatesService {
 
   constructor(
-    private readonly matrix: Matrix<T>,
+    private readonly matrix: Matrix,
   ) {}
 
   private fixInMatrixPosition( touchAxis:number, matrixAxis:number ): number {

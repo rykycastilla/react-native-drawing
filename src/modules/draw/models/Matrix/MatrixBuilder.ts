@@ -2,7 +2,7 @@ import { Display } from '../Display'
 import { MatrixPositioner } from './MatrixPositioner'
 import { Pixel } from '../Pixel'
 
-export class MatrixBuilder<T extends string> extends MatrixPositioner<T> {
+export class MatrixBuilder extends MatrixPositioner {
 
   constructor(
     top:number, left:number, size:number, resolution:number, grid:number,
@@ -16,7 +16,7 @@ export class MatrixBuilder<T extends string> extends MatrixPositioner<T> {
       for( let j = 1; j <= this.grid; j++ ) {
         const x: number = i - 1,
           y = j - 1
-        const pixel = new Pixel<T>( x, y, this.display )
+        const pixel = new Pixel( x, y, this.display )
         this.place( i, j, pixel )
       }
     }

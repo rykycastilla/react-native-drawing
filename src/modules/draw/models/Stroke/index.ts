@@ -4,14 +4,14 @@ import { Point } from './Point'
 import { StrokePoint } from './StrokePoint'
 import { Tool } from '../../../tools/models'
 
-export class Stroke<T extends string> extends Interpolator {
+export class Stroke extends Interpolator {
 
   public static readonly MAX_POINTS = 2
-  private readonly content: StrokePoint<T>[] = []
-  #currentTool: Tool<T> | null = null
+  private readonly content: StrokePoint[] = []
+  #currentTool: Tool | null = null
 
   constructor(
-    private readonly matrix: Matrix<T>,
+    private readonly matrix: Matrix,
   ) {
     super( ( point:Point ) => this.paint( point ) )
   }
@@ -28,18 +28,18 @@ export class Stroke<T extends string> extends Interpolator {
     this.currentTool!.use( x, y, this.matrix )
   }
 
-  public addPoint( item:StrokePoint<T> ) {
+  public addPoint( item:StrokePoint ) {
     this.content.push( item )
     const length: number = this.content.length
     if( length > Stroke.MAX_POINTS ) { this.content.shift() }
     this.design()
   }
 
-  private get currentTool(): Tool<T> | null {
+  private get currentTool(): Tool | null {
     return this.#currentTool
   }
 
-  private set currentTool( newCurrentTool:Tool<T> ) {
+  private set currentTool( newCurrentTool:Tool ) {
     this.#currentTool = newCurrentTool
   }
 

@@ -1,6 +1,6 @@
 import { PixelMap } from './PixelMap'
 
-export class MatrixPositioner<T extends string> extends PixelMap<T> {
+export class MatrixPositioner extends PixelMap {
 
   public readonly pixelSize: number
 

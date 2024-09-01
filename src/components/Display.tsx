@@ -14,22 +14,22 @@ interface DisplayLayout {
   size: number
 }
 
-interface DisplayProps<T extends string> {
+interface DisplayProps {
   resolution: number
   touch: TouchService
   layout: DisplayLayout
-  tool: Tool<T>
+  tool: Tool
   onLoad( loaded:boolean ): void
 }
 
-const Display = <T extends string>( props:DisplayProps<T> ): ReactElement | null => {
+const Display = ( props:DisplayProps ): ReactElement | null => {
 
   const { resolution, touch, layout, tool, onLoad } = props
   const { x, y, size } = layout
   const { display, loadDisplay } = useDisplay( resolution )
-  const matrix: Matrix<T> = useMatrix( y, x, size, resolution, resolution, display )
-  const drawingService: DrawingService<T> = useDrawingService( matrix )
-  const coordinatesService: CoordinatesService<T> = useCoordinatesService( matrix )
+  const matrix: Matrix = useMatrix( y, x, size, resolution, resolution, display )
+  const drawingService: DrawingService = useDrawingService( matrix )
+  const coordinatesService: CoordinatesService = useCoordinatesService( matrix )
 
   const onTouchDetected = useCallback( ( event:TouchDetectedEvent ) => {
     const { targetId, x, y } = event
