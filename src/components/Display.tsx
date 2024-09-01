@@ -1,11 +1,12 @@
 import { CoordinatesService, DrawingService } from '../modules/draw/services'
-import { GLView } from 'expo-gl'
 import { Matrix } from '../modules/draw/models'
 import { ReactElement, useCallback, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { Tool } from '../modules/tools/models'
 import { TouchDetectedEvent, TouchEndEvent, TouchService } from '../modules/touch/services'
 import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../modules/draw/hooks'
+
+import GLDisplay from './GLDisplay'
 
 interface DisplayLayout {
   x: number
@@ -18,13 +19,14 @@ interface DisplayProps<T extends string> {
   touch: TouchService
   layout: DisplayLayout
   tool: Tool<T>
+  onLoad( loaded:boolean ): void
 }
 
 const Display = <T extends string>( props:DisplayProps<T> ): ReactElement | null => {
 
-  const { resolution, touch, layout, tool } = props
+  const { resolution, touch, layout, tool, onLoad } = props
   const { x, y, size } = layout
-  const { display, onContextCreate } = useDisplay( resolution )
+  const { display, loadDisplay } = useDisplay( resolution )
   const matrix: Matrix<T> = useMatrix( y, x, size, resolution, resolution, display )
   const drawingService: DrawingService<T> = useDrawingService( matrix )
   const coordinatesService: CoordinatesService<T> = useCoordinatesService( matrix )
@@ -44,7 +46,12 @@ const Display = <T extends string>( props:DisplayProps<T> ): ReactElement | null
     touch.onTouchEnd( onTouchEnd )
   }, [ touch, onTouchDetected, onTouchEnd ] )
 
-  return <GLView style={ styles.display } onContextCreate={ onContextCreate } />
+  return (
+    <GLDisplay
+      style={ styles.display }
+      onLoad={ onLoad }
+      onContextCreate={ loadDisplay } />
+  )
 
 }
 

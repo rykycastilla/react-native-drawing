@@ -1,4 +1,4 @@
-import { GLView } from 'expo-gl'
+import GLDisplay from './GLDisplay'
 import { GridService } from '../modules/grid/services'
 import { ReactElement, useEffect } from 'react'
 import { useGridDisplay, useGridService } from '../modules/grid/hooks'
@@ -7,11 +7,12 @@ import { StyleSheet } from 'react-native'
 interface GridProps {
   amount: number
   show: boolean
+  onLoad( loaded:boolean ): void
 }
 
 const Grid = ( props:GridProps ): ReactElement => {
 
-  const { amount, show } = props
+  const { amount, show, onLoad } = props
   const { gridDisplay, onContextCreate } = useGridDisplay()
   const gridService: GridService | null = useGridService( amount, gridDisplay )
 
@@ -21,8 +22,9 @@ const Grid = ( props:GridProps ): ReactElement => {
   }, [ gridService ] )
 
   return (
-    <GLView
+    <GLDisplay
       style={ [ styles.grid, show ? {} : styles.hidden ] }
+      onLoad={ onLoad }
       onContextCreate={ onContextCreate } />
   )
 
@@ -37,7 +39,7 @@ const styles = StyleSheet.create( {
   },
 
   hidden: {
-    display: 'none',
+    opacity: 0,
   },
 
 } )

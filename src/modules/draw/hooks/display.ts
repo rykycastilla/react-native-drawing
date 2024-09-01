@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 
 interface UseDisplayResult {
   display: CanvasDisplay
-  onContextCreate: ( gl:ExpoWebGLRenderingContext ) => void
+  loadDisplay: ( gl:ExpoWebGLRenderingContext ) => void
 }
 
 export function useDisplay( resolution:number ): UseDisplayResult {
@@ -14,11 +14,11 @@ export function useDisplay( resolution:number ): UseDisplayResult {
     return new CanvasDisplay( resolution, console )
   }, [ resolution ] )
 
-  const onContextCreate = ( gl:ExpoWebGLRenderingContext ) => {
+  const loadDisplay = ( gl:ExpoWebGLRenderingContext ) => {
     const context = new Expo2DContext( gl )
     display.setContext( context )
   }
 
-  return { display, onContextCreate }
+  return { display, loadDisplay }
 
 }
