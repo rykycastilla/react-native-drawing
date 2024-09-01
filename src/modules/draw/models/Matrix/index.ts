@@ -1,4 +1,4 @@
-import { Display } from '../../../display/models/Display'
+import { Display } from '../Display'
 import { MatrixBuilder } from './MatrixBuilder'
 
 export class Matrix<T extends string> extends MatrixBuilder<T> {

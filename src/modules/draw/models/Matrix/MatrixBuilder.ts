@@ -1,4 +1,4 @@
-import { Display } from '../../../display/models/Display'
+import { Display } from '../Display'
 import { MatrixPositioner } from './MatrixPositioner'
 import { Pixel } from '../Pixel'
 

@@ -1,5 +1,4 @@
-import { Display } from '../../display/models'
-import { Matrix } from '../models'
+import { Display, Matrix } from '../models'
 import { useMemo } from 'react'
 
 export function useMatrix<T extends string>( top:number, left:number, size:number, resolution:number, grid:number, display:Display ): Matrix<T> {

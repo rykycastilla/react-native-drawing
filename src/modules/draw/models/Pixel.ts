@@ -1,4 +1,4 @@
-import { Display } from '../../display/models/Display'
+import { Display } from './Display'
 
 export class Pixel<T extends string> {
 

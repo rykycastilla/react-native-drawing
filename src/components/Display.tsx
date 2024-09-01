@@ -5,9 +5,7 @@ import { ReactElement, useCallback, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { Tool } from '../modules/tools/models'
 import { TouchDetectedEvent, TouchEndEvent, TouchService } from '../modules/touch/services'
-import { useCoordinatesService, useDrawingService } from '../modules/draw/hooks'
-import { useDisplay } from '../modules/display/hooks'
-import { useMatrix } from '../modules/draw/hooks'
+import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../modules/draw/hooks'
 
 interface DisplayLayout {
   x: number
