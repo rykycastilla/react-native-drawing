@@ -2,22 +2,17 @@ import { Pixel } from '../Pixel'
 
 export class PixelMap {
 
-  private readonly pixelIndex = new Map<PixelKey,Pixel>()
-
-  private buildKey( column:number, row:number ): PixelKey {
-    return `${ column };${ row }`
-  }
+  private readonly pixelMatrix: Pixel[][] = []
 
   public place( column:number, row:number, pixel:Pixel ) {
-    const key: PixelKey = this.buildKey( column, row )
-    this.pixelIndex.set( key, pixel )
+    if( this.pixelMatrix[ column ] === undefined ) { this.pixelMatrix[ column ] = [] }
+    this.pixelMatrix[ column ]![ row ] = pixel
   }
 
   public find( column:number, row:number ): Pixel | undefined {
-    const key: PixelKey = this.buildKey( column, row )
-    return this.pixelIndex.get( key )
+    const pixelList: Pixel[] | undefined = this.pixelMatrix[ column ]
+    if( pixelList === undefined ) { return undefined }
+    return pixelList[ row ]
   }
 
 }
-
-type PixelKey = `${ number };${ number }`
