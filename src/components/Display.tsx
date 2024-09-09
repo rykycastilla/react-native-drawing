@@ -8,10 +8,11 @@ import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from 
 
 import GLDisplay from './GLDisplay'
 
-interface DisplayLayout {
+export interface DisplayLayout {
+  top: number
+  left: number
   x: number
   y: number
-  size: number
 }
 
 interface DisplayProps {
