@@ -1,17 +1,7 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true,
-    "noEmit": false,
-    "rootDir": "./src/",
-    "outDir": "./dist/",
-    "declaration": true,
-    "noImplicitAny": true,
-    "noEmitOnError": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noUncheckedIndexedAccess": true,
-  },
-  "exclude": [ "./dist/" ]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
