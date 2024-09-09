@@ -1,0 +1,9 @@
+grid {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+hidden {
+  opacity: 0;
+}

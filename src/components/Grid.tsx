@@ -2,7 +2,7 @@ import GLDisplay from './GLDisplay'
 import { GridService } from '../modules/grid/services'
 import { ReactElement, useEffect } from 'react'
 import { useGridDisplay, useGridService } from '../modules/grid/hooks'
-import { StyleSheet } from 'react-native'
+import './grid.css'
 
 interface GridProps {
   amount: number
@@ -23,25 +23,11 @@ const Grid = ( props:GridProps ): ReactElement => {
 
   return (
     <GLDisplay
-      style={ [ styles.grid, show ? {} : styles.hidden ] }
+      className={ `grid ${ !show ?? 'hidden' }` }
       onLoad={ onLoad }
       onContextCreate={ onContextCreate } />
   )
 
 }
-
-const styles = StyleSheet.create( {
-
-  grid: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-  },
-
-  hidden: {
-    opacity: 0,
-  },
-
-} )
 
 export default Grid
