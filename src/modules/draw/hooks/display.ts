@@ -1,21 +1,18 @@
-import Expo2DContext from 'expo-2d-context'
 import { CanvasDisplay } from '../controllers'
-import { ExpoWebGLRenderingContext } from 'expo-gl'
 import { useMemo } from 'react'
 
 interface UseDisplayResult {
   display: CanvasDisplay
-  loadDisplay: ( gl:ExpoWebGLRenderingContext ) => void
+  loadDisplay: ( context:CanvasRenderingContext2D ) => void
 }
 
-export function useDisplay( resolution:number ): UseDisplayResult {
+export function useDisplay(): UseDisplayResult {
 
   const display: CanvasDisplay = useMemo( () => {
-    return new CanvasDisplay( resolution, console )
-  }, [ resolution ] )
+    return new CanvasDisplay( console )
+  }, [] )
 
-  const loadDisplay = ( gl:ExpoWebGLRenderingContext ) => {
-    const context = new Expo2DContext( gl )
+  const loadDisplay = ( context:CanvasRenderingContext2D ) => {
     display.setContext( context )
   }
 

@@ -16,11 +16,11 @@ interface DisplayProps {
 const Display = ( props:DisplayProps ): ReactElement => {
 
   const { resolution, tool, onLoad } = props
-  const { display, loadDisplay } = useDisplay( resolution )
-  const matrix: Matrix = useMatrix( resolution, resolution, display )
+  const { display, loadDisplay } = useDisplay()
+  const matrix: Matrix = useMatrix( resolution, display )
   const drawingService: DrawingService = useDrawingService( matrix )
   const layoutRef: MutableRefObject<DisplayLayout> = useDisplayLayoutRef()
-  const coordinatesService: CoordinatesService = useCoordinatesService( layoutRef )
+  const coordinatesService: CoordinatesService = useCoordinatesService( layoutRef, resolution )
   const { touch, positionHandlers } = useTouchPosition()
 
   const onTouchDetected = useCallback( ( event:TouchDetectedEvent ) => {

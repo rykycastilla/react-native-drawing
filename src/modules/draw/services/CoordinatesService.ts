@@ -1,33 +1,33 @@
-import { Matrix } from '../models'
+import { Layout, Point } from '../models'
 
 export class CoordinatesService {
 
+  public static NULL_POINT: Point = {
+    x: NaN,
+    y: NaN,
+  }
+
+  private layout: Layout | null = null
+
   constructor(
-    private readonly matrix: Matrix,
+    private readonly resolution: number,
   ) {}
 
-  private fixInMatrixPosition( touchAxis:number, matrixAxis:number ): number {
-    const inMatrixAxis: number = touchAxis - matrixAxis
-    return ( inMatrixAxis < 0 ) ? 0 : inMatrixAxis
+  private fixAxis( axis:number, size:number, position:number ): number {
+    const scale: number = this.resolution / size
+    return ( axis - position ) * scale
   }
 
-  private toMatrixScale( num:number ): number {
-    const { size, resolution } = this.matrix
-    return Math.round( num / size * resolution )
+  public toInternal( externalX:number, externalY:number ): Point {
+    if( this.layout === null ) { return CoordinatesService.NULL_POINT }
+    const { width, height, top, left } = this.layout
+    const x: number = this.fixAxis( externalX, width, left ),
+      y = this.fixAxis( externalY, height, top )
+    return { x, y }
   }
 
-  public findCell( x:number, y:number ): Cell {
-    const { top, left } = this.matrix
-    const fromMatrixX: number = this.fixInMatrixPosition( x, left ),
-      fromMatrixY = this.fixInMatrixPosition( y, top ),
-      inMatrixX = this.toMatrixScale( fromMatrixX ),
-      inMatrixY = this.toMatrixScale( fromMatrixY )
-    return this.matrix.calcCell( inMatrixX, inMatrixY )
+  public setLayout( layout:Layout ) {
+    this.layout = layout
   }
 
-}
-
-interface Cell {
-  column: number
-  row: number
 }

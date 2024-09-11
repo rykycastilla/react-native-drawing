@@ -1,5 +1,5 @@
 import { InterpolationCallback } from './InterpolationCallback'
-import { Point } from './Point'
+import { Point } from '../Point'
 import { PointChecker } from './PointChecker'
 
 export class Interpolator {

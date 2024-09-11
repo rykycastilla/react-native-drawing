@@ -1,23 +1,21 @@
 import { Display } from '../Display'
-import { MatrixPositioner } from './MatrixPositioner'
 import { Pixel } from '../Pixel'
+import { PixelMap } from './PixelMap'
 
-export class MatrixBuilder extends MatrixPositioner {
+export class MatrixBuilder extends PixelMap {
 
   constructor(
-    top:number, left:number, size:number, resolution:number, grid:number,
+    public readonly resolution: number,
     private readonly display: Display,
   ) {
-    super( top, left, size, resolution, grid )
+    super()
   }
 
   protected buildData() {
-    for( let i = 1; i <= this.grid; i++ ) {
-      for( let j = 1; j <= this.grid; j++ ) {
-        const x: number = i - 1,
-          y = j - 1
+    for( let x = 0; x < this.resolution; x++ ) {
+      for( let y = 0; y < this.resolution; y++ ) {
         const pixel = new Pixel( x, y, this.display )
-        this.place( i, j, pixel )
+        this.place( x, y, pixel )
       }
     }
   }
