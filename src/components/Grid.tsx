@@ -1,8 +1,8 @@
-import GLDisplay from './GLDisplay'
+import CanvasDisplay from './CanvasDisplay'
 import { GridService } from '../modules/grid/services'
 import { ReactElement, useEffect } from 'react'
 import { useGridDisplay, useGridService } from '../modules/grid/hooks'
-import './grid.css'
+import './Grid.css'
 
 interface GridProps {
   amount: number
@@ -22,8 +22,8 @@ const Grid = ( props:GridProps ): ReactElement => {
   }, [ gridService ] )
 
   return (
-    <GLDisplay
-      className={ `grid ${ !show ?? 'hidden' }` }
+    <CanvasDisplay
+      className={ `${ !show ?? 'grid-hidden' }` }
       onLoad={ onLoad }
       onContextCreate={ onContextCreate } />
   )

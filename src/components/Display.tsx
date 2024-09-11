@@ -1,11 +1,10 @@
-import CanvasDisplay from './CanvasDisplay'
+import CanvasDisplay, { DisplayLayout, useDisplayLayoutRef } from './CanvasDisplay'
 import { CoordinatesService, DrawingService } from '../modules/draw/services'
 import { Matrix } from '../modules/draw/models'
-import { ReactElement, useCallback, useEffect } from 'react'
+import { MutableRefObject, ReactElement, useCallback, useEffect } from 'react'
 import { Tool } from '../modules/tools/models'
 import { TouchDetectedEvent, TouchEndEvent } from '../modules/touch/services'
 import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../modules/draw/hooks'
-
 import { useTouchPosition } from '../modules/touch/hooks'
 
 interface DisplayProps {
@@ -20,6 +19,7 @@ const Display = ( props:DisplayProps ): ReactElement => {
   const { display, loadDisplay } = useDisplay( resolution )
   const matrix: Matrix = useMatrix( resolution, resolution, display )
   const drawingService: DrawingService = useDrawingService( matrix )
+  const layoutRef: MutableRefObject<DisplayLayout> = useDisplayLayoutRef()
   const coordinatesService: CoordinatesService = useCoordinatesService( layoutRef )
   const { touch, positionHandlers } = useTouchPosition()
 
@@ -38,7 +38,7 @@ const Display = ( props:DisplayProps ): ReactElement => {
   }, [ touch, onTouchDetected, onTouchEnd ] )
 
   return (
-    <GLDisplay
+    <CanvasDisplay
       ref={ layoutRef }
       positionHandlers={ positionHandlers }
       onLoad={ onLoad }
