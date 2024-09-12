@@ -1,5 +1,5 @@
 import { DisplayLayout } from '../models'
-import { ForwardedRef, forwardRef, ReactElement, TouchEvent } from 'react'
+import { ReactElement, TouchEvent } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import { useLayoutManager } from '../hooks'
 import './styles.css'
@@ -10,18 +10,22 @@ interface PositionHandlers {
   onTouchEnd( event:TouchEvent ): void
 }
 
+type LayoutSetter = ( layout:DisplayLayout ) => void
+
 interface CanvasDisplayProps {
   className?: string
   positionHandlers?: PositionHandlers
+  onLayout?: LayoutSetter
   onLoad( loaded:boolean ): void
   onContextCreate( context:CanvasRenderingContext2D ): void
 }
 
-const CanvasDisplay = forwardRef( ( props:CanvasDisplayProps, ref:ForwardedRef<DisplayLayout> ): ReactElement => {
+const CanvasDisplay = ( props:CanvasDisplayProps ): ReactElement => {
 
-  const { className = '', positionHandlers, onLoad, onContextCreate } = props
+  const { positionHandlers, onLoad, onContextCreate } = props
+  const { className = '', onLayout = () => {} } = props
   const displayRef = useRef<HTMLCanvasElement|null>( null )
-  const { onResize } = useLayoutManager( { ref, displayRef } )
+  useLayoutManager( { displayRef, setLayout: onLayout } )
 
   useEffect( () => {
     onLoad( false )
@@ -43,11 +47,10 @@ const CanvasDisplay = forwardRef( ( props:CanvasDisplayProps, ref:ForwardedRef<D
     <canvas
       ref={ displayRef }
       className={ `canvas-display ${ className }` }
-      { ...positionHandlers }
-      onResize={ onResize }>
+      { ...positionHandlers }>
     </canvas>
   )
 
-} )
+}
 
 export default CanvasDisplay

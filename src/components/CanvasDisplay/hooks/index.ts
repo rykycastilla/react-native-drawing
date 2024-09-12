@@ -1,2 +1,2 @@
-export * from './display_layout_ref'
+export * from './display_layout'
 export * from './layout_manager'

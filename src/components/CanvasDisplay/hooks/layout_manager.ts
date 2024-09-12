@@ -1,25 +1,14 @@
-import { DEFAULT_LAYOUT } from '../constants'
 import { DisplayLayout } from '../models'
-import { ForwardedRef, MutableRefObject } from 'react'
-import { useCallback, useEffect, useImperativeHandle, useState } from 'react'
+import { MutableRefObject, useCallback, useEffect } from 'react'
 
 interface UseLayoutManagerArgs {
-  ref:ForwardedRef<DisplayLayout>
-  displayRef:MutableRefObject<HTMLCanvasElement|null>
+  displayRef: MutableRefObject<HTMLCanvasElement|null>
+  setLayout( layout:DisplayLayout ): void
 }
 
-interface UseLayoutManagerResult {
-  onResize(): void
-}
+export function useLayoutManager( args:UseLayoutManagerArgs ) {
 
-export function useLayoutManager( args:UseLayoutManagerArgs ): UseLayoutManagerResult {
-
-  const { ref, displayRef } = args
-  const [ layout, setLayout ] = useState( DEFAULT_LAYOUT )
-
-  useImperativeHandle( ref, () => {
-    return layout
-  }, [ layout ] )
+  const { displayRef, setLayout } = args
 
   const buildLayout = useCallback( () => {
     const $display: HTMLCanvasElement | null = displayRef.current
@@ -27,16 +16,17 @@ export function useLayoutManager( args:UseLayoutManagerArgs ): UseLayoutManagerR
     const { width, height, top, left } = $display.getBoundingClientRect()
     const layout = new DisplayLayout( width, height, top, left )
     setLayout( layout )
-  }, [ displayRef ] )
+  }, [ displayRef, setLayout ] )
 
   useEffect( () => {
     buildLayout()
   }, [ buildLayout ] )
 
-  const onResize = () => {
-    buildLayout()
-  }
-
-  return { onResize }
+  useEffect( () => {
+    const $display: HTMLCanvasElement | null = displayRef.current
+    if( $display === null ) { return }
+    $display.addEventListener( 'resize', () => buildLayout() )
+    return () => $display.removeEventListener( 'resize', () => buildLayout() )
+  }, [ displayRef, buildLayout ] )
 
 }

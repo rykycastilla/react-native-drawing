@@ -1,7 +1,7 @@
-import CanvasDisplay, { DisplayLayout, useDisplayLayoutRef } from './CanvasDisplay'
+import CanvasDisplay, { useDisplayLayout } from './CanvasDisplay'
 import { CoordinatesService, DrawingService } from '../modules/draw/services'
 import { Matrix } from '../modules/draw/models'
-import { MutableRefObject, ReactElement, useCallback, useEffect } from 'react'
+import { ReactElement, useCallback, useEffect } from 'react'
 import { Tool } from '../modules/tools/models'
 import { TouchDetectedEvent, TouchEndEvent } from '../modules/touch/services'
 import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../modules/draw/hooks'
@@ -19,8 +19,8 @@ const Display = ( props:DisplayProps ): ReactElement => {
   const { display, loadDisplay } = useDisplay()
   const matrix: Matrix = useMatrix( resolution, display )
   const drawingService: DrawingService = useDrawingService( matrix )
-  const layoutRef: MutableRefObject<DisplayLayout> = useDisplayLayoutRef()
-  const coordinatesService: CoordinatesService = useCoordinatesService( layoutRef, resolution )
+  const { layout, setLayout } = useDisplayLayout()
+  const coordinatesService: CoordinatesService = useCoordinatesService( layout, resolution )
   const { touch, positionHandlers } = useTouchPosition()
 
   const onTouchDetected = useCallback( ( event:TouchDetectedEvent ) => {
@@ -39,8 +39,8 @@ const Display = ( props:DisplayProps ): ReactElement => {
 
   return (
     <CanvasDisplay
-      ref={ layoutRef }
       positionHandlers={ positionHandlers }
+      onLayout={ setLayout }
       onLoad={ onLoad }
       onContextCreate={ loadDisplay } />
   )
