@@ -1,7 +1,7 @@
 import CanvasDisplay, { useDisplayLayout } from './CanvasDisplay'
 import { CoordinatesService, DrawingService } from '../modules/draw/services'
 import { Matrix } from '../modules/draw/models'
-import { ReactElement, useCallback, useEffect } from 'react'
+import { ReactElement, useCallback, useEffect, useRef } from 'react'
 import { Tool } from '../modules/tools/models'
 import { TouchDetectedEvent, TouchEndEvent } from '../modules/touch/services'
 import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../modules/draw/hooks'
@@ -21,7 +21,8 @@ const Display = ( props:DisplayProps ): ReactElement => {
   const drawingService: DrawingService = useDrawingService( matrix )
   const { layout, setLayout } = useDisplayLayout()
   const coordinatesService: CoordinatesService = useCoordinatesService( layout, resolution )
-  const { touch, positionHandlers } = useTouchPosition()
+  const screenRef = useRef<HTMLCanvasElement|null>( null )
+  const { touchService } = useTouchPosition( { screenRef } )
 
   const onTouchDetected = useCallback( ( event:TouchDetectedEvent ) => {
     const { x, y } = coordinatesService.toInternal( event.x, event.y )
@@ -33,13 +34,13 @@ const Display = ( props:DisplayProps ): ReactElement => {
   }, [ drawingService ] )
 
   useEffect( () => {
-    touch.onTouchDetected( onTouchDetected )
-    touch.onTouchEnd( onTouchEnd )
-  }, [ touch, onTouchDetected, onTouchEnd ] )
+    touchService.onTouchDetected( onTouchDetected )
+    touchService.onTouchEnd( onTouchEnd )
+  }, [ touchService, onTouchDetected, onTouchEnd ] )
 
   return (
     <CanvasDisplay
-      positionHandlers={ positionHandlers }
+      ref={ screenRef }
       onLayout={ setLayout }
       onLoad={ onLoad }
       onContextCreate={ loadDisplay } />

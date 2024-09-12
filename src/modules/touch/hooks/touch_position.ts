@@ -1,46 +1,40 @@
 import { TouchService } from '../services'
+import { MutableRefObject, useCallback, useEffect } from 'react'
+import { usePositionHandler } from './position_handler'
 import { useTouchService } from './touch_service'
 
-interface PositionHandlers {
-  onTouchStart( event:TouchEvent ): void
-  onTouchMove( event:TouchEvent ): void
-  onTouchEnd( event:TouchEvent ): void
+interface UseTouchPositionArgs {
+  screenRef: MutableRefObject<HTMLCanvasElement|null>
 }
 
 interface UseTouchPositionResult {
   touchService: TouchService
-  positionHandlers: PositionHandlers
 }
 
-export function useTouchPosition(): UseTouchPositionResult {
+export function useTouchPosition( args:UseTouchPositionArgs ): UseTouchPositionResult {
 
+  const { screenRef } = args
   const touchService: TouchService = useTouchService()
+  const { onTouchStart, onTouchMove, onTouchEnd } = usePositionHandler( touchService )
 
-  const onTouchStart = ( event:TouchEvent ) => {
-    event.preventDefault()
-    for( const touch of event.changedTouches ) {
-      const { identifier, clientX, clientY } = touch
-      touchService.start( identifier, clientX, clientY )
-    }
-  }
+  const suscribeTouches = useCallback( ( $screen:HTMLCanvasElement ) => {
+    $screen.addEventListener( 'touchstart', onTouchStart )
+    $screen.addEventListener( 'touchmove', onTouchMove )
+    $screen.addEventListener( 'touchend', onTouchEnd )
+  }, [ onTouchStart, onTouchMove, onTouchEnd ] )
 
-  const onTouchMove = ( event:TouchEvent ) => {
-    event.preventDefault()
-    for( const touch of event.changedTouches ) {
-      const { identifier, clientX, clientY } = touch
-      touchService.move( identifier, clientX, clientY )
-    }
-  }
+  const unsuscribeTouches = useCallback( ( $screen:HTMLCanvasElement ) => {
+    $screen.removeEventListener( 'touchstart', onTouchStart )
+    $screen.removeEventListener( 'touchmove', onTouchMove )
+    $screen.removeEventListener( 'touchend', onTouchEnd )
+  }, [ onTouchStart, onTouchMove, onTouchEnd ] )
 
-  const onTouchEnd = ( event:TouchEvent ) => {
-    event.preventDefault()
-    for( const touch of event.changedTouches ) {
-      touchService.end( touch.identifier )
-    }
-  }
+  useEffect( () => {
+    const $screen: HTMLCanvasElement = screenRef.current!
+    suscribeTouches( $screen )
+    return () => unsuscribeTouches( $screen )
+  }, [ screenRef, suscribeTouches, unsuscribeTouches ] )
 
-  const positionHandlers = { onTouchStart, onTouchMove, onTouchEnd }
-
-  return { touchService, positionHandlers }
+  return { touchService }
 
 }
