@@ -41,6 +41,8 @@ const Display = ( props:DisplayProps ): ReactElement => {
   return (
     <CanvasDisplay
       ref={ screenRef }
+      width={ resolution }
+      height={ resolution }
       onLayout={ setLayout }
       onLoad={ onLoad }
       onContextCreate={ loadDisplay } />
