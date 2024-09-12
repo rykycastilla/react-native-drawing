@@ -25,7 +25,6 @@ export class GridService {
   public build() {
     this.display.clear()
     this.buildCells()
-    this.display.render()
   }
 
 }
