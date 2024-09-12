@@ -3,25 +3,25 @@ import { TouchEventProcessor } from './TouchEventProcessor'
 
 export class TouchService extends TouchEventProcessor {
 
-  private readonly touchIndex: Record<string,Touch> = {}
+  private readonly touchIndex: Record<number,Touch> = {}
 
-  public start( identifier:string, x:number, y:number ) {
+  public start( index:number, x:number, y:number ) {
     const touch = new Touch( x, y )
-    this.touchIndex[ identifier ] = touch
+    this.touchIndex[ index ] = touch
     this.triggerTouchDetectedEvent( touch )
   }
 
-  public move( index:string, x:number, y:number ) {
+  public move( index:number, x:number, y:number ) {
     const touch: Touch | undefined = this.touchIndex[ index ]
     if( touch === undefined ) { return }
     touch.setPosition( x, y )
     this.triggerTouchDetectedEvent( touch )
   }
 
-  public end( identifier:string ) {
-    const touch: Touch | undefined = this.touchIndex[ identifier ]
+  public end( index:number ) {
+    const touch: Touch | undefined = this.touchIndex[ index ]
     if( touch === undefined ) { return }
-    delete this.touchIndex[ identifier ]
+    delete this.touchIndex[ index ]
     this.triggerTouchEndEvent( touch )
   }
 

@@ -27,7 +27,7 @@ export class Filler implements Tool, IColorableTool {
       if( currentPixel === undefined ) { continue }
       if( currentPixel.color !== previousColor ) { continue }
       currentPixel.setColor( this.color )
-      Filler.moveAround( currentColumn, currentRow, matrix.resolution, cellChecker, pixelCells )
+      Filler.moveAround( currentColumn, currentRow, cellChecker, pixelCells )
     }
   }
 
@@ -43,7 +43,7 @@ export class Filler implements Tool, IColorableTool {
     return this.colorBoard.color
   }
 
-  private static moveAround( currentColumn:number, currentRow:number, limit:number, cellChecker:CellChecker, pixelCells:Queue<Cell> ) {
+  private static moveAround( currentColumn:number, currentRow:number, cellChecker:CellChecker, pixelCells:Queue<Cell> ) {
     for( let i = 0; i < 4; i++ ) {
       const column: number = currentColumn + Filler.COLUMN_DIRECTIONS[ i ]!,
         row = currentRow + Filler.ROW_DIRECTIONS[ i ]!
