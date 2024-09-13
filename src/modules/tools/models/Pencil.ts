@@ -1,6 +1,6 @@
 import { ColorableTool, IColorableTool } from './ColorableTool'
 import { IResizableTool, ResizableTool } from './ResizableTool'
-import { Matrix, Pixel } from '../../draw/models'
+import { Matrix, Pixel } from '@draw/models'
 import { Tool } from './Tool'
 
 export class Pencil implements Tool, IColorableTool, IResizableTool {

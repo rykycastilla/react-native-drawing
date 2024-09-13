@@ -1,11 +1,11 @@
 import CanvasDisplay, { useDisplayLayout } from './CanvasDisplay'
-import { CoordinatesService, DrawingService } from '../modules/draw/services'
-import { Matrix } from '../modules/draw/models'
+import { CoordinatesService, DrawingService } from '@draw/services'
+import { Matrix } from '@draw/models'
 import { ReactElement, useCallback, useEffect, useRef } from 'react'
-import { Tool } from '../modules/tools/models'
-import { TouchDetectedEvent, TouchEndEvent } from '../modules/touch/services'
-import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '../modules/draw/hooks'
-import { useTouchPosition } from '../modules/touch/hooks'
+import { Tool } from '@tools/models'
+import { TouchDetectedEvent, TouchEndEvent } from '@touch/services'
+import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '@draw/hooks'
+import { useTouchPosition } from '@touch/hooks'
 
 interface DisplayProps {
   resolution: number

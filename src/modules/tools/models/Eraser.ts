@@ -1,5 +1,5 @@
 import { IResizableTool, ResizableTool } from './ResizableTool'
-import { Matrix, Pixel } from '../../draw/models'
+import { Matrix, Pixel } from '@draw/models'
 import { Tool } from './Tool'
 
 export class Eraser implements Tool, IResizableTool {

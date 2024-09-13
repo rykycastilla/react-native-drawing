@@ -1,4 +1,4 @@
-import { Logger as SystemLogger } from '../../../../utils/Logger'
+import { Logger as SystemLogger } from '@utils/Logger'
 
 export abstract class Logger extends SystemLogger {
 

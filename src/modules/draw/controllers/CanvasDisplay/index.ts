@@ -1,6 +1,6 @@
 import { Display } from '../../models'
 import { Logger } from './Logger'
-import { Verbose } from '../../../../utils/Logger'
+import { Verbose } from '@utils/Logger'
 
 export class CanvasDisplay extends Logger implements Display {
 

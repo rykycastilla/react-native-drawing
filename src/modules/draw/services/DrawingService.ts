@@ -1,5 +1,5 @@
 import { Matrix, Stroke } from '../models'
-import { Tool } from '../../tools/models'
+import { Tool } from '@tools/models'
 
 export class DrawingService {
 

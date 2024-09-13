@@ -1,7 +1,7 @@
 import CanvasDisplay from './CanvasDisplay'
-import { GridService } from '../modules/grid/services'
+import { GridService } from '@grid/services'
 import { ReactElement, useEffect } from 'react'
-import { useGridDisplay, useGridService } from '../modules/grid/hooks'
+import { useGridDisplay, useGridService } from '@grid/hooks'
 import './Grid.css'
 
 interface GridProps {

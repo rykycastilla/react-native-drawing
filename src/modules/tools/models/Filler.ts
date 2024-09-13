@@ -1,6 +1,6 @@
 import { ColorableTool, IColorableTool } from './ColorableTool'
-import { Matrix, Pixel } from '../../draw/models'
-import { Queue } from '../../../utils/Queue'
+import { Matrix, Pixel } from '@draw/models'
+import { Queue } from '@utils/Queue'
 import { Tool } from './Tool'
 
 export class Filler implements Tool, IColorableTool {

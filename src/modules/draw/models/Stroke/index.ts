@@ -2,7 +2,7 @@ import { Interpolator } from './Interpolator'
 import { Matrix } from '../Matrix'
 import { Point } from '../Point'
 import { StrokePoint } from './StrokePoint'
-import { Tool } from '../../../tools/models'
+import { Tool } from '@tools/models'
 
 export class Stroke extends Interpolator {
 

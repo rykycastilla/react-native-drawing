@@ -24,6 +24,17 @@
     "strictFunctionTypes": true,
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
+
+    /* Alias */
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": [ "src/components/*" ],
+      "@utils/*": [ "src/utils/*" ],
+      "@draw/*": [ "src/modules/draw/*" ],
+      "@grid/*": [ "src/modules/grid/*" ],
+      "@tools/*": [ "src/modules/tools/*" ],
+      "@touch/*": [ "src/modules/touch/*" ],
+    },
     
   },
   "include": ["src"]
