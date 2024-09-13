@@ -1,5 +1,5 @@
-import Display from '../Display'
-import Grid from '../Grid'
+import Display from '@components/Display'
+import Grid from '@components/Grid'
 import { DEFAULT_TOOL_SIZE } from './constants'
 import { LoadEventCallback } from './types'
 import { ReactElement, useMemo } from 'react'

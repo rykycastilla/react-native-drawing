@@ -1,4 +1,4 @@
-import CanvasDisplay from '../CanvasDisplay'
+import CanvasDisplay from '@components/CanvasDisplay'
 import { ReactElement, useCallback, useEffect } from 'react'
 import { Tool } from '@tools/models'
 import { TouchDetectedEvent, TouchEndEvent } from '@touch/services'
