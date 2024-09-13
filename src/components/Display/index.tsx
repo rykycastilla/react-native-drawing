@@ -1,11 +1,8 @@
-import CanvasDisplay, { useDisplayLayout } from './CanvasDisplay'
-import { CoordinatesService, DrawingService } from '@draw/services'
-import { Matrix } from '@draw/models'
-import { ReactElement, useCallback, useEffect, useRef } from 'react'
+import CanvasDisplay from '../CanvasDisplay'
+import { ReactElement, useCallback, useEffect } from 'react'
 import { Tool } from '@tools/models'
 import { TouchDetectedEvent, TouchEndEvent } from '@touch/services'
-import { useCoordinatesService, useDisplay, useDrawingService, useMatrix } from '@draw/hooks'
-import { useTouchPosition } from '@touch/hooks'
+import { useDrawingDeps, useInteractionDeps } from './hooks'
 
 interface DisplayProps {
   resolution: number
@@ -15,14 +12,12 @@ interface DisplayProps {
 
 const Display = ( props:DisplayProps ): ReactElement => {
 
+  // Preparing canvas dependencies
   const { resolution, tool, onLoad } = props
-  const { display, loadDisplay } = useDisplay()
-  const matrix: Matrix = useMatrix( resolution, display )
-  const drawingService: DrawingService = useDrawingService( matrix )
-  const { layout, setLayout } = useDisplayLayout()
-  const coordinatesService: CoordinatesService = useCoordinatesService( layout, resolution )
-  const screenRef = useRef<HTMLCanvasElement|null>( null )
-  const { touchService } = useTouchPosition( { screenRef } )
+  const { loadDisplay, drawingService } = useDrawingDeps( resolution )
+  const { setLayout, coordinatesService, touchService, screenRef } = useInteractionDeps( resolution )
+
+  // Painting with interaction
 
   const onTouchDetected = useCallback( ( event:TouchDetectedEvent ) => {
     const { x, y } = coordinatesService.toInternal( event.x, event.y )
