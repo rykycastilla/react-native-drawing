@@ -3,11 +3,12 @@ import { defineConfig } from 'vite'
 import { join } from 'node:path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig( {
   plugins: [react()],
   resolve: {
     alias: {
       '@components': join( __dirname, 'src/components' ),
+      '@hooks': join( __dirname, 'src/hooks' ),
       '@utils': join( __dirname, 'src/utils' ),
       '@draw': join( __dirname, 'src/modules/draw' ),
       '@grid': join( __dirname, 'src/modules/grid' ),
@@ -15,4 +16,4 @@ export default defineConfig({
       '@touch': join( __dirname, 'src/modules/touch' ),
     },
   },
-})
+} )
