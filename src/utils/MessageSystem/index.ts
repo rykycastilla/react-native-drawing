@@ -1,7 +1,8 @@
 import { MessageManager } from './MessageManager'
 
-export class MessageSystem extends MessageManager {
+export class MessageSystem {
 
+  private readonly manager: MessageManager
   private receiveStructured: MessageReceiver | null = null
   private readonly sendEncodedMessage: MessageEmitter
 
@@ -9,7 +10,7 @@ export class MessageSystem extends MessageManager {
     suscribe:MessageEventSuscriber, sendMessage:MessageEmitter,
     private readonly codec: Codec<MessageData>,
   ) {
-    super(
+    this.manager = new MessageManager(
       ( receive:MessageReceiver ) => this.suscribe( receive ),
       ( target:string, data:unknown ) => this.sendStructuredMessage( target, data ) )
     this.sendEncodedMessage = sendMessage
@@ -32,6 +33,14 @@ export class MessageSystem extends MessageManager {
     const structure: MessageData = { target, data }
     const encoded: string = this.codec.toJSON( structure )
     this.sendEncodedMessage( encoded )
+  }
+
+  public postMessage( target:string, data:unknown ) {
+    this.manager.postMessage( target, data )
+  }
+
+  public onMessage( target:string, callback:( data:unknown )=>void ) {
+    this.manager.onMessage( target, callback )
   }
 
 }

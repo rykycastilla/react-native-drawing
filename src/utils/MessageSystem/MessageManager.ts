@@ -1,6 +1,6 @@
 import { MessageEmitter, MessageSender } from './MessageSender'
 
-export abstract class MessageManager extends MessageSender {
+export class MessageManager extends MessageSender {
 
   private readonly eventIndex: Record<string,MessageCallback> = {}
 
