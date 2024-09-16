@@ -23,7 +23,7 @@ const Grid = ( props:GridProps ): ReactElement => {
 
   return (
     <CanvasDisplay
-      className={ `${ !show ?? 'grid-hidden' }` }
+      className={ `${ !show ? 'grid-hidden' : '' }` }
       width={ 450 }
       height={ 450 }
       onLoad={ onLoad }
