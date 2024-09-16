@@ -14,8 +14,9 @@ export class CoordinatesService {
   ) {}
 
   private fixAxis( axis:number, size:number, position:number ): number {
-    const scale: number = this.resolution / size
-    return ( axis - position ) * scale
+    const scale: number = this.resolution / size,
+      result = ( axis - position ) * scale
+    return Math.round( result )
   }
 
   public toInternal( externalX:number, externalY:number ): Point {
