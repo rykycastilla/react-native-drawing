@@ -21,7 +21,7 @@ const CanvasDisplay = forwardRef( ( props:CanvasDisplayProps, ref:ForwardedRef<H
   const { className = '', onLayout = () => {} } = props
   const displayRef = useRef<HTMLCanvasElement|null>( null )
   useResolution( { width, height, displayRef } )
-  useDisplayRef( { ref, displayRef } )
+  const { setRef } = useDisplayRef( { ref, displayRef } )
   useLayoutManager( { displayRef, setLayout: onLayout } )
 
   useEffect( () => {
@@ -42,7 +42,7 @@ const CanvasDisplay = forwardRef( ( props:CanvasDisplayProps, ref:ForwardedRef<H
 
   return (
     <canvas
-      ref={ displayRef }
+      ref={ setRef }
       className={ `canvas-display ${ className }` }>
     </canvas>
   )

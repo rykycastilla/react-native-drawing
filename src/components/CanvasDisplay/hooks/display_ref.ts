@@ -1,24 +1,25 @@
 import { ForwardedRef, MutableRefObject } from 'react'
-import { useEffect, useImperativeHandle, useState } from 'react'
+import { useCallback } from 'react'
 
 interface UseDisplayRefArgs {
   ref: ForwardedRef<HTMLCanvasElement|null>
   displayRef:MutableRefObject<HTMLCanvasElement|null>
 }
 
-export function useDisplayRef( args:UseDisplayRefArgs ) {
+interface UseDisplayRefResult {
+  setRef( $element:HTMLCanvasElement ): void
+}
+
+export function useDisplayRef( args:UseDisplayRefArgs ): UseDisplayRefResult {
 
   const { ref, displayRef } = args
-  const [ display, setDisplay ] = useState<HTMLCanvasElement|null>( null )
 
-  useImperativeHandle( ref, () => {
-    return display!
-  }, [ display ] )
+  const setRef = useCallback( ( $element:HTMLCanvasElement ) => {
+    displayRef.current = $element
+    if( typeof ref === 'function' ) { ref( $element ) }
+    else if( ref !== null ) { ref.current = $element }
+  }, [ ref, displayRef ] )
 
-  useEffect( () => {
-    const $display: HTMLCanvasElement | null = displayRef.current
-    if( $display === null ) { return }
-    setDisplay( $display )
-  }, [ displayRef ] )
+  return { setRef }
 
 }
