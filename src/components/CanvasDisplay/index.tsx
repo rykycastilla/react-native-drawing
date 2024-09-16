@@ -1,28 +1,20 @@
-import { DisplayLayout } from '../models'
-import { ForwardedRef, ReactElement } from 'react'
-import { forwardRef, useCallback, useEffect, useRef } from 'react'
-import { useDisplayRef, useLayoutManager, useResolution } from '../hooks'
-import '../styles.css'
-
-type LayoutSetter = ( layout:DisplayLayout ) => void
+import { ReactElement, useCallback, useEffect, useRef } from 'react'
+import { useResolution } from './hooks'
+import './styles.css'
 
 interface CanvasDisplayProps {
   className?: string
   width: number
   height: number
-  onLayout?: LayoutSetter
   onLoad( loaded:boolean ): void
   onContextCreate( context:CanvasRenderingContext2D ): void
 }
 
-const CanvasDisplay = forwardRef( ( props:CanvasDisplayProps, ref:ForwardedRef<HTMLCanvasElement|null> ): ReactElement => {
+const CanvasDisplay = ( props:CanvasDisplayProps ): ReactElement => {
 
-  const { width, height, onLoad, onContextCreate } = props
-  const { className = '', onLayout = () => {} } = props
+  const { className = '', width, height, onLoad, onContextCreate } = props
   const displayRef = useRef<HTMLCanvasElement|null>( null )
   useResolution( { width, height, displayRef } )
-  const { setRef } = useDisplayRef( { ref, displayRef } )
-  useLayoutManager( { displayRef, setLayout: onLayout } )
 
   useEffect( () => {
     onLoad( false )
@@ -42,11 +34,11 @@ const CanvasDisplay = forwardRef( ( props:CanvasDisplayProps, ref:ForwardedRef<H
 
   return (
     <canvas
-      ref={ setRef }
+      ref={ displayRef }
       className={ `canvas-display ${ className }` }>
     </canvas>
   )
 
-} )
+}
 
 export default CanvasDisplay

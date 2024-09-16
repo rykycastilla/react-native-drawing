@@ -4,7 +4,7 @@ import { usePositionHandler } from './position_handler'
 import { useTouchService } from './touch_service'
 
 interface UseTouchPositionArgs {
-  screenRef: MutableRefObject<HTMLCanvasElement|null>
+  screenRef: MutableRefObject<HTMLElement|null>
 }
 
 interface UseTouchPositionResult {
@@ -17,20 +17,20 @@ export function useTouchPosition( args:UseTouchPositionArgs ): UseTouchPositionR
   const touchService: TouchService = useTouchService()
   const { onTouchStart, onTouchMove, onTouchEnd } = usePositionHandler( touchService )
 
-  const suscribeTouches = useCallback( ( $screen:HTMLCanvasElement ) => {
+  const suscribeTouches = useCallback( ( $screen:HTMLElement ) => {
     $screen.addEventListener( 'touchstart', onTouchStart )
     $screen.addEventListener( 'touchmove', onTouchMove )
     $screen.addEventListener( 'touchend', onTouchEnd )
   }, [ onTouchStart, onTouchMove, onTouchEnd ] )
 
-  const unsuscribeTouches = useCallback( ( $screen:HTMLCanvasElement ) => {
+  const unsuscribeTouches = useCallback( ( $screen:HTMLElement ) => {
     $screen.removeEventListener( 'touchstart', onTouchStart )
     $screen.removeEventListener( 'touchmove', onTouchMove )
     $screen.removeEventListener( 'touchend', onTouchEnd )
   }, [ onTouchStart, onTouchMove, onTouchEnd ] )
 
   useEffect( () => {
-    const $screen: HTMLCanvasElement = screenRef.current!
+    const $screen: HTMLElement = screenRef.current!
     suscribeTouches( $screen )
     return () => unsuscribeTouches( $screen )
   }, [ screenRef, suscribeTouches, unsuscribeTouches ] )
