@@ -6,7 +6,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "turbo run dev"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +18,6 @@
   ],
   "devDependencies": {
     "turbo": "^2.3.1"
-  }
+  },
+  "packageManager": "npm@10.8.2"
 }
