@@ -1,0 +1,22 @@
+{
+  "name": "react-native-drawing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "workspaces": [
+    "./core/",
+    "./lib/"
+  ],
+  "devDependencies": {
+    "turbo": "^2.3.1"
+  }
+}
