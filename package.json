@@ -6,7 +6,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "lint": "tsc -b && eslint ."
   },
   "keywords": [],
   "author": "",
@@ -17,7 +18,13 @@
     "./lib/"
   ],
   "devDependencies": {
-    "turbo": "^2.3.1"
+    "turbo": "^2.3.1",
+    "typescript": "^5.5.3",
+    "eslint": "8.57.0",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-react-refresh": "0.4.7",
+    "@typescript-eslint/eslint-plugin": "7.15.0",
+    "@typescript-eslint/parser": "7.15.0"
   },
   "packageManager": "npm@10.8.2"
 }
