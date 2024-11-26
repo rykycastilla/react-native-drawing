@@ -2,9 +2,6 @@
   "name": "react-native-drawing",
   "version": "1.0.0",
   "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
     "dev": "turbo run dev",
     "lint": "tsc -b && eslint ."
