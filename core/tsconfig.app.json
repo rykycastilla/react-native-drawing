@@ -30,6 +30,7 @@
     "paths": {
       "react": [ "../libs/@types/react" ],
       "react/*": [ "../libs/@types/react/*" ],
+      "@shared/*": [ "../shared/*" ],
       "@components/*": [ "src/components/*" ],
       "@hooks/*": [ "src/hooks/*" ],
       "@utils/*": [ "src/utils/*" ],
@@ -40,5 +41,5 @@
     },
     
   },
-  "include": ["src"]
+  "include": ["src", "../shared/MessageSystem"]
 }

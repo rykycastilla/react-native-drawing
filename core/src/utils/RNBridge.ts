@@ -1,5 +1,5 @@
 import { Codec } from '@utils/Codec'
-import { MessageData, MessageSystem } from '@utils/MessageSystem'
+import { MessageData, MessageSystem } from '@shared/utils/MessageSystem'
 
 type MessageCallback = ( data:string ) => void
 

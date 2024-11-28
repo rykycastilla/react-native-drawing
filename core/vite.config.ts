@@ -8,6 +8,7 @@ export default defineConfig( {
   resolve: {
     alias: {
       'react': join( __dirname, '../libs/react@18.2.0' ),
+      '@shared': join( __dirname, '../shared' ),
       '@components': join( __dirname, 'src/components' ),
       '@hooks': join( __dirname, 'src/hooks' ),
       '@utils': join( __dirname, 'src/utils' ),

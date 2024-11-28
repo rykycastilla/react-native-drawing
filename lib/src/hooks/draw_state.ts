@@ -1,4 +1,4 @@
-import { MessageSystem } from '../MessageSystem'
+import { MessageSystem } from '../shared/utils/MessageSystem'
 import { Tool } from '../models'
 import { useEffect } from 'react'
 
