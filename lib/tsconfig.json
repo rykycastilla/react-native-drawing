@@ -24,6 +24,13 @@
     "strictFunctionTypes": true,
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
+
+    /* Alias */
+    "baseUrl": "./",
+    "paths": {
+      "react": [ "../libs/@types/react" ],
+      "react/*": [ "../libs/@types/react/*" ],
+    },
     
   },
   "include": ["src"]

@@ -28,6 +28,8 @@
     /* Alias */
     "baseUrl": "./",
     "paths": {
+      "react": [ "../libs/@types/react" ],
+      "react/*": [ "../libs/@types/react/*" ],
       "@components/*": [ "src/components/*" ],
       "@hooks/*": [ "src/hooks/*" ],
       "@utils/*": [ "src/utils/*" ],

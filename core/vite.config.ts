@@ -7,6 +7,7 @@ export default defineConfig( {
   plugins: [react()],
   resolve: {
     alias: {
+      'react': join( __dirname, '../libs/react@18.2.0' ),
       '@components': join( __dirname, 'src/components' ),
       '@hooks': join( __dirname, 'src/hooks' ),
       '@utils': join( __dirname, 'src/utils' ),
