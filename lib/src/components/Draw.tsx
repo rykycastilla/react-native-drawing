@@ -2,6 +2,7 @@ import { ReactElement, ForwardedRef, forwardRef, useCallback, useRef } from 'rea
 import { StyleSheet, View } from 'react-native'
 import { Tool } from '../models'
 import { useDrawState, useWebBridge, useWebMessage } from '../hooks'
+import { WEB_CORE_DEV_IP } from '../../../.env.json'
 import { WebView, WebViewMessageEvent, WebViewProps } from 'react-native-webview'
 
 interface WebContainerProps extends WebViewProps {}
@@ -36,7 +37,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
   return (
     <WebContainer webviewDebuggingEnabled
       ref={ webViewRef }
-      source={ { uri: 'http://192.168.43.118:5173/' } }
+      source={ { uri: `http://${ WEB_CORE_DEV_IP }:5173/` } }
       onLoad={ onLoadWebView }
       onMessage={ onMessage } />
   )

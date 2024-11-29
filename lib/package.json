@@ -2,9 +2,7 @@
   "name": "lib",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "dev": "tsc -b --watch"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "MIT",
