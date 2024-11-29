@@ -16,6 +16,7 @@ dist-ssr
 tsconfig.tsbuildinfo
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
+.env.json
 
 # Editor directories and files
 .vscode/*
