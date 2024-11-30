@@ -111,4 +111,4 @@ async function buildBlank( buildPath ) {
   await genBuild( '', '', buildPath )
 }
 
-main( process.argv.slice( 2 ) )
+main( process.argv.slice( 2 ) )  // eslint-disable-line
