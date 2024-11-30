@@ -1,3 +1,4 @@
+import { resolveValue } from '../functions/resolve_value.js'
 import { StructContext } from './StructContext/index.js'
 
 /**
@@ -25,17 +26,7 @@ export class ObjectContext extends StructContext {
     for( let i = 0; i < keyList.length; i++ ) {
       const key = keyList[ i ]
       const value = this.target[ key ]
-      const { isStruct } = StructContext.checkStruct( value )
-      let stringValue = null
-      if( ( typeof value === 'number' ) || ( typeof value === 'boolean' ) ) {
-        stringValue = String( value )
-      }
-      else if( typeof value === 'string' ) {
-        stringValue = `"${ value }"`
-      }
-      else if( isStruct ) {
-        stringValue = StructContext.stringifyStruct( value, this.identation + 1, this.contextSet )
-      }
+      const stringValue = resolveValue( value, this.identation, this.contextSet )
       if( stringValue === null ) { continue }
       const isLast = i === ( keyList.length - 1 )
       result += `${ spaces }"${ key }": ${ stringValue }${ isLast ? '' : ',' }\n`
