@@ -5,9 +5,10 @@
   "main": "./lib/dist/lib/src/index.js",
   "types": "./lib/dist/lib/src/index.d.ts",
   "scripts": {
-    "postinstall": "node ./scripts/create-env.js",
+    "postinstall": "node ./scripts/create-env.js ; node ./scripts/build-single-html.js --blank",
     "dev": "turbo run dev",
-    "lint": "tsc -b --noEmit && eslint ."
+    "lint": "tsc -b --noEmit ; eslint .",
+    "build": "turbo run build:webview ; turbo run build"
   },
   "keywords": [],
   "author": "",

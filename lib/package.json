@@ -2,7 +2,9 @@
   "name": "lib",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc -b ; node ../scripts/set-production-state.js"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",

@@ -9,6 +9,7 @@ async function main() {
 }
 
 const defaultEnv = {
+  PRODUCTION: false,
   WEB_CORE_DEV_IP: '127.0.0.1',
 }
 
