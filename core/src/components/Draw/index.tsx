@@ -1,5 +1,6 @@
 import Display from '@components/Display'
 import Grid from '@components/Grid'
+import TouchScreen from '@components/TouchScreen'
 import { DEFAULT_TOOL_SIZE } from './constants'
 import { DrawingService } from '@draw/services'
 import { LoadEventCallback } from './types'
@@ -18,8 +19,6 @@ interface DrawProps {
   toolSize?: number
   onLoad?: LoadEventCallback
 }
-
-import TouchScreen from '@components/TouchScreen'
 
 const Draw = ( props:DrawProps ): ReactElement => {
 

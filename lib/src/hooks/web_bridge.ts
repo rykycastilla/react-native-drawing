@@ -1,4 +1,4 @@
-import { Codec } from '../services/Codec'
+import { Codec } from '../shared/utils/Codec'
 import { MessageData, MessageSystem } from '../shared/utils/MessageSystem'
 import { useCallback, useMemo, useState } from 'react'
 import { useMessageCodec } from './message_codec'
