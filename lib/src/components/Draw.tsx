@@ -24,6 +24,7 @@ export interface DrawProps {
 }
 
 const Draw = ( props:DrawProps ): ReactElement => {
+
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = useWebBridge( suscribe, postMessage )

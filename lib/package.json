@@ -8,5 +8,9 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "typescript": "~5.5.0"
+  }
 }

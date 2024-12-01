@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "node ./scripts/create-env.js ; node ./scripts/build-single-html.js --blank",
     "dev": "turbo run dev",
-    "lint": "tsc -b --noEmit ; eslint .",
+    "lint": "tsc --noEmit -p ./core/tsconfig.app.json ; tsc --noEmit -p ./lib/tsconfig.json ; eslint .",
     "build": "turbo run build:webview ; turbo run build"
   },
   "keywords": [],
@@ -25,7 +25,7 @@
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-react-refresh": "0.4.7",
     "turbo": "^2.3.1",
-    "typescript": "^5.5.3"
+    "typescript": "~5.5.0"
   },
   "packageManager": "npm@10.8.2"
 }
