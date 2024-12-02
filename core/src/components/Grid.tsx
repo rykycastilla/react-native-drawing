@@ -5,15 +5,15 @@ import { useGridDisplay, useGridService } from '@grid/hooks'
 import './Grid.css'
 
 interface GridProps {
-  amount: number
-  show: boolean
+  amount?: number
   onLoad( loaded:boolean ): void
 }
 
 const Grid = ( props:GridProps ): ReactElement => {
 
-  const { amount, show, onLoad } = props
+  const { amount = 0, onLoad } = props
   const RESOLUTION = 450
+  const show: boolean = amount !== 0
   const { gridDisplay, onContextCreate } = useGridDisplay( RESOLUTION )
   const gridService: GridService | null = useGridService( amount, gridDisplay )
 

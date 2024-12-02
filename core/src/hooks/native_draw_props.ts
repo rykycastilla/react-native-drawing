@@ -1,25 +1,18 @@
+import { DrawPropsDTO } from '@shared/utils/types/DrawPropsDTO'
 import { Tool } from '@tools/services'
 import { useCallback, useEffect, useState } from 'react'
 
-export interface NativeDrawProps {
-  resolution: number
-  color: string
-  tool: Tool
-  showGrid?: boolean
-  toolSize?: number
-}
-
-type MessageCallback = ( data:NativeDrawProps ) => void
+type MessageCallback = ( data:DrawPropsDTO<Tool> ) => void
 
 export interface Bridge {
   onMessage( targe:string, callback:MessageCallback ): void
 }
 
-export function useNativeDrawProps( bridge:Bridge ): NativeDrawProps | null {
+export function useNativeDrawProps( bridge:Bridge ): DrawPropsDTO<Tool> | null {
 
-  const [ nativeDrawProps, setNativeDrawProps ] = useState<NativeDrawProps|null>( null )
+  const [ nativeDrawProps, setNativeDrawProps ] = useState<DrawPropsDTO<Tool>|null>( null )
 
-  const onStateUpdate = useCallback( ( nativeProps:NativeDrawProps ) => {
+  const onStateUpdate = useCallback( ( nativeProps:DrawPropsDTO<Tool> ) => {
     setNativeDrawProps( nativeProps )
   }, [] )
 

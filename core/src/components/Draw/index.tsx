@@ -14,17 +14,15 @@ import './styles.css'
 interface DrawProps {
   resolution: number
   color: string
+  grid: number | undefined
   tool: Tool
-  showGrid?: boolean
   toolSize?: number
   onLoad?: LoadEventCallback
 }
 
 const Draw = ( props:DrawProps ): ReactElement => {
 
-  const { resolution, color, tool, onLoad } = props
-  const { showGrid = false, toolSize = DEFAULT_TOOL_SIZE } = props
-
+  const { resolution, color, grid, tool, onLoad, toolSize = DEFAULT_TOOL_SIZE } = props
   const currentTool: ITool = useTools( tool, color, toolSize )
   const drawingServiceRef = useRef<DrawingService|null>( null )
   const fixedResolution: number = useMemo( () => resolution, [] )  // eslint-disable-line
@@ -33,7 +31,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
   return (
     <div className="draw">
       <Display ref={ drawingServiceRef } resolution={ fixedResolution } onLoad={ setDisplayLoaded } />
-      <Grid amount={ fixedResolution } show={ showGrid } onLoad={ setGridLoaded } />
+      <Grid amount={ grid } onLoad={ setGridLoaded } />
       <TouchScreen
         resolution={ resolution }
         tool={ currentTool }

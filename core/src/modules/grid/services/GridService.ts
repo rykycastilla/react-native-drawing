@@ -11,10 +11,10 @@ export class GridService {
   ) {}
 
   private hatch( axis:Orientation ) {
-    const gridSize: number = Math.floor( this.display.RESOLUTION / this.grid )
-    const lastLine: number = this.grid + 1
+    const gridSize: number = this.display.RESOLUTION / this.grid,
+      lastLine = this.grid,
+      middleLine = GridService.WIDTH / 2
     for( let i = 0; i <= lastLine; i++ ) {
-      const middleLine: number = Math.floor( GridService.WIDTH / 2 )
       let position: number = i * gridSize
       if( i === 0 ) { position += middleLine }
       if( i === lastLine ) { position -= middleLine }
