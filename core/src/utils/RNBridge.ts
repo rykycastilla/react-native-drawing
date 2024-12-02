@@ -12,5 +12,5 @@ function suscribe( receive:MessageCallback ) {
 }
 
 export const RNBridge = new MessageSystem(
-  suscribe, window.ReactNativeWebView.postMessage, codec,
+  suscribe, ( data:string ) => window.ReactNativeWebView.postMessage( data ), codec,
 )

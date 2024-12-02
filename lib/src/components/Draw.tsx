@@ -1,7 +1,7 @@
 import { ReactElement, ForwardedRef, forwardRef, useCallback, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Tool } from '../models'
-import { useDrawState, useWebBridge, useWebMessage } from '../hooks'
+import { useDrawState, useLoadEvent, useWebBridge, useWebMessage } from '../hooks'
 import { webSource } from '../utils/web_source'
 import { WebView, WebViewMessageEvent, WebViewProps } from 'react-native-webview'
 
@@ -21,14 +21,17 @@ export interface DrawProps {
   tool: Tool
   showGrid?: boolean
   toolSize?: number
+  onLoad?: () => void
 }
 
 const Draw = ( props:DrawProps ): ReactElement => {
 
+  const { onLoad } = props
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = useWebBridge( suscribe, postMessage )
   useDrawState( webBridge, props )
+  useLoadEvent( webBridge, onLoad )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent
