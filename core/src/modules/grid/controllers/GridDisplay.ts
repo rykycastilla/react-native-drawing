@@ -1,18 +1,24 @@
-import { Display } from '../models'
+import { Display, Orientation } from '../models'
 
 export class GridDisplay implements Display {
 
-  public readonly RESOLUTION = 720
-
   constructor(
+    public readonly RESOLUTION: number,
     private readonly context: CanvasRenderingContext2D,
   ) {}
 
-  public frame( width:number, height:number, x:number, y:number, bold:number, color:string ) {
+  makeLine( orientation:Orientation, axisPos:number, width:number, color:string ) {
     this.context.beginPath()
+    this.context.lineWidth = width
     this.context.strokeStyle = color
-    this.context.lineWidth = bold
-    this.context.rect( x, y, width, height )
+    const [ x1, y1 ] = ( orientation === Orientation.HORIZONTAL )
+      ? [ 0, axisPos ]
+      : [ axisPos, 0 ]
+    const [ x2, y2 ] = ( orientation === Orientation.HORIZONTAL )
+      ? [ this.RESOLUTION, axisPos ]
+      : [ axisPos, this.RESOLUTION ]
+    this.context.moveTo( x1, y1 )
+    this.context.lineTo( x2, y2 )
     this.context.stroke()
   }
 

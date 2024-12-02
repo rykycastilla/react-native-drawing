@@ -1,2 +1,2 @@
-export * from './CellBuilder'
 export * from './Display'
+export * from './Orientation'

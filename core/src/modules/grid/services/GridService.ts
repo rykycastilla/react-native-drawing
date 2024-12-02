@@ -1,4 +1,4 @@
-import { CellBuilder, Display } from '../models'
+import { Display, Orientation } from '../models'
 
 export class GridService {
 
@@ -10,21 +10,22 @@ export class GridService {
     private readonly display: Display,
   ) {}
 
-  private buildCells() {
-    const cellSize: number = this.display.RESOLUTION / this.grid
-    const cell = new CellBuilder( cellSize, GridService.WIDTH, GridService.COLOR, this.display )
-    for( let i = 0; i < this.grid; i++ ) {
-      for( let j = 0; j < this.grid; j++ ) {
-        const x: number = i * cellSize,
-          y = j * cellSize
-        cell.build( x, y )
-      }
+  private hatch( axis:Orientation ) {
+    const gridSize: number = Math.floor( this.display.RESOLUTION / this.grid )
+    const lastLine: number = this.grid + 1
+    for( let i = 0; i <= lastLine; i++ ) {
+      const middleLine: number = Math.floor( GridService.WIDTH / 2 )
+      let position: number = i * gridSize
+      if( i === 0 ) { position += middleLine }
+      if( i === lastLine ) { position -= middleLine }
+      this.display.makeLine( axis, position, GridService.WIDTH, GridService.COLOR )
     }
   }
 
   public build() {
     this.display.clear()
-    this.buildCells()
+    this.hatch( Orientation.HORIZONTAL )
+    this.hatch( Orientation.VERTICAL )
   }
 
 }

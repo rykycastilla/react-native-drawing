@@ -13,7 +13,8 @@ interface GridProps {
 const Grid = ( props:GridProps ): ReactElement => {
 
   const { amount, show, onLoad } = props
-  const { gridDisplay, onContextCreate } = useGridDisplay()
+  const RESOLUTION = 450
+  const { gridDisplay, onContextCreate } = useGridDisplay( RESOLUTION )
   const gridService: GridService | null = useGridService( amount, gridDisplay )
 
   useEffect( () => {
@@ -24,8 +25,8 @@ const Grid = ( props:GridProps ): ReactElement => {
   return (
     <CanvasDisplay
       className={ `${ !show ? 'grid-hidden' : '' }` }
-      width={ 450 }
-      height={ 450 }
+      width={ RESOLUTION }
+      height={ RESOLUTION }
       onLoad={ onLoad }
       onContextCreate={ onContextCreate } />
   )
