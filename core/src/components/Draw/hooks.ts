@@ -1,4 +1,3 @@
-import { LoadEventCallback } from './types'
 import { useEffect, useState } from 'react'
 
 interface UseLoaderResult {
@@ -6,7 +5,9 @@ interface UseLoaderResult {
   setGridLoaded( loaded:boolean ): void
 }
 
-export function useLoader( callback:LoadEventCallback|undefined ): UseLoaderResult {
+type FunctionVoid = () => void
+
+export function useLoader( callback:FunctionVoid ): UseLoaderResult {
 
   const [ displayLoaded, setDisplayLoaded ] = useState( false )
   const [ gridLoaded, setGridLoaded ] = useState( false )

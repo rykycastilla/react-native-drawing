@@ -7,15 +7,16 @@ export interface WebDrawProps {
   resolution: number
   color: string
   grid?: number
+  antialiasing?: boolean
   tool: Tool
   toolSize?: number
 }
 
 export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawProps ) {
-  const { resolution, color, grid, tool, toolSize } = stateProps
+  const { resolution, color, grid, antialiasing, tool, toolSize } = stateProps
   useEffect( () => {
     if( webBridge === null ) { return }
-    const state: DrawPropsDTO<Tool> = { resolution, color, grid, tool, toolSize }
+    const state: DrawPropsDTO<Tool> = { resolution, color, grid, antialiasing, tool, toolSize }
     webBridge.postMessage( 'state-update', state )
-  }, [ webBridge, resolution, color, grid, tool, toolSize ] )
+  }, [ webBridge, resolution, color, grid, antialiasing, tool, toolSize ] )
 }

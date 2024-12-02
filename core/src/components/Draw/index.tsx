@@ -3,7 +3,6 @@ import Grid from '@components/Grid'
 import TouchScreen from '@components/TouchScreen'
 import { DEFAULT_TOOL_SIZE } from './constants'
 import { DrawingService } from '@draw/services'
-import { LoadEventCallback } from './types'
 import { ReactElement, useMemo, useRef } from 'react'
 import { Tool } from '@tools/services'
 import { Tool as ITool } from '@tools/models'
@@ -15,14 +14,15 @@ interface DrawProps {
   resolution: number
   color: string
   grid: number | undefined
+  antialiasing: boolean | undefined
   tool: Tool
-  toolSize?: number
-  onLoad?: LoadEventCallback
+  toolSize: number | undefined
+  onLoad(): void
 }
 
 const Draw = ( props:DrawProps ): ReactElement => {
 
-  const { resolution, color, grid, tool, onLoad, toolSize = DEFAULT_TOOL_SIZE } = props
+  const { resolution, color, grid, antialiasing = true, tool, onLoad, toolSize = DEFAULT_TOOL_SIZE } = props
   const currentTool: ITool = useTools( tool, color, toolSize )
   const drawingServiceRef = useRef<DrawingService|null>( null )
   const fixedResolution: number = useMemo( () => resolution, [] )  // eslint-disable-line
@@ -30,7 +30,11 @@ const Draw = ( props:DrawProps ): ReactElement => {
 
   return (
     <div className="draw">
-      <Display ref={ drawingServiceRef } resolution={ fixedResolution } onLoad={ setDisplayLoaded } />
+      <Display
+        ref={ drawingServiceRef }
+        resolution={ fixedResolution }
+        antialiasing={ antialiasing }
+        onLoad={ setDisplayLoaded } />
       <Grid amount={ grid } onLoad={ setGridLoaded } />
       <TouchScreen
         resolution={ fixedResolution }

@@ -12,6 +12,7 @@ export interface DrawProps {
   resolution: number
   color: string
   grid?: number
+  antialiasing?: boolean
   tool: Tool
   toolSize?: number
   onLoad?: () => void
