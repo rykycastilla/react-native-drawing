@@ -33,7 +33,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
       <Display ref={ drawingServiceRef } resolution={ fixedResolution } onLoad={ setDisplayLoaded } />
       <Grid amount={ grid } onLoad={ setGridLoaded } />
       <TouchScreen
-        resolution={ resolution }
+        resolution={ fixedResolution }
         tool={ currentTool }
         drawingServiceRef={ drawingServiceRef } />
     </div>
