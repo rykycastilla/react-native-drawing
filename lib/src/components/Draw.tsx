@@ -1,22 +1,12 @@
-import { ReactElement, ForwardedRef, forwardRef, useCallback, useRef } from 'react'
-import { StyleSheet, View } from 'react-native'
+import WebContainer from './WebContainer'
+import { ReactElement, useCallback, useRef } from 'react'
 import { Tool } from '../models'
 import { useDrawState, useGridGuard, useLoadEvent, useWebBridge, useWebMessage } from '../hooks'
 import { webSource } from '../utils/web_source'
-import { WebView, WebViewMessageEvent, WebViewProps } from 'react-native-webview'
+import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 // @ts-expect-error - JSDoc Type
 import { InvalidGridError } from '../errors'  // eslint-disable-line
-
-interface WebContainerProps extends WebViewProps {}
-
-const WebContainer = forwardRef( ( props:WebContainerProps, ref:ForwardedRef<WebView> ): ReactElement => {
-  return (
-    <View style={ styles.webContainer }>
-      <WebView ref={ ref } { ...props } />
-    </View>
-  )
-} )
 
 export interface DrawProps {
   resolution: number
@@ -46,7 +36,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
   }, [ receive ] )
 
   return (
-    <WebContainer webviewDebuggingEnabled
+    <WebContainer
       ref={ webViewRef }
       source={ webSource }
       onLoad={ onLoadWebView }
@@ -54,12 +44,5 @@ const Draw = ( props:DrawProps ): ReactElement => {
   )
 
 }
-
-const styles = StyleSheet.create( {
-  webContainer: {
-    width: '100%',
-    aspectRatio: 1,
-  },
-} )
 
 export default Draw
