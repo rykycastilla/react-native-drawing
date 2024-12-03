@@ -23,6 +23,10 @@ export class Pixel {
     this.display.clear( this.x, this.y, Pixel.SIZE, Pixel.SIZE )
   }
 
+  public setStateWithoutRendering( state:string|null ) {
+    this.color = state
+  }
+
   get color(): string | null {
     return this.#color
   }
