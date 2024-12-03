@@ -10,6 +10,6 @@ interface UseDrawingDepsResult {
 export function useDrawingDeps( resolution:number ): UseDrawingDepsResult {
   const { display, loadDisplay } = useDisplay()
   const matrix: Matrix = useMatrix( resolution, display )
-  const drawingService: DrawingService = useDrawingService( matrix )
+  const drawingService: DrawingService = useDrawingService( matrix, display )
   return { loadDisplay, drawingService }
 }

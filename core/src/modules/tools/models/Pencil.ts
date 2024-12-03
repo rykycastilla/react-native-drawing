@@ -1,6 +1,7 @@
 import { ColorableTool, IColorableTool } from './ColorableTool'
+import { Display } from '@draw/models'
 import { IResizableTool, ResizableTool } from './ResizableTool'
-import { Matrix, Pixel } from '@draw/models'
+import { Matrix } from '@draw/models'
 import { Tool } from './Tool'
 
 export class Pencil implements Tool, IColorableTool, IResizableTool {
@@ -13,12 +14,11 @@ export class Pencil implements Tool, IColorableTool, IResizableTool {
     this.resizableBoard = new ResizableTool( size )
   }
 
-  public use( column:number, row:number, matrix:Matrix ) {
-    this.resizableBoard.use( column, row, ( column:number, row:number ) => {
-      const pixel: Pixel | undefined = matrix.find( column, row )
-      if( pixel === undefined ) { return }
-      pixel.setColor( this.color )
-    } )
+  public use( column:number, row:number, matrix:Matrix, display:Display ) {
+    this.resizableBoard.use(
+      column, row, this.color, matrix,
+      ( x:number, y:number, size:number, color:string ) => display.print( x, y, size, size, color ),
+    )
   }
 
   public clone(): Pencil {

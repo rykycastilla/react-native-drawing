@@ -1,5 +1,6 @@
+import { Display } from '@draw/models'
 import { IResizableTool, ResizableTool } from './ResizableTool'
-import { Matrix, Pixel } from '@draw/models'
+import { Matrix } from '@draw/models'
 import { Tool } from './Tool'
 
 export class Eraser implements Tool, IResizableTool {
@@ -10,12 +11,11 @@ export class Eraser implements Tool, IResizableTool {
     this.resizableBoard = new ResizableTool( size )
   }
 
-  public use( column:number, row:number, matrix:Matrix ) {
-    this.resizableBoard.use( column, row, ( column:number, row:number ) => {
-      const pixel: Pixel | undefined = matrix.find( column, row )
-      if( pixel === undefined ) { return }
-      pixel.clear()
-    } )
+  public use( column:number, row:number, matrix:Matrix, display:Display ) {
+    this.resizableBoard.use(
+      column, row, null, matrix,
+      ( x:number, y:number, size:number ) => display.clear( x, y, size, size ),
+    )
   }
 
   public clone(): Eraser {

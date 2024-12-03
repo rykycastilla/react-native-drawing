@@ -1,3 +1,4 @@
+import { Display } from '../Display'
 import { Interpolator } from './Interpolator'
 import { Matrix } from '../Matrix'
 import { Point } from '../Point'
@@ -12,6 +13,7 @@ export class Stroke extends Interpolator {
 
   constructor(
     private readonly matrix: Matrix,
+    private readonly display: Display,
   ) {
     super( ( point:Point ) => this.paint( point ) )
   }
@@ -25,7 +27,7 @@ export class Stroke extends Interpolator {
 
   private paint( point:Point ) {
     const { x, y } = point
-    this.currentTool!.use( x, y, this.matrix )
+    this.currentTool!.use( x, y, this.matrix, this.display )
   }
 
   public addPoint( item:StrokePoint ) {
