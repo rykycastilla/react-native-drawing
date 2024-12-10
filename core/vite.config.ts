@@ -17,5 +17,4 @@ export default defineConfig( {
       '@touch': join( __dirname, 'src/modules/touch' ),
     },
   },
-  worker: { format:'es' }
 } )
