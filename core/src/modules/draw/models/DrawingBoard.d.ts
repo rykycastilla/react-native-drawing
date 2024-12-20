@@ -1,0 +1,15 @@
+import { Stroke } from './Stroke'
+
+export interface DrawingBoard {
+  createStroke( x:number, y:number, props:StrokeProps ): Stroke<StrokeProps> | null
+  createClearPath( x:number, y:number, props:ClearPathProps ): Stroke<ClearPathProps> | null
+}
+
+export interface StrokeProps {
+  color: string
+  width: number
+}
+
+export interface ClearPathProps {
+  width: number
+}

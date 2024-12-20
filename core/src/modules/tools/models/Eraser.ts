@@ -1,33 +1,35 @@
-import { Display } from '@draw/models'
-import { IResizableTool, ResizableTool } from './ResizableTool'
-import { Matrix } from '@draw/models'
-import { Tool } from './Tool'
+import { ClearPathProps, DrawingBoard, Stroke } from '@draw/models'
+import { ResizableTool } from './ResizableTool'
+import { StrokeTool } from './StrokeTool'
 
-export class Eraser implements Tool, IResizableTool {
+export class Eraser extends StrokeTool<ClearPathProps> implements ResizableTool {
 
-  private readonly resizableBoard: ResizableTool
+  private readonly props: ClearPathProps
 
   constructor( size:number ) {
-    this.resizableBoard = new ResizableTool( size )
+    super()
+    this.props = { width:size }
   }
 
-  public use( column:number, row:number, matrix:Matrix, display:Display ) {
-    this.resizableBoard.use(
-      column, row, null, matrix,
-      ( x:number, y:number, size:number ) => display.clear( x, y, size, size ),
-    )
+  /** @protected */
+  override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<ClearPathProps> | null {
+    return board.createClearPath( x, y, { width:this.size } )
   }
 
-  public clone(): Eraser {
-    return new Eraser( this.size )
-  }
-
-  public setSize( size:number ) {
-    this.resizableBoard.setSize( size )
+  /** @protected */
+  override updateProps( stroke:Stroke<ClearPathProps> ) {
+    const { width:strokeSize } = stroke.currentProps
+    if( this.size !== strokeSize ) {
+      stroke.createSection( { width:this.size } )
+    }
   }
 
   get size(): number {
-    return this.resizableBoard.size
+    return this.props.width
+  }
+
+  public setSize( size:number ) {
+    this.props.width = size
   }
 
 }

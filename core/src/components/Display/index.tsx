@@ -13,7 +13,7 @@ interface DisplayProps {
 const Display = forwardRef( ( props:DisplayProps, ref:ForwardedRef<DrawingService> ): ReactElement => {
 
   const { resolution, antialiasing, onLoad } = props
-  const { loadDisplay, drawingService } = useDrawingDeps( resolution )
+  const { loadDisplay, drawingService } = useDrawingDeps()
 
   useImperativeHandle( ref, () => {
     return drawingService

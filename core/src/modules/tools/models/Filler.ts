@@ -1,46 +1,50 @@
-import { ColorableTool, IColorableTool } from './ColorableTool'
-import { Matrix, Pixel } from '@draw/models'
+import { ColorableTool } from './ColorableTool'
 import { Queue } from '@utils/Queue'
-import { Tool } from './Tool'
 
-export class Filler implements Tool, IColorableTool {
+export class Filler implements ColorableTool {
 
   private static readonly COLUMN_DIRECTIONS: number[] = [ 0, 1, 0, -1 ]
   private static readonly ROW_DIRECTIONS: number[] = [ -1, 0, 1, 0 ]
-  private readonly colorBoard: ColorableTool
+  #color: string
 
   constructor( color:string ) {
-    this.colorBoard = new ColorableTool( color )
+    this.#color = color
+    Filler.moveAround
   }
 
-  public use( column:number, row:number, matrix:Matrix ) {
-    const pixel: Pixel | undefined = matrix.find( column, row )
-    if( pixel === undefined ) { return }
-    if( pixel.color === this.color ) { return }
-    const previousColor: string | null = pixel.color
-    const pixelCells = new Queue<Cell>()
-    const cellChecker = new CellChecker()
-    pixelCells.push( { column, row } )
-    while( !pixelCells.isEmpty() ) {
-      const { column:currentColumn, row:currentRow } = pixelCells.pop()!
-      const currentPixel: Pixel | undefined = matrix.find( currentColumn, currentRow )
-      if( currentPixel === undefined ) { continue }
-      if( currentPixel.color !== previousColor ) { continue }
-      currentPixel.setColor( this.color )
-      Filler.moveAround( currentColumn, currentRow, cellChecker, pixelCells )
-    }
-  }
+  public stopUsing() {}
+
+  public addStrokePoint( x:number, y:number ) { x ; y }
+  public endShapeStroke( x:number, y:number ) { x ; y }
+
+  // public use( column:number, row:number, matrix:Matrix ) {
+  //   const pixel: Pixel | undefined = matrix.find( column, row )
+  //   if( pixel === undefined ) { return }
+  //   if( pixel.color === this.color ) { return }
+  //   const previousColor: string | null = pixel.color
+  //   const pixelCells = new Queue<Cell>()
+  //   const cellChecker = new CellChecker()
+  //   pixelCells.push( { column, row } )
+  //   while( !pixelCells.isEmpty() ) {
+  //     const { column:currentColumn, row:currentRow } = pixelCells.pop()!
+  //     const currentPixel: Pixel | undefined = matrix.find( currentColumn, currentRow )
+  //     if( currentPixel === undefined ) { continue }
+  //     if( currentPixel.color !== previousColor ) { continue }
+  //     currentPixel.setColor( this.color )
+  //     Filler.moveAround( currentColumn, currentRow, cellChecker, pixelCells )
+  //   }
+  // }
 
   public clone(): Filler {
     return new Filler( this.color )
   }
 
   public setColor( color:string ) {
-    this.colorBoard.setColor( color )
+    this.#color = color
   }
 
   get color(): string {
-    return this.colorBoard.color
+    return this.#color
   }
 
   private static moveAround( currentColumn:number, currentRow:number, cellChecker:CellChecker, pixelCells:Queue<Cell> ) {

@@ -1,36 +1,35 @@
 import { Touch } from '../../models'
-import { TouchDetectedEvent } from './TouchDetectedEvent'
-import { TouchEndEvent } from './TouchEndEvent'
-import { TouchEvent } from './TouchEvent'
+import { DrawTouchEvent } from './DrawTouchEvent'
 
 export abstract class TouchEventProcessor {
 
-  private touchDetectedHandler: EventHandler<TouchDetectedEvent> | null = null
-  private touchEndHandler: EventHandler<TouchEndEvent> | null = null
+  private touchDetectedHandler: EventHandler | null = null
+  private touchEndHandler: EventHandler | null = null
 
-  public onTouchDetected( callback:EventHandler<TouchDetectedEvent> ) {
+  public onTouchDetected( callback:EventHandler ) {
     this.touchDetectedHandler = callback
   }
 
-  public onTouchEnd( callback:EventHandler<TouchEndEvent> ) {
+  public onTouchEnd( callback:EventHandler ) {
     this.touchEndHandler = callback
   }
 
   protected triggerTouchDetectedEvent( touch:Touch ) {
     if( this.touchDetectedHandler === null ) { return }
     const { id, x, y } = touch
-    const event = new TouchDetectedEvent( id, x, y )
+    const event = new DrawTouchEvent( id, x, y )
     this.touchDetectedHandler( event )
   }
 
   protected triggerTouchEndEvent( touch:Touch ) {
     if( this.touchEndHandler === null ) { return }
-    const event = new TouchEndEvent( touch.id )
+    const { id, x, y } = touch
+    const event = new DrawTouchEvent( id, x, y )
     this.touchEndHandler( event )
   }
 
 }
 
-interface EventHandler<T extends TouchEvent> {
-  ( event:T ): void
+interface EventHandler {
+  ( event:DrawTouchEvent ): void
 }

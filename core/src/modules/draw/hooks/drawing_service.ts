@@ -1,10 +1,9 @@
-import { Display } from '../models/Display'
+import { DrawingBoard } from '../models/DrawingBoard'
 import { DrawingService } from '../services'
-import { Matrix } from '../models'
 import { useMemo } from 'react'
 
-export function useDrawingService( matrix:Matrix, display:Display ): DrawingService {
+export function useDrawingService( board:DrawingBoard ): DrawingService {
   return useMemo( () => {
-    return new DrawingService( matrix, display )
-  }, [ matrix, display ] )
+    return new DrawingService( board )
+  }, [ board ] )
 }

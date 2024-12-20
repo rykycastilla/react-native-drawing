@@ -9,7 +9,7 @@ interface UseDisplayResult {
 export function useDisplay(): UseDisplayResult {
 
   const display: CanvasDisplay = useMemo( () => {
-    return new CanvasDisplay( console )
+    return new CanvasDisplay()
   }, [] )
 
   const loadDisplay = ( context:CanvasRenderingContext2D ) => {

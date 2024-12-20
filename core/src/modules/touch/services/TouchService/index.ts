@@ -27,5 +27,4 @@ export class TouchService extends TouchEventProcessor {
 
 }
 
-export * from './TouchDetectedEvent'
-export * from './TouchEndEvent'
+export * from './DrawTouchEvent'

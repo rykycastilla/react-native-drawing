@@ -1,44 +1,44 @@
-import { ColorableTool, IColorableTool } from './ColorableTool'
-import { Display } from '@draw/models'
-import { IResizableTool, ResizableTool } from './ResizableTool'
-import { Matrix } from '@draw/models'
-import { Tool } from './Tool'
+import { ColorableTool } from './ColorableTool'
+import { DrawingBoard, Stroke, StrokeProps } from '@draw/models'
+import { ResizableTool } from './ResizableTool'
+import { StrokeTool } from './StrokeTool'
 
-export class Pencil implements Tool, IColorableTool, IResizableTool {
+export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, ResizableTool {
 
-  private readonly colorBoard: ColorableTool
-  private readonly resizableBoard: ResizableTool
+  private readonly props: StrokeProps
 
   constructor( color:string, size:number ) {
-    this.colorBoard = new ColorableTool( color )
-    this.resizableBoard = new ResizableTool( size )
+    super()
+    this.props = { color, width:size }
   }
 
-  public use( column:number, row:number, matrix:Matrix, display:Display ) {
-    this.resizableBoard.use(
-      column, row, this.color, matrix,
-      ( x:number, y:number, size:number, color:string ) => display.print( x, y, size, size, color ),
-    )
+  /** @protected */
+  override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<StrokeProps> | null {
+    return board.createStroke( x, y, { color:this.color, width:this.size } )
   }
 
-  public clone(): Pencil {
-    return new Pencil( this.color, this.size )
-  }
-
-  public setColor( color:string ) {
-    this.colorBoard.setColor( color )
-  }
-
-  public setSize( size:number ) {
-    this.resizableBoard.setSize( size )
+  /** @protected */
+  override updateProps( stroke:Stroke<StrokeProps> ) {
+    const { color:strokeColor, width:strokeSize } = stroke.currentProps
+    if( ( this.color !== strokeColor ) || ( this.size !== strokeSize ) ) {
+      stroke.createSection( { color:this.color, width:this.size } )
+    }
   }
 
   get color(): string {
-    return this.colorBoard.color
+    return this.props.color
+  }
+
+  public setColor( color:string ) {
+    this.props.color = color
   }
 
   get size(): number {
-    return this.resizableBoard.size
+    return this.props.width
+  }
+
+  public setSize( size:number ) {
+    this.props.width = size
   }
 
 }
