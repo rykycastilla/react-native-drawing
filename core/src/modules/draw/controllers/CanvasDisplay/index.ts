@@ -48,9 +48,13 @@ export class CanvasDisplay implements DrawingBoard {
   }
 
   private scene() {
-    const { binImage } = this
-    if( binImage !== null ) { this.renderImage( binImage ) }
-    else { this.render() }
+    if( this.binImage !== null ) {
+      this.renderImage( this.binImage )
+      this.binImage = null
+    }
+    else {
+      this.render()
+    }
     requestAnimationFrame( () => this.scene() )
   }
 

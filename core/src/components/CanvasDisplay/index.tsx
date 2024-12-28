@@ -24,7 +24,8 @@ const CanvasDisplay = ( props:CanvasDisplayProps ): ReactElement => {
     const $display: HTMLCanvasElement | null = displayRef.current
     if( $display === null ) { return }
     onCanvasCreate( $display )
-  }, [ displayRef, onCanvasCreate ] )
+    onLoad( true )
+  }, [ displayRef, onCanvasCreate ] )  // eslint-disable-line
 
   return (
     <canvas

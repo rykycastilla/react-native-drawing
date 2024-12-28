@@ -36,6 +36,7 @@ export class Filler {
   }
 
   /**
+   * @private
    * @param { { data:FrameDTO } } event
    * @param { () => void } endCallback
   */
