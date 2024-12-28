@@ -1,3 +1,4 @@
+import { BinImage } from '../../models'
 import { ClearPath } from './ClearPath'
 import { DrawingBoard } from '../../models'
 import { DrawingStroke } from './DrawingStroke'
@@ -14,5 +15,12 @@ export class EmptyDisplay implements DrawingBoard {
   public createStroke(): DrawingStroke {
     return new DrawingStroke( 0, 0, { color:'', width:0 }, this.context )
   }
+
+  public getBinaryData(): BinImage {
+    const pixelList = new Uint8ClampedArray()
+    return { width:0, height:0, pixelList }
+  }
+
+  public setBinaryData() {}
 
 }
