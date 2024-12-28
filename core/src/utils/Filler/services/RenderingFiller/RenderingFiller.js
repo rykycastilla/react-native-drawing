@@ -47,13 +47,12 @@ export class RenderingFiller extends AreaValidator {
 
   /**
    * @override @protected
-   * @param { boolean } isLatest
   */
-  validate( isLatest ) {
+  validate() {
     if( this.handleFrame === null ) { return }
     const { width, height } = this.image
     const pixelList = this.image.getPixelList()
-    this.handleFrame( { width, height, pixelList }, isLatest )
+    this.handleFrame( { width, height, pixelList } )
   }
 
 }

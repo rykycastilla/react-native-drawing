@@ -14,7 +14,6 @@ export function useLoader( callback:FunctionVoid ): UseLoaderResult {
 
   useEffect( () => {
     if( callback === undefined ) { return }
-    console.log( displayLoaded, gridLoaded )
     if( displayLoaded && gridLoaded ) { callback() }
   }, [ displayLoaded, gridLoaded ] )  // eslint-disable-line
 

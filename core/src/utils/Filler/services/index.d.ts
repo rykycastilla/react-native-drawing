@@ -1,5 +1,5 @@
+export * from './AnimationDTO.d.ts'
 export * from './Filler/index.js'
-export * from './FrameDTO.js'
 export * from './RenderingFiller/index.js'
 export * from './StartDTO.js'
 export * from './Thread.js'

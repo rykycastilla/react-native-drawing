@@ -1,6 +1,6 @@
 /**
  * @import { BinImage, Filler as IFiller, FrameFunction } from '../../models/index.js'
- * @import { FrameDTO } from '../FrameDTO.js'
+ * @import { AnimationDTO } from '../AnimationDTO.d.ts'
  * @import { ThreadConstructor } from './ThreadConstructor.js'
 */
 
@@ -28,24 +28,25 @@ export class Filler {
   /**
    * @private
    * @param { BinImage } image
-   * @param { boolean } isLatest
   */
-  renderFrame( image, isLatest ) {
+  renderFrame( image ) {
     if( this.handleFrame === null ) { return }
-    this.handleFrame( image, isLatest )
+    this.handleFrame( image )
   }
 
   /**
    * @private
-   * @param { { data:FrameDTO } } event
+   * @param { { data:AnimationDTO } } event
    * @param { () => void } endCallback
   */
   receive( event, endCallback ) {
-    const { width, height, pixelListBuffer, isLatest } = event.data
-    const pixelList = new Uint8ClampedArray( pixelListBuffer )
-    const binImage = { width, height, pixelList }
-    this.renderFrame( binImage, isLatest )
-    if( isLatest ) { endCallback() }
+    if( event.data.target === 'finish' ) { endCallback() }
+    else if( event.data.target === 'frame' ) {
+      const { width, height, pixelListBuffer } = event.data
+      const pixelList = new Uint8ClampedArray( pixelListBuffer )
+      const binImage = { width, height, pixelList }
+      this.renderFrame( binImage )
+    }
   }
 
   /**

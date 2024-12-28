@@ -6,5 +6,5 @@ export interface Filler<T extends unknown[]> {
 }
 
 export interface FrameFunction {
-  ( image:BinImage, isLatest:boolean ): void
+  ( image:BinImage ): void
 }

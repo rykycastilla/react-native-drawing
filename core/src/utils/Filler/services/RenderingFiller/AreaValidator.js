@@ -47,9 +47,8 @@ export class AreaValidator extends Visitor {
   /**
    * Called when every area is ready to be rendered
    * @protected @abstract
-   * @param { boolean } isLatest
   */
-  validate( isLatest ) { isLatest }
+  validate() {}
 
   /**
    * @private
@@ -75,10 +74,9 @@ export class AreaValidator extends Visitor {
     while( !this.pixelQueue.isEmpty ) {
       this.useNextPixel()
     }
-    const isLatest = this.nextAreaPixelList.length <= 0
-    this.validate( isLatest )  // Rendering
+    this.validate()  // Rendering
     // Going to new area
-    if( !isLatest ) {
+    if( this.nextAreaPixelList.length > 0 ) {
       this.consumeArea()
     }
   }

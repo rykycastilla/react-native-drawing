@@ -5,7 +5,7 @@ import { structColor } from './struct_color.js'
 
 /**
  * @import { Filler, FrameFunction } from '../models/index.js'
- * @import { FrameDTO, StartDTO, Thread } from '../services/index.js'
+ * @import { AnimationDTO, StartDTO, Thread } from '../services/index.js'
 */
 
 /**
@@ -14,6 +14,14 @@ import { structColor } from './struct_color.js'
 class FillerThread {
 
   /** @private @type { FrameFunction | null } */ handleFrame = null
+  /** @private @readonly */ finish
+
+  /**
+   * @param { () => void } finish
+  */
+  constructor( finish ) {
+    this.finish = finish
+  }
 
   /**
    * @param { number } x
@@ -33,11 +41,12 @@ class FillerThread {
     const idealArea = await calcIdealArea( 10 )
     // Using filler
     const filler = new RenderingFiller( pixel, color, image, idealArea )
-    filler.onFrame( ( binImage, isLatest ) => {
+    filler.onFrame( ( binImage ) => {
       if( this.handleFrame === null ) { return }
-      this.handleFrame( binImage, isLatest )
+      this.handleFrame( binImage )
     } )
     await filler.fill()
+    this.finish()
   }
 
   /**
@@ -50,13 +59,16 @@ class FillerThread {
 
 }
 
-const fillerThread = new FillerThread()
-const thread = /** @type { Thread<FrameDTO,StartDTO> } */  ( self )
+const thread = /** @type { Thread<AnimationDTO,StartDTO> } */  ( self )
 
-fillerThread.onFrame( ( binImage, isLatest ) => {
+const fillerThread = new FillerThread( () => {
+  thread.postMessage( { target:'finish' } )
+} )
+
+fillerThread.onFrame( ( binImage ) => {
   const { width, height, pixelList } = binImage
   const pixelListBuffer = pixelList.buffer
-  thread.postMessage( { width, height, pixelListBuffer, isLatest }, [ pixelListBuffer ] )
+  thread.postMessage( { target:'frame', width, height, pixelListBuffer }, [ pixelListBuffer ] )
 } )
 
 thread.addEventListener( 'message', ( event ) => {
