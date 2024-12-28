@@ -14,7 +14,7 @@ const Grid = ( props:GridProps ): ReactElement => {
   const { amount = 0, onLoad } = props
   const RESOLUTION = 450
   const show: boolean = amount !== 0
-  const { gridDisplay, onContextCreate } = useGridDisplay( RESOLUTION )
+  const { gridDisplay, onCanvasCreate } = useGridDisplay( RESOLUTION )
   const gridService: GridService | null = useGridService( amount, gridDisplay )
 
   useEffect( () => {
@@ -28,7 +28,7 @@ const Grid = ( props:GridProps ): ReactElement => {
       width={ RESOLUTION }
       height={ RESOLUTION }
       onLoad={ onLoad }
-      onContextCreate={ onContextCreate } />
+      onCanvasCreate={ onCanvasCreate } />
   )
 
 }

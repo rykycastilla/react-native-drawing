@@ -25,7 +25,7 @@ const Display = forwardRef( ( props:DisplayProps, ref:ForwardedRef<DrawingServic
       width={ resolution }
       height={ resolution }
       onLoad={ onLoad }
-      onContextCreate={ loadDisplay } />
+      onCanvasCreate={ loadDisplay } />
   )
 
 } )

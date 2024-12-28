@@ -5,13 +5,12 @@ export abstract class StrokeTool<T extends object> implements Tool {
 
   private readonly strokeIndex: Record<symbol,Stroke<T>> = {}
 
-  protected abstract createStroke( x:number, y:number, board:DrawingBoard ): Stroke<T> | null
+  protected abstract createStroke( x:number, y:number, board:DrawingBoard ): Stroke<T>
   protected abstract updateProps( stroke:Stroke<T> ): void
 
   public addStrokePoint ( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     if( this.strokeIndex[ strokeId ] === undefined ) {
-      const stroke: Stroke<T> | null = this.createStroke( x, y, board )
-      if( stroke === null ) { return }
+      const stroke: Stroke<T> = this.createStroke( x, y, board )
       this.strokeIndex[ strokeId ] = stroke
       stroke.onStop( () => delete this.strokeIndex[ strokeId ] )
     }
