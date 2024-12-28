@@ -1,9 +1,22 @@
 export class Node<T> {
 
-  public next: Node<T> | null = null
+  readonly #value: T
+  #nextNode: Node<T> | null = null
 
-  constructor(
-    public readonly value: T,
-  ) {}
+  constructor( value:T ) {
+    this.#value = value
+  }
+
+  public setNextNode( nextNode:Node<T> ) {
+    this.#nextNode = nextNode
+  }
+
+  get value() {
+    return this.#value
+  }
+
+  get nextNode() {
+    return this.#nextNode
+  }
 
 }

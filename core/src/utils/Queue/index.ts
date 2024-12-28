@@ -2,51 +2,43 @@ import { Node } from './Node'
 
 export class Queue<T> {
 
-  private first: Node<T> | undefined
-  private last: Node<T> | undefined
+  private frontNode: Node<T> | null = null
+  private backNode: Node<T> | null = null
   #size = 0
 
   public push( item:T ) {
     const node = new Node( item )
-    if( this.isEmpty() ) {
-      this.first = node
-      this.last = node
+    if( this.isEmpty ) {
+      this.frontNode = node
+      this.backNode = node
     }
     else {
-      this.last!.next = node
-      this.last = node
+      this.backNode!.setNextNode( node )
+      this.backNode = node
     }
-    this.size++
+    this.#size++
   }
 
   public pop(): T | undefined {
-    if( this.first === undefined ) { return undefined }
-    const firstValue: T = this.first.value
-    const nextNode: Node<T> | null = this.first.next
-    if( nextNode === null ) { this.first = undefined }
-    else { this.first = nextNode }
-    this.size--
-    return firstValue
+    const result = this.front
+    if( this.frontNode === null ) { return undefined }
+    const { nextNode } = this.frontNode
+    this.frontNode = nextNode
+    this.#size--
+    return result
   }
 
-  public front(): T | undefined {
-    return this.first?.value
+  get front(): T | undefined {
+    if( this.frontNode === null ) { return undefined }
+    return this.frontNode.value
   }
 
-  public rear(): T | undefined {
-    return this.last?.value
-  }
-
-  public isEmpty(): boolean {
-    return this.size === 0
-  }
-
-  get size(): number {
+  get size() {
     return this.#size
   }
 
-  private set size( newSize:number ) {
-    this.#size = newSize
+  get isEmpty(): boolean {
+    return this.#size === 0
   }
 
 }
