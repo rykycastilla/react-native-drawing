@@ -25,6 +25,10 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
 
+    "allowJs": true,
+    "checkJs": true,
+    "maxNodeModuleJsDepth": 1,
+
     /* Alias */
     "baseUrl": "./",
     "paths": {
