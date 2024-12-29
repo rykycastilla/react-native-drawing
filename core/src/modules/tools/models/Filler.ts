@@ -1,20 +1,23 @@
 import { BinImage } from '@draw/models'
 import { DrawingBoard } from '@draw/models'
 import { ColorableTool } from './ColorableTool'
-import { Filler as FillerUtil } from '@utils/Filler'
+import { FillerUtilClass } from './FillerUtilClass'
 
 export class Filler implements ColorableTool {
 
   private working = false
   #color: string
 
-  constructor( color:string ) {
+  constructor(
+    color:string,
+    private readonly FillerUtil: FillerUtilClass,
+  ) {
     this.#color = color
   }
 
   private async work( x:number, y:number, board:DrawingBoard ) {
     const { width, height, pixelList } = board.getBinaryData()
-    const util = new FillerUtil( width, height )
+    const util = new this.FillerUtil( width, height )
     util.onFrame( ( image:BinImage ) => board.setBinaryData( image ) )
     await util.fill( x, y, this.color, pixelList )
   }
