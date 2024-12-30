@@ -8,6 +8,7 @@ export class DrawingStroke extends Stroke<StrokeProps> {
     this.context.lineWidth = width
     this.context.strokeStyle = color
     this.context.lineJoin = 'round'
+    this.context.lineCap = 'round'
     this.context.stroke( path )
   }
 }
