@@ -31,7 +31,7 @@ export class Filler implements ColorableTool {
     // Remember to forget the state when the task is terminated
     task.then( () => this.filling = null )
     task.catch( () => this.filling = null )
-    this.filling = task  // Saviing current task state
+    this.filling = task  // Saving current task state
   }
 
   public endShapeStroke() {}
