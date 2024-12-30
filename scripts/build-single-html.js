@@ -1,13 +1,13 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { readdir, readFile, stat, writeFile } from 'node:fs/promises'
+import { getIndexableContentOf } from '../libs/indexable-dirs@1.0.0/index.js'
 import { stringify } from '../libs/json-doc@1.0.0/index.js'
+import { writeFile } from 'node:fs/promises'
 
 const __filename = fileURLToPath( import.meta.url )
 const __dirname = dirname( __filename )
 
 const SOURCE_DIR = '../core/dist/assets/'
-const ENCODE = 'utf-8'
 const BUILD_JSON = '../build.json'
 
 /**
@@ -47,48 +47,44 @@ function buildHtml( javascript, css ) {
 }
 
 /**
- * @param { string } path
- * @param { string } extension
- * @returns { Promise<Array<string|undefined>> }
+ * @param { string } mime
+ * @param { string } input
+ * @returns { string }
 */
-async function findFileType( path, extension ) {
-  const itemList = await readdir( path )
-  /** @type { string[] } */ const fileList = []
-  for( const item of itemList ) {
-    const itemPath = join( path, item )
-    const { isFile } = await stat( itemPath )
-    if( isFile && ( item.endsWith( extension ) ) ) { fileList.push( itemPath ) }
-  }
-  return fileList
+function textToBase64Url( mime, input ) {
+  const base64 = btoa( input )
+  return `data:${ mime };base64,${ base64 }`
 }
 
 /**
- * @param { string } filePath
- * @returns { Promise<string|null> }
+ * @typedef { Object } WorkerSource
+ * @property { string } name
+ * @property { string } data
 */
-async function loadContent( filePath ) {
-  /** @type { string | null } */ let result
-  try { result = await readFile( filePath, ENCODE ) }
-  catch { result = null }
-  return result
-}
-
-/**
- * @param { string } path
- * @param { string } extension
- * @returns { string | null }
-*/
-async function getContentOf( path, extension ) {
-  const [ file ] = await findFileType( path, extension )
-  return ( typeof file === 'string' ) ? loadContent( file ) : null
-}
 
 /**
  * @param { string } javascript
- * @param { string } css
- * @param { string } buildPath
+ * @param { WorkerSource[] } workerList
+ * @returns { string }
 */
-async function genBuild( javascript, css, buildPath ) {
+function includeWorkers( javascript, workerList ) {
+  for( const worker of workerList ) {
+    const workerURLRawPattern = `"([^"]*(?:/[^"]*)*/${ worker.name })"`
+    const workerURLPattern = new RegExp( workerURLRawPattern )
+    const workerBase64URL = textToBase64Url( 'text/javascript', worker.data )
+    javascript = javascript.replace( workerURLPattern, `"${ workerBase64URL }"` )
+  }
+  return javascript
+}
+
+/**
+ * @param { string } buildPath
+ * @param { string } css
+ * @param { string } javascript
+ * @param { WorkerSource[] } workerList
+*/
+async function genBuild( buildPath, css, javascript, workerList = [] ) {
+  javascript = includeWorkers( javascript, workerList )
   const html = buildHtml( javascript, css )
   const buildContent = stringify( { html } )
   await writeFile( buildPath, buildContent )
@@ -98,17 +94,19 @@ async function genBuild( javascript, css, buildPath ) {
  * @param { string } sourceDir
  * @param { string } buildName
 */
-async function buildSingleHtml( sourceDir, buildName ) {
-  const javascript = await getContentOf( sourceDir, '.js' ) ?? ''
-  const css = await getContentOf( sourceDir, '.css' ) ?? ''
-  await genBuild( javascript, css, buildName )
+async function buildSingleHtml( sourceDir, buildPath ) {
+  const jsSource = await getIndexableContentOf( sourceDir, 'js' )
+  const javascript = jsSource.index?.data ?? ''
+  const cssSource = await getIndexableContentOf( sourceDir, 'css' )
+  const css = cssSource.index?.data ?? ''
+  await genBuild( buildPath, css, javascript, jsSource.content )
 }
 
 /**
  * @param { string } buildPath
 */
 async function buildBlank( buildPath ) {
-  await genBuild( '', '', buildPath )
+  await genBuild( buildPath, '', '' )
 }
 
 main( process.argv.slice( 2 ) )  // eslint-disable-line
