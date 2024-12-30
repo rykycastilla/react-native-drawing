@@ -8,8 +8,9 @@ interface FrameFunction {
   ( image:BinImage ): void
 }
 
-interface FillerUtil {
+export interface FillerUtil {
   fill( x:number, y:number, color:string, pixelList:Uint8ClampedArray ): Promise<void>
+  stop( terminated:Promise<void> ): void
   onFrame( handle:Framefunction ): void
 }
 

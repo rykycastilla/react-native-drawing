@@ -1,11 +1,11 @@
-import { BinImage } from '@draw/models'
-import { DrawingBoard } from '@draw/models'
+import { BinImage, DrawingBoard } from '@draw/models'
 import { ColorableTool } from './ColorableTool'
-import { FillerUtilClass } from './FillerUtilClass'
+import { FillerUtil, FillerUtilClass } from './FillerUtilClass'
 
 export class Filler implements ColorableTool {
 
-  private working = false
+  private currentUtil: FillerUtil | null = null
+  private filling: Promise<void> | null = null
   #color: string
 
   constructor(
@@ -15,25 +15,34 @@ export class Filler implements ColorableTool {
     this.#color = color
   }
 
-  private async work( x:number, y:number, board:DrawingBoard ) {
+  private work( x:number, y:number, board:DrawingBoard ): Promise<void> {
     const { width, height, pixelList } = board.getBinaryData()
     const util = new this.FillerUtil( width, height )
+    this.currentUtil = util
     util.onFrame( ( image:BinImage ) => board.setBinaryData( image ) )
-    await util.fill( x, y, this.color, pixelList )
+    return util.fill( x, y, this.color, pixelList )
   }
 
   public addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
-    if( this.working ) { return }
-    this.working = true
+    // Filtering if it is filling right now
+    if( this.filling !== null ) { return }
     const task: Promise<void> = this.work( x, y, board )
-    task.then( () => this.working = false )
-    task.catch( () => this.working = false )
+    // Remember to forget the state when the task is terminated
+    task.then( () => this.filling = null )
+    task.catch( () => this.filling = null )
+    this.filling = task  // Saviing current task state
   }
 
   public endShapeStroke() {}
 
-  public stopUsing() {}
+  /**
+   * Stops the current filling task
+  */
+  public stopUsing() {
+    if( ( this.currentUtil === null ) || ( this.filling === null ) ) { return }
+    this.currentUtil.stop( this.filling )
+  }
 
   public setColor( color:string ) {
     this.#color = color

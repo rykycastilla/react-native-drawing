@@ -1,7 +1,7 @@
 /**
- * @import { BinImage, Filler as IFiller, FrameFunction } from '../../models/index.js'
  * @import { AnimationDTO } from '../AnimationDTO.d.ts'
- * @import { ThreadConstructor } from './ThreadConstructor.js'
+ * @import { BinImage, Filler as IFiller, FrameFunction } from '../../models/index.d.ts'
+ * @import { TaskManager } from './TaskManager.d.ts'
 */
 
 /**
@@ -12,17 +12,17 @@ export class Filler {
   /** @readonly */ width
   /** @readonly */ height
   /** @private @type { FrameFunction | null } */ handleFrame = null
-  /** @private @readonly */ Thread
+  /** @private @readonly */ taskManager
 
   /**
    * @param { number } width
    * @param { number } height
-   * @param { ThreadConstructor } Thread
+   * @param { TaskManager } taskManager
    */
-  constructor( width, height, Thread ) {
+  constructor( width, height, taskManager ) {
     this.width = width
     this.height = height
-    this.Thread = Thread
+    this.taskManager = taskManager
   }
 
   /**
@@ -37,10 +37,12 @@ export class Filler {
   /**
    * @private
    * @param { { data:AnimationDTO } } event
-   * @param { () => void } endCallback
+   * @param { Promise<void> } terminated
   */
-  receive( event, endCallback ) {
-    if( event.data.target === 'finish' ) { endCallback() }
+  receive( event, terminated ) {
+    if( event.data.target === 'finish' ) {
+      this.taskManager.terminate( terminated )
+    }
     else if( event.data.target === 'frame' ) {
       const { width, height, pixelListBuffer } = event.data
       const pixelList = new Uint8ClampedArray( pixelListBuffer )
@@ -59,11 +61,19 @@ export class Filler {
   */
   fill( x, y, color, pixelList ) {
     const { width, height } = this
-    const fillerThread = new this.Thread()
-    fillerThread.postMessage( { x, y, colorCode:color, width, height, pixelListBuffer:pixelList.buffer }, [ pixelList.buffer ] )
-    return new Promise( ( resolve ) => {
-      fillerThread.addEventListener( 'message', ( event ) => this.receive( event, resolve ) )
-    } )
+    const { thread:fillerThread, terminated } = this.taskManager.create()
+    fillerThread.addEventListener( 'message', ( event ) => this.receive( event, terminated ) )
+    const messageData = { x, y, colorCode:color, width, height, pixelListBuffer:pixelList.buffer }
+    fillerThread.postMessage( { target:'start', ...messageData }, [ pixelList.buffer ] )
+    return terminated
+  }
+
+  /**
+   * @public
+   * @param { Promise<void> } terminated
+  */
+  stop( terminated ) {
+    this.taskManager.terminate( terminated )
   }
 
   /**

@@ -4,8 +4,8 @@ import { RenderingFiller } from '../services/index.js'
 import { structColor } from './struct_color.js'
 
 /**
- * @import { Filler, FrameFunction } from '../models/index.js'
- * @import { AnimationDTO, StartDTO, Thread } from '../services/index.js'
+ * @import { Filler, FrameFunction } from '../models/index.d.ts'
+ * @import { AnimationDTO, ControlDTO, Thread } from '../services/index.d.ts'
 */
 
 /**
@@ -59,7 +59,7 @@ class FillerThread {
 
 }
 
-const thread = /** @type { Thread<AnimationDTO,StartDTO> } */  ( self )
+const thread = /** @type { Thread<AnimationDTO,ControlDTO> } */  ( self )
 
 const fillerThread = new FillerThread( () => {
   thread.postMessage( { target:'finish' } )
@@ -72,7 +72,9 @@ fillerThread.onFrame( ( binImage ) => {
 } )
 
 thread.addEventListener( 'message', ( event ) => {
-  const { x, y, colorCode, width, height, pixelListBuffer } = event.data
-  const pixelList = new Uint8ClampedArray( pixelListBuffer )
-  fillerThread.fill( x, y, colorCode, width, height, pixelList )
+  if( event.data.target === 'start' ) {
+    const { x, y, colorCode, width, height, pixelListBuffer } = event.data
+    const pixelList = new Uint8ClampedArray( pixelListBuffer )
+    fillerThread.fill( x, y, colorCode, width, height, pixelList )
+  }
 } )
