@@ -1,4 +1,5 @@
 import { BinImage, DrawingBoard } from '@draw/models'
+import { ColorFilter } from './ColorFilter'
 import { ColorableTool } from './ColorableTool'
 import { FillerUtil, FillerUtilClass } from './FillerUtilClass'
 
@@ -11,9 +12,8 @@ export class Filler implements ColorableTool {
   constructor(
     color:string,
     private readonly FillerUtil: FillerUtilClass,
-  ) {
-    this.#color = color
-  }
+    private readonly filterColor: ColorFilter,
+  ) { this.#color = this.filterColor( color ) }
 
   private work( x:number, y:number, board:DrawingBoard ): Promise<void> {
     const { width, height, pixelList } = board.getBinaryData()
@@ -45,7 +45,8 @@ export class Filler implements ColorableTool {
   }
 
   public setColor( color:string ) {
-    this.#color = color
+    const filteredColor: string = this.filterColor( color )
+    this.#color = filteredColor
   }
 
   get color(): string {

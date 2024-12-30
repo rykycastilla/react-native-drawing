@@ -1,3 +1,4 @@
+import { ColorFilter } from './ColorFilter'
 import { ColorableTool } from './ColorableTool'
 import { DrawingBoard, Stroke, StrokeProps } from '@draw/models'
 import { ResizableTool } from './ResizableTool'
@@ -7,9 +8,13 @@ export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, Re
 
   private readonly props: StrokeProps
 
-  constructor( color:string, size:number ) {
+  constructor(
+    color:string, size:number,
+    private readonly filterColor: ColorFilter,
+  ) {
     super()
-    this.props = { color, width:size }
+    const filteredColor: string = this.filterColor( color )
+    this.props = { color:filteredColor, width:size }
   }
 
   /** @protected */
@@ -30,7 +35,8 @@ export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, Re
   }
 
   public setColor( color:string ) {
-    this.props.color = color
+    const filteredColor: string = this.filterColor( color )
+    this.props.color = filteredColor
   }
 
   get size(): number {
