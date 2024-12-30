@@ -1,4 +1,5 @@
 export * from './Eraser'
 export * from './Filler'
+export * from './None'
 export * from './Pencil'
 export type * from './Tool'
