@@ -1,5 +1,7 @@
+export * from './DotPen'
 export * from './Eraser'
 export * from './Filler'
 export * from './None'
 export * from './Pencil'
+export * from './SuqareDotPen'
 export type * from './Tool'

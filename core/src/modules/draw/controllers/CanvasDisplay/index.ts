@@ -1,20 +1,23 @@
-import { ClearPath } from './ClearPath'
 import { BinImage, ClearPathProps, DrawingBoard, StrokeProps } from '../../models'
+import { ClearPath } from './ClearPath'
+import { DotsCreator } from './DotsCreator'
 import { DrawingStroke } from './DrawingStroke'
 import { EmptyDisplay } from './EmptyDisplay'
+import { Shape } from './shapes'
 import { StrokeManager } from './StrokeManager'
 
-export class CanvasDisplay implements DrawingBoard {
+export class CanvasDisplay extends DotsCreator implements DrawingBoard {
 
-  private readonly context: CanvasRenderingContext2D
   private readonly strokeManager = new StrokeManager<DrawingStroke>( DrawingStroke )
   private readonly clearPathManager = new StrokeManager<ClearPath>( ClearPath )
+  override shapeList: Shape[] = []
   private binImage: BinImage | null = null
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
   ) {
-    this.context = canvas.getContext( '2d' )!
+    const context: CanvasRenderingContext2D = canvas.getContext( '2d' )!
+    super( context )
     this.scene()
   }
 
@@ -45,6 +48,10 @@ export class CanvasDisplay implements DrawingBoard {
       const path: ClearPath = this.clearPathManager.getStroke( clearPathKey )!
       path.render()
     }
+    for( const shape of this.shapeList ) {
+      shape.render( this.context )
+    }
+    this.shapeList = []
   }
 
   private scene() {

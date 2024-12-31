@@ -1,4 +1,4 @@
-import { Eraser, Filler, None, Pencil, Tool as ITool } from '../models'
+import { DotPen, Eraser, Filler, None, Pencil, SquareDotPen, Tool as ITool } from '../models'
 import { Tool } from './Tool'
 
 export class ToolIndex {
@@ -7,12 +7,14 @@ export class ToolIndex {
 
   constructor(
     public readonly NONE: None,
+    public readonly SQUARE_DOT_PEN: SquareDotPen,
+    public readonly DOT_PEN: DotPen,
     public readonly PENCIL: Pencil,
     public readonly ERASER: Eraser,
     public readonly FILLER: Filler,
   ) {
-    const toolKeyList: Tool[] = [ Tool.NONE, Tool.PENCIL, Tool.ERASER, Tool.FILLER ]
-    const toolList: ITool[] = [ NONE, PENCIL, ERASER, FILLER ]
+    const toolKeyList: Tool[] = [ Tool.NONE, Tool.SQUARE_DOT_PEN, Tool.DOT_PEN, Tool.PENCIL, Tool.ERASER, Tool.FILLER ]
+    const toolList: ITool[] = [ NONE, SQUARE_DOT_PEN, DOT_PEN, PENCIL, ERASER, FILLER ]
     this.buildIndex( toolKeyList, toolList )
   }
 
