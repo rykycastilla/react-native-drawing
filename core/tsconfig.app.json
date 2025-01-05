@@ -34,7 +34,7 @@
     "paths": {
       "@shared/*": [ "../shared/*" ],
       "@components/*": [ "src/components/*" ],
-      "@hooks/*": [ "src/hooks/*" ],
+      "@hooks": [ "src/hooks" ],
       "@utils/*": [ "src/utils/*" ],
       "@draw/*": [ "src/modules/draw/*" ],
       "@grid/*": [ "src/modules/grid/*" ],

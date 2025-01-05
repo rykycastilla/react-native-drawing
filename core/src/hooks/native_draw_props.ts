@@ -1,5 +1,5 @@
 import { DrawPropsDTO } from '@shared/utils/types/DrawPropsDTO'
-import { Tool } from '@tools/services'
+import { Tool } from '@shared/modules/tools/models'
 import { useCallback, useEffect, useState } from 'react'
 
 type MessageCallback = ( data:DrawPropsDTO<Tool> ) => void

@@ -1,15 +1,23 @@
-import { Tool as ITool } from '../models'
-import { Tool, ToolIndex } from '../services'
-import { useMemo } from 'react'
-import { usePrevious } from './previous'
+import { None, Tool as ITool } from '../models'
+import { Tool } from '@shared/modules/tools/models'
+import { useEffect, useMemo } from 'react'
+import { usePrevious } from '@hooks'
 
-export function useCurrentTool( toolKey:Tool, toolIndex:ToolIndex ): ITool {
-  const previousToolKey: Tool | null = usePrevious( toolKey )
-  return useMemo( () => {
-    if( previousToolKey !== null ) {
-      const previousTool: ITool = toolIndex.get( previousToolKey )
-      previousTool.stopUsing()
-    }
-    return toolIndex.get( toolKey )
-  }, [ previousToolKey, toolKey, toolIndex ] )
+const NONE = new None()
+
+export function useCurrentTool( toolIndex:Record<number,ITool>, toolName:Tool ): ITool {
+
+  const tool: ITool = useMemo( () => {
+    return toolIndex[ toolName ] ?? NONE
+  }, [ toolIndex, toolName ] )
+
+  const previousTool: ITool | null = usePrevious( tool )
+
+  useEffect( () => {
+    if( previousTool === null ) { return }
+    previousTool.stopUsing()
+  }, [ previousTool ] )
+
+  return tool
+
 }

@@ -1,6 +1,6 @@
 import WebContainer from './WebContainer'
 import { ReactElement, useCallback, useRef } from 'react'
-import { Tool } from '../models'
+import { Tool } from '../shared/modules/tools/models'
 import { useDrawState, useGridGuard, useLoadEvent, useWebBridge, useWebMessage } from '../hooks'
 import { webSource } from '../utils/web_source'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'

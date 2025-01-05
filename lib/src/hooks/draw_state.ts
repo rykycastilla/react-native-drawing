@@ -1,6 +1,6 @@
 import { DrawPropsDTO } from '../shared/utils/types/DrawPropsDTO'
 import { MessageSystem } from '../shared/utils/MessageSystem'
-import { Tool } from '../models'
+import { Tool } from '../shared/modules/tools/models'
 import { useEffect } from 'react'
 
 export interface WebDrawProps {

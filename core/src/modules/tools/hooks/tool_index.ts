@@ -1,21 +1,108 @@
-import { DotPen, Eraser, Filler, None, Pencil, SquareDotPen } from '../models'
-import { ToolIndex } from '../services'
-import { useDotPen } from './dot_pen'
-import { useEraser } from './eraser'
-import { useFiller } from './filler'
-import { useMemo } from 'react'
-import { useNone } from './none'
-import { usePencil } from './pencil'
-import { useSquareDotPen } from './square_dot_pen'
+import { ColorableTool, DotPen, Eraser, Filler, None, Pencil, Tool as ITool } from '../models'
+import { Filler as FillerUtil } from '@utils/Filler'
+import { filterColorAlpha } from '../controllers'
+import { ResizableTool, SquareDotPen } from '../models'
+import { Tool } from '@shared/modules/tools/models'
+import { useEffect, useMemo } from 'react'
+import { useFreeze } from '@hooks'
 
-export function useToolIndex( defaultToolColor:string, defaultToolSize:number ): ToolIndex {
-  const none: None = useNone()
-  const squareDotPen: SquareDotPen = useSquareDotPen( defaultToolColor, defaultToolSize )
-  const dotPen: DotPen = useDotPen( defaultToolColor, defaultToolSize )
-  const pencil: Pencil = usePencil( defaultToolColor, defaultToolSize )
-  const eraser: Eraser = useEraser( defaultToolSize )
-  const filler: Filler = useFiller( defaultToolColor )
+function useColorStateSetter( tool:ColorableTool, color:string ) {
+  useEffect( () => {
+    tool.setColor( color )
+  }, [  tool, color ] )
+}
+
+function useSizeStateSetter( tool:ResizableTool, size:number ) {
+  useEffect( () => {
+    tool.setSize( size )
+  }, [  tool, size ] )
+}
+
+function useNone(): None {
   return useMemo( () => {
-    return new ToolIndex( none, squareDotPen, dotPen, pencil, eraser, filler )
-  }, [ none, squareDotPen, dotPen, pencil, eraser, filler ] )
+    return new None()
+  }, [] )
+}
+
+function useSquareDotPen( color:string, size:number ): SquareDotPen {
+
+  const initColor: string = useFreeze( color )
+  const initSize: number = useFreeze( size )
+
+  const squareDotPen = useMemo( () => {
+    return new SquareDotPen( initColor, initSize )
+  }, [ initColor, initSize ] )
+
+  useColorStateSetter( squareDotPen, color )
+  useSizeStateSetter( squareDotPen, size )
+  return squareDotPen
+
+}
+
+function useDotPen( color:string, size:number ): DotPen {
+
+  const initColor: string = useFreeze( color )
+  const initSize: number = useFreeze( size )
+
+  const dotPen = useMemo( () => {
+    return new DotPen( initColor, initSize )
+  }, [ initColor, initSize ] )
+
+  useColorStateSetter( dotPen, color )
+  useSizeStateSetter( dotPen, size )
+  return dotPen
+
+}
+
+function usePencil( color:string, size:number ): Pencil {
+
+  const initColor: string = useFreeze( color )
+  const initSize: number = useFreeze( size )
+
+  const pencil = useMemo( () => {
+    return new Pencil( initColor, initSize, filterColorAlpha )
+  }, [ initColor, initSize ] )
+
+  useColorStateSetter( pencil, color )
+  useSizeStateSetter( pencil, size )
+  return pencil
+
+}
+
+function useEraser( size:number ): Eraser {
+  const initSize: number = useFreeze( size )
+  const eraser = useMemo( () => {
+    return new Eraser( initSize )
+  }, [ initSize ] )
+  useSizeStateSetter( eraser, size )
+  return eraser
+}
+
+function useFiller( color:string ): Filler {
+
+  const initColor: string = useFreeze( color )
+
+  const filler = useMemo( () => {
+    return new Filler( initColor, FillerUtil, filterColorAlpha )
+  }, [ initColor ] )
+
+  useColorStateSetter( filler, color )
+  return filler
+
+}
+
+export function useToolIndex( color:string, size:number ): Record<number,ITool> {
+
+  const toolIndex: Record<number,ITool> = useMemo( () => {
+    return {}
+  }, [] )
+
+  toolIndex[ Tool.NONE] = useNone()
+  toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
+  toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )
+  toolIndex[ Tool.PENCIL ] = usePencil( color, size )
+  toolIndex[ Tool.ERASER ] = useEraser( size )
+  toolIndex[ Tool.FILLER ] = useFiller( color )
+  return toolIndex
+
 }

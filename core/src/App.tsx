@@ -1,9 +1,9 @@
 import Draw from '@components/Draw'
-import { Bridge, useNativeDrawProps } from '@hooks/native_draw_props'
+import { Bridge, useNativeDrawProps } from '@hooks'
 import { DrawPropsDTO } from '@shared/utils/types/DrawPropsDTO'
 import { ReactElement } from 'react'
 import { RNBridge } from '@utils/RNBridge'
-import { Tool } from '@tools/services'
+import { Tool } from '@shared/modules/tools/models'
 
 const App = (): ReactElement | null => {
 
