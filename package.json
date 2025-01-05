@@ -5,19 +5,21 @@
   "main": "./lib/dist/lib/src/index.js",
   "types": "./lib/dist/lib/src/index.d.ts",
   "scripts": {
-    "postinstall": "node ./scripts/create-env.js ; node ./scripts/build-single-html.js --blank",
-    "dev": "turbo run dev",
+    "postinstall": "npm install --prefix ./core ; npm install --prefix ./lib ; npm run create-env ; npm run create-bundle-blank",
+    "dev": "cd core ; npm run dev",
     "lint": "tsc --noEmit -p ./core/tsconfig.app.json ; tsc --noEmit -p ./lib/tsconfig.json ; eslint .",
-    "build": "turbo run build:webview ; turbo run build"
+    "build": "npm run build-core ; npm run create-bundle ; npm run build-lib ; npm run set-production",
+    "build-core": "cd core ; npm run build",
+    "build-lib": "cd lib ; npm run build",
+    "create-bundle-blank": "node ./scripts/build-single-html.js --blank",
+    "create-bundle": "node ./scripts/build-single-html.js",
+    "create-env": "node ./scripts/create-env.js",
+    "set-production": "node ./scripts/set-production-state.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "description": "",
-  "workspaces": [
-    "./core/",
-    "./lib/"
-  ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.15.0",
     "@typescript-eslint/parser": "7.15.0",

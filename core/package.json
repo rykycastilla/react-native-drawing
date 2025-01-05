@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build:webview": "tsc -b ; vite build ; node ../scripts/build-single-html.js",
+    "build": "tsc -b ; vite build",
     "preview": "vite preview"
   },
   "dependencies": {
