@@ -1,88 +1,37 @@
-import { BinImage, ClearPathProps, DrawingBoard, StrokeProps } from '../../models'
-import { ClearPath } from './ClearPath'
-import { DotsCreator } from './DotsCreator'
-import { DrawingStroke } from './DrawingStroke'
+import { DrawingBoard } from '../../models'
 import { EmptyDisplay } from './EmptyDisplay'
-import { Shape } from './shapes'
-import { StrokeManager } from './StrokeManager'
+import { StrokesCreator } from './StrokesCreator'
 
-export class CanvasDisplay extends DotsCreator implements DrawingBoard {
+// cnavasdisplay: renderizador y creador de nulo
+// el creador de trazos
+// creador de puntos
+// el reemplazador de imagene sbinarias
 
-  private readonly strokeManager = new StrokeManager<DrawingStroke>( DrawingStroke )
-  private readonly clearPathManager = new StrokeManager<ClearPath>( ClearPath )
-  override shapeList: Shape[] = []
-  private binImage: BinImage | null = null
+export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
+
+  override readonly context: CanvasRenderingContext2D
 
   constructor(
-    private readonly canvas: HTMLCanvasElement,
+    protected readonly canvas: HTMLCanvasElement,
   ) {
-    const context: CanvasRenderingContext2D = canvas.getContext( '2d' )!
-    super( context )
+    super()
+    this.context = canvas.getContext( '2d' )!
     this.scene()
   }
 
-  private cleanStrokes() {
-    for( const strokeKey of this.strokeManager.keyList ) {
-      const stroke: DrawingStroke = this.strokeManager.getStroke( strokeKey )!
-      stroke.stop()
-    }
-    for( const clearPathKey of this.clearPathManager.keyList ) {
-      const path: ClearPath = this.clearPathManager.getStroke( clearPathKey )!
-      path.stop()
-    }
-  }
-
-  private renderImage( image:BinImage ) {
-    this.cleanStrokes()
-    const { width, height, pixelList } = image
-    const imageData = new ImageData( pixelList, width, height )
-    this.context.putImageData( imageData, 0, 0 )
-  }
-
   private render() {
-    for( const strokeKey of this.strokeManager.keyList ) {
-      const stroke: DrawingStroke = this.strokeManager.getStroke( strokeKey )!
-      stroke.render()
+    const binaryRendered: boolean = this.renderImage()
+    if( binaryRendered ) {
+      this.cleanStrokes()
+      return
     }
-    for( const clearPathKey of this.clearPathManager.keyList ) {
-      const path: ClearPath = this.clearPathManager.getStroke( clearPathKey )!
-      path.render()
-    }
-    for( const shape of this.shapeList ) {
-      shape.render( this.context )
-    }
-    this.shapeList = []
+    this.renderStrokes()
+    this.renderShapes()
   }
 
   private scene() {
-    if( this.binImage !== null ) {
-      this.renderImage( this.binImage )
-      this.binImage = null
-    }
-    else {
-      this.render()
-    }
+    this.render()
     requestAnimationFrame( () => this.scene() )
-  }
-
-  public createStroke( x:number, y:number, props:StrokeProps ): DrawingStroke {
-    const stroke: DrawingStroke = this.strokeManager.genStroke( x, y, props, this.context )
-    return stroke
-  }
-
-  public createClearPath( x:number, y:number, props:ClearPathProps ): ClearPath {
-    const path: ClearPath = this.clearPathManager.genStroke( x, y, props, this.context )
-    return path
-  }
-
-  public getBinaryData(): BinImage {
-    const { width, height } = this.canvas
-    const { data:pixelList } = this.context.getImageData( 0, 0, width, height )
-    return { width, height, pixelList }
-  }
-
-  public setBinaryData( image:BinImage ) {
-    this.binImage = image
   }
 
   public static createEmpty(): EmptyDisplay {
