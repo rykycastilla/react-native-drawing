@@ -15,6 +15,8 @@ export class Filler implements ColorableTool {
     private readonly filterColor: ColorFilter,
   ) { this.#color = this.filterColor( color ) }
 
+  public prepareToUse() {}
+
   private work( x:number, y:number, board:DrawingBoard ): Promise<void> {
     const { width, height, pixelList } = board.getBinaryData()
     const util = new this.FillerUtil( width, height )

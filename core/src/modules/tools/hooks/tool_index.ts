@@ -2,10 +2,11 @@ import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, None, Pencil } from 
 import { exposeColorToRN } from '../controllers'
 import { Filler as FillerUtil } from '@utils/Filler'
 import { filterColorAlpha } from '../controllers'
-import { ResizableTool, SquareDotPen, Tool as ITool } from '../models'
+import { ResizableTool, SquareDotPen, Tool as ITool, Zoom } from '../models'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
 import { useFreeze } from '@hooks'
+import { Viewport } from '../services'
 
 function useColorStateSetter( tool:ColorableTool, color:string ) {
   useEffect( () => {
@@ -23,6 +24,15 @@ function useNone(): None {
   return useMemo( () => {
     return new None()
   }, [] )
+}
+
+type ViewportControlAllowedSetter = ( viewportControlAllowed:boolean ) => void
+
+function useZoom( setViewportControlAllowed:ViewportControlAllowedSetter ) {
+  return useMemo( () => {
+    const viewport = new Viewport( setViewportControlAllowed )
+    return new Zoom( viewport )
+  }, [ setViewportControlAllowed ] )
 }
 
 function useEyeDropper(): EyeDropper {
@@ -98,13 +108,22 @@ function useFiller( color:string ): Filler {
 
 }
 
-export function useToolIndex( color:string, size:number ): Record<number,ITool> {
+interface UseToolIndexArgs {
+  color: string
+  size: number
+  setViewportControlAllowed( viewportControlAllowed:boolean ): void
+}
+
+export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
+
+  const { color, size, setViewportControlAllowed } = args
 
   const toolIndex: Record<number,ITool> = useMemo( () => {
     return {}
   }, [] )
 
   toolIndex[ Tool.NONE] = useNone()
+  toolIndex[ Tool.ZOOM ] = useZoom( setViewportControlAllowed )
   toolIndex[ Tool.EYE_DROPPER ] = useEyeDropper()
   toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
   toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )

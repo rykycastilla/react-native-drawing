@@ -3,7 +3,7 @@ import Grid from '@components/Grid'
 import TouchScreen from '@components/TouchScreen'
 import { DEFAULT_TOOL_SIZE } from './constants'
 import { DrawingService } from '@draw/services'
-import { ReactElement, useMemo, useRef } from 'react'
+import { ReactElement, useMemo, useRef, useState } from 'react'
 import { Tool } from '@shared/modules/tools/models'
 import { Tool as ITool } from '@tools/models'
 import { useLoader } from './hooks'
@@ -23,7 +23,8 @@ interface DrawProps {
 const Draw = ( props:DrawProps ): ReactElement => {
 
   const { resolution, color, grid, antialiasing = true, tool, onLoad, toolSize = DEFAULT_TOOL_SIZE } = props
-  const currentTool: ITool = useTools( tool, color, toolSize )
+  const [ viewportControlAllowed, setViewportControlAllowed ] = useState( false )
+  const currentTool: ITool = useTools( { tool, color, size:toolSize, setViewportControlAllowed } )
   const drawingServiceRef = useRef<DrawingService|null>( null )
   const fixedResolution: number = useMemo( () => resolution, [] )  // eslint-disable-line
   const { setDisplayLoaded, setGridLoaded } = useLoader( onLoad )
@@ -38,6 +39,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
       <Grid amount={ grid } onLoad={ setGridLoaded } />
       <TouchScreen
         resolution={ fixedResolution }
+        viewportControlAllowed={ viewportControlAllowed }
         tool={ currentTool }
         drawingServiceRef={ drawingServiceRef } />
     </div>

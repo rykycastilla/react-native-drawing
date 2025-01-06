@@ -8,7 +8,9 @@ const NONE = new None()
 export function useCurrentTool( toolIndex:Record<number,ITool>, toolName:Tool ): ITool {
 
   const tool: ITool = useMemo( () => {
-    return toolIndex[ toolName ] ?? NONE
+    const newTool: ITool = toolIndex[ toolName ] ?? NONE
+    newTool.prepareToUse()
+    return newTool
   }, [ toolIndex, toolName ] )
 
   const previousTool: ITool | null = usePrevious( tool )

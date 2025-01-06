@@ -11,6 +11,8 @@ export class Eraser extends StrokeTool<ClearPathProps> implements ResizableTool 
     this.props = { width:size }
   }
 
+  public prepareToUse() {}
+
   /** @protected */
   override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<ClearPathProps> {
     return board.createClearPath( x, y, { width:this.size } )

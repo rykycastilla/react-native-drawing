@@ -17,6 +17,8 @@ export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, Re
     this.props = { color:filteredColor, width:size }
   }
 
+  public prepareToUse() {}
+
   /** @protected */
   override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<StrokeProps> {
     return board.createStroke( x, y, { color:this.color, width:this.size } )

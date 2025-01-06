@@ -16,6 +16,8 @@ export class DotPen implements ColorableTool, ResizableTool {
     this.#size = size
   }
 
+  public prepareToUse() {}
+
   public addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
     this.latestPoint = `${ x };${ y }`

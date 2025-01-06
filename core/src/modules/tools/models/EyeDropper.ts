@@ -7,6 +7,8 @@ export class EyeDropper implements Tool {
     private readonly exposeColor: ExposeColorFunction,
   ) {}
 
+  public prepareToUse() {}
+
   public addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
     const { width, pixelList, colorChanels, maxChanel } = board.getBinaryData()

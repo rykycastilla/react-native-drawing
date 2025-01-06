@@ -4,6 +4,7 @@ import { usePositionHandler } from './position_handler'
 import { useTouchService } from './touch_service'
 
 interface UseTouchPositionArgs {
+  viewportControlAllowed: boolean
   screenRef: MutableRefObject<HTMLElement|null>
 }
 
@@ -13,9 +14,10 @@ interface UseTouchPositionResult {
 
 export function useTouchPosition( args:UseTouchPositionArgs ): UseTouchPositionResult {
 
-  const { screenRef } = args
+  const { viewportControlAllowed, screenRef } = args
   const touchService: TouchService = useTouchService()
-  const { onTouchStart, onTouchMove, onTouchEnd } = usePositionHandler( touchService )
+  const usePositionHandlerArgs = { viewportControlAllowed, touchService }
+  const { onTouchStart, onTouchMove, onTouchEnd } = usePositionHandler( usePositionHandlerArgs )
 
   const suscribeTouches = useCallback( ( $screen:HTMLElement ) => {
     $screen.addEventListener( 'touchstart', onTouchStart )

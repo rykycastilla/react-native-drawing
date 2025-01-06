@@ -7,30 +7,37 @@ interface UsePositionHandlersResult {
   onTouchEnd( event:TouchEvent ): void
 }
 
-export function usePositionHandler( touchService:TouchService ): UsePositionHandlersResult {
+interface UsePositionHandlerArgs {
+  viewportControlAllowed: boolean
+  touchService: TouchService
+}
+
+export function usePositionHandler( args:UsePositionHandlerArgs ): UsePositionHandlersResult {
+
+  const { viewportControlAllowed, touchService } = args
 
   const onTouchStart = useCallback( ( event:TouchEvent ) => {
-    event.preventDefault()
+    if( !viewportControlAllowed ) { event.preventDefault() }
     for( const touch of event.changedTouches ) {
       const { identifier, clientX, clientY } = touch
       touchService.start( identifier, clientX, clientY )
     }
-  }, [ touchService ] )
+  }, [ viewportControlAllowed, touchService ] )
 
   const onTouchMove = useCallback( ( event:TouchEvent ) => {
-    event.preventDefault()
+    if( !viewportControlAllowed ) { event.preventDefault() }
     for( const touch of event.changedTouches ) {
       const { identifier, clientX, clientY } = touch
       touchService.move( identifier, clientX, clientY )
     }
-  }, [ touchService ] )
+  }, [ viewportControlAllowed, touchService ] )
 
   const onTouchEnd = useCallback( ( event:TouchEvent ) => {
-    event.preventDefault()
+    if( !viewportControlAllowed ) { event.preventDefault() }
     for( const touch of event.changedTouches ) {
       touchService.end( touch.identifier )
     }
-  }, [ touchService ] )
+  }, [ viewportControlAllowed, touchService ] )
 
   return { onTouchStart, onTouchMove, onTouchEnd }
 
