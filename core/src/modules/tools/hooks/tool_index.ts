@@ -1,7 +1,8 @@
-import { ColorableTool, DotPen, Eraser, Filler, None, Pencil, Tool as ITool } from '../models'
+import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, None, Pencil } from '../models'
+import { exposeColorToRN } from '../controllers'
 import { Filler as FillerUtil } from '@utils/Filler'
 import { filterColorAlpha } from '../controllers'
-import { ResizableTool, SquareDotPen } from '../models'
+import { ResizableTool, SquareDotPen, Tool as ITool } from '../models'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
 import { useFreeze } from '@hooks'
@@ -21,6 +22,12 @@ function useSizeStateSetter( tool:ResizableTool, size:number ) {
 function useNone(): None {
   return useMemo( () => {
     return new None()
+  }, [] )
+}
+
+function useEyeDropper(): EyeDropper {
+  return useMemo( () => {
+    return new EyeDropper( exposeColorToRN )
   }, [] )
 }
 
@@ -98,6 +105,7 @@ export function useToolIndex( color:string, size:number ): Record<number,ITool> 
   }, [] )
 
   toolIndex[ Tool.NONE] = useNone()
+  toolIndex[ Tool.EYE_DROPPER ] = useEyeDropper()
   toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
   toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )
   toolIndex[ Tool.PENCIL ] = usePencil( color, size )

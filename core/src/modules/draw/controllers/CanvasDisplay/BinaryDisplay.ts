@@ -21,7 +21,7 @@ export abstract class BinaryDisplay {
   public getBinaryData(): BinImage {
     const { width, height } = this.canvas
     const { data:pixelList } = this.context.getImageData( 0, 0, width, height )
-    return { width, height, pixelList }
+    return { width, height, pixelList, colorChanels:4, maxChanel:255 }
   }
 
   public setBinaryData( image:BinImage ) {

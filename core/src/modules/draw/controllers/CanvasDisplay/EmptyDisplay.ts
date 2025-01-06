@@ -20,7 +20,7 @@ export class EmptyDisplay implements DrawingBoard {
 
   public getBinaryData(): BinImage {
     const pixelList = new Uint8ClampedArray()
-    return { width:0, height:0, pixelList }
+    return { width:0, height:0, pixelList, colorChanels:0, maxChanel:0 }
   }
 
   public setBinaryData() {}

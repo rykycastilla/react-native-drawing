@@ -1,7 +1,7 @@
 import WebContainer from './WebContainer'
+import * as Hooks from '../hooks'
 import { ReactElement, useCallback, useRef } from 'react'
 import { Tool } from '../shared/modules/tools/models'
-import { useDrawState, useGridGuard, useLoadEvent, useWebBridge, useWebMessage } from '../hooks'
 import { webSource } from '../utils/web_source'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
@@ -16,6 +16,7 @@ export interface DrawProps {
   tool: Tool
   toolSize?: number
   onLoad?: () => void
+  onEyeDropper?: ( color:string ) => void
 }
 
 /**
@@ -23,13 +24,14 @@ export interface DrawProps {
 */
 const Draw = ( props:DrawProps ): ReactElement => {
 
-  const { grid, onLoad } = props
+  const { grid, onLoad, onEyeDropper } = props
   const webViewRef = useRef<WebView|null>( null )
-  const { receive, suscribe, postMessage } = useWebMessage( webViewRef )
-  const { webBridge, onLoadWebView } = useWebBridge( suscribe, postMessage )
-  useGridGuard( grid )
-  useDrawState( webBridge, props )
-  useLoadEvent( webBridge, onLoad )
+  const { receive, suscribe, postMessage } = Hooks.useWebMessage( webViewRef )
+  const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
+  Hooks.useGridGuard( grid )
+  Hooks.useDrawState( webBridge, props )
+  Hooks.useLoadEvent( webBridge, onLoad )
+  Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent

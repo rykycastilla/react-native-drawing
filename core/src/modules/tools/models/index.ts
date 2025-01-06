@@ -1,5 +1,6 @@
 export * from './DotPen'
 export * from './Eraser'
+export * from './EyeDropper'
 export * from './Filler'
 export * from './None'
 export * from './Pencil'
