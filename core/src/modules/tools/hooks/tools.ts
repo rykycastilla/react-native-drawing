@@ -1,5 +1,5 @@
+import { ITool } from '../models'
 import { Tool } from '@shared/modules/tools/models'
-import { Tool as ITool } from '../models'
 import { useCurrentTool } from './current_tool'
 import { useToolIndex } from './tool_index'
 

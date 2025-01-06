@@ -1,4 +1,4 @@
-import { None, Tool as ITool } from '../models'
+import { None, ITool } from '../models'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
 import { usePrevious } from '@hooks'

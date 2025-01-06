@@ -1,9 +1,10 @@
 import { BinImage, DrawingBoard } from '@draw/models'
-import { ColorFilter } from './ColorFilter'
-import { ColorableTool } from './ColorableTool'
-import { FillerUtil, FillerUtilClass } from './FillerUtilClass'
+import { ColorFilter } from '../ColorFilter'
+import { ColorableTool } from '../ColorableTool'
+import { FillerUtil, FillerUtilClass } from '../FillerUtilClass'
+import { Tool } from './Tool'
 
-export class Filler implements ColorableTool {
+export class Filler extends Tool implements ColorableTool {
 
   private currentUtil: FillerUtil | null = null
   private filling: Promise<void> | null = null
@@ -13,9 +14,10 @@ export class Filler implements ColorableTool {
     color:string,
     private readonly FillerUtil: FillerUtilClass,
     private readonly filterColor: ColorFilter,
-  ) { this.#color = this.filterColor( color ) }
-
-  public prepareToUse() {}
+  ) {
+    super()
+    this.#color = this.filterColor( color )
+  }
 
   private work( x:number, y:number, board:DrawingBoard ): Promise<void> {
     const { width, height, pixelList } = board.getBinaryData()
@@ -25,7 +27,7 @@ export class Filler implements ColorableTool {
     return util.fill( x, y, this.color, pixelList )
   }
 
-  public addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
     // Filtering if it is filling right now
     if( this.filling !== null ) { return }
@@ -36,12 +38,10 @@ export class Filler implements ColorableTool {
     this.filling = task  // Saving current task state
   }
 
-  public endShapeStroke() {}
-
   /**
    * Stops the current filling task
   */
-  public stopUsing() {
+  override stopUsing() {
     if( ( this.currentUtil === null ) || ( this.filling === null ) ) { return }
     this.currentUtil.stop( this.filling )
   }

@@ -1,6 +1,6 @@
-import { Tool } from './Tool'
+import { ITool } from '../ITool'
 
-export class Zoom implements Tool {
+export class Zoom implements ITool {
 
   constructor(
     private readonly view: TouchableView,

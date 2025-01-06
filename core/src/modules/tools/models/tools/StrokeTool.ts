@@ -1,16 +1,14 @@
 import { DrawingBoard, Stroke } from '@draw/models'
 import { Tool } from './Tool'
 
-export abstract class StrokeTool<T extends object> implements Tool {
+export abstract class StrokeTool<T extends object> extends Tool {
 
   private readonly strokeIndex: Record<symbol,Stroke<T>> = {}
 
   protected abstract createStroke( x:number, y:number, board:DrawingBoard ): Stroke<T>
   protected abstract updateProps( stroke:Stroke<T> ): void
 
-  public prepareToUse() {}
-
-  public addStrokePoint ( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint ( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     if( this.strokeIndex[ strokeId ] === undefined ) {
       const stroke: Stroke<T> = this.createStroke( x, y, board )
       this.strokeIndex[ strokeId ] = stroke
@@ -23,14 +21,14 @@ export abstract class StrokeTool<T extends object> implements Tool {
     }
   }
 
-  public endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     this.addStrokePoint( x, y, strokeId, board )
     const stroke: Stroke<T> | undefined = this.strokeIndex[ strokeId ]
     if( stroke === undefined ) { return }
     stroke.stop()
   }
 
-  public stopUsing() {
+  override stopUsing() {
     const keyList: symbol[] = Object.getOwnPropertySymbols( this.strokeIndex )
     for( const key of keyList ) {
       const stroke: Stroke<T> = this.strokeIndex[ key ]!

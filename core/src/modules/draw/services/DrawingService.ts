@@ -1,5 +1,5 @@
 import { DrawingBoard } from '../models'
-import { Tool } from '@tools/models'
+import { ITool } from '@tools/models'
 
 export class DrawingService {
 
@@ -7,11 +7,11 @@ export class DrawingService {
     private readonly board: DrawingBoard,
   ) {}
 
-  public stopStroke( x:number, y:number, strokeId:symbol, tool:Tool ) {
+  public stopStroke( x:number, y:number, strokeId:symbol, tool:ITool ) {
     tool.endShapeStroke( x, y, strokeId, this.board )
   }
 
-  public use( x:number, y:number, strokeId:symbol, tool:Tool ) {
+  public use( x:number, y:number, strokeId:symbol, tool:ITool ) {
     tool.addStrokePoint( x, y, strokeId, this.board )
   }
 

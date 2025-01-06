@@ -1,6 +1,6 @@
 import { DrawingService } from '@draw/services'
+import { ITool } from '@tools/models'
 import { MutableRefObject, ReactElement } from 'react'
-import { Tool } from '@tools/models'
 import { DrawTouchEvent } from '@touch/services'
 import { useCallback, useEffect, useRef } from 'react'
 import { useInteractionDeps } from './hooks'
@@ -8,7 +8,7 @@ import './styles.css'
 
 interface TouchScreenProps {
   resolution: number
-  tool: Tool
+  tool: ITool
   viewportControlAllowed: boolean
   drawingServiceRef: MutableRefObject<DrawingService|null>
 }

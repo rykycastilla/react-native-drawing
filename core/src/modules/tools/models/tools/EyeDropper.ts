@@ -1,15 +1,13 @@
 import { DrawingBoard } from '@draw/models'
 import { Tool } from './Tool'
 
-export class EyeDropper implements Tool {
+export class EyeDropper extends Tool {
 
   constructor(
     private readonly exposeColor: ExposeColorFunction,
-  ) {}
+  ) { super() }
 
-  public prepareToUse() {}
-
-  public addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
     const { width, pixelList, colorChanels, maxChanel } = board.getBinaryData()
     const baseIndex: number = EyeDropper.calcIndex( x, y, width ) * colorChanels,
@@ -21,10 +19,6 @@ export class EyeDropper implements Tool {
     const color = `rgba( ${ red }, ${ green }, ${ blue }, ${ standardAlpha } )`
     this.exposeColor( color )
   }
-
-  public endShapeStroke() {}
-
-  public stopUsing() {}
 
   private static calcIndex( x: number, y:number, width:number ): number {
     return x + width * y

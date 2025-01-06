@@ -1,8 +1,9 @@
 import { DrawingBoard } from '@draw/models'
-import { ColorableTool } from './ColorableTool'
-import { ResizableTool } from './ResizableTool'
+import { ColorableTool } from '../ColorableTool'
+import { ResizableTool } from '../ResizableTool'
+import { Tool } from './Tool'
 
-export class DotPen implements ColorableTool, ResizableTool {
+export class DotPen extends Tool implements ColorableTool, ResizableTool {
 
   private latestPoint: `${ number };${ number }` | null = null
   #color: string
@@ -12,19 +13,18 @@ export class DotPen implements ColorableTool, ResizableTool {
     color:string, size:number,
     public readonly IS_SQUARE = false,
   ) {
+    super()
     this.#color = color
     this.#size = size
   }
 
-  public prepareToUse() {}
-
-  public addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
     this.latestPoint = `${ x };${ y }`
     board.createDot( x, y, this.size, this.color, this.IS_SQUARE )
   }
 
-  public endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
     strokeId
     const thisPoint = `${ x };${ y }`
     if( thisPoint !== this.latestPoint ) {
@@ -33,7 +33,7 @@ export class DotPen implements ColorableTool, ResizableTool {
     this.latestPoint = null
   }
 
-  public stopUsing() {
+  override stopUsing() {
     this.latestPoint = null
   }
 

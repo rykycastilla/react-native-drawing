@@ -1,7 +1,7 @@
-import { ColorFilter } from './ColorFilter'
-import { ColorableTool } from './ColorableTool'
+import { ColorFilter } from '../ColorFilter'
+import { ColorableTool } from '../ColorableTool'
 import { DrawingBoard, Stroke, StrokeProps } from '@draw/models'
-import { ResizableTool } from './ResizableTool'
+import { ResizableTool } from '../ResizableTool'
 import { StrokeTool } from './StrokeTool'
 
 export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, ResizableTool {
@@ -16,8 +16,6 @@ export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, Re
     const filteredColor: string = this.filterColor( color )
     this.props = { color:filteredColor, width:size }
   }
-
-  public prepareToUse() {}
 
   /** @protected */
   override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<StrokeProps> {
