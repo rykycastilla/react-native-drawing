@@ -1,8 +1,8 @@
-import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, ITool, None } from '../models'
+import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, ITool, Pencil } from '../models'
 import { exposeColorToRN } from '../controllers'
 import { Filler as FillerUtil } from '@utils/Filler'
 import { filterColorAlpha } from '../controllers'
-import { Pencil, ResizableTool, Spry, SquareDotPen, Zoom } from '../models'
+import { ResizableTool, Spry, SquareDotPen, Zoom } from '../models'
 import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
@@ -19,12 +19,6 @@ function useSizeStateSetter( tool:ResizableTool, size:number ) {
   useEffect( () => {
     tool.setSize( size )
   }, [  tool, size ] )
-}
-
-function useNone(): None {
-  return useMemo( () => {
-    return new None()
-  }, [] )
 }
 
 type ViewportControlAllowedSetter = ( viewportControlAllowed:boolean ) => void
@@ -147,7 +141,6 @@ export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
     return {}
   }, [] )
 
-  toolIndex[ Tool.NONE] = useNone()
   toolIndex[ Tool.ZOOM ] = useZoom( setViewportControlAllowed )
   toolIndex[ Tool.EYE_DROPPER ] = useEyeDropper()
   toolIndex[ Tool.Spry ] = useSpry( color, size, spryParticlesAmount, spryParticlesScale )
