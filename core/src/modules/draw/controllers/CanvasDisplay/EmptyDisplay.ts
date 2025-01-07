@@ -10,6 +10,8 @@ export class EmptyDisplay implements DrawingBoard {
 
   public createDot() {}
 
+  public printLine() {}
+
   public createClearPath(): ClearPath {
     return new ClearPath( 0, 0, { width:0 }, this.context )
   }

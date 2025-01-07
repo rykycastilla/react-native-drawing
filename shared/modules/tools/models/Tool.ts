@@ -5,6 +5,7 @@ export enum Tool {
   Spry,
   SQUARE_DOT_PEN,
   DOT_PEN,
+  TAPE,
   PENCIL,
   ERASER,
   FILLER,

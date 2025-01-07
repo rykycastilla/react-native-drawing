@@ -1,8 +1,7 @@
 import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, ITool, Pencil } from '../models'
-import { exposeColorToRN } from '../controllers'
+import { exposeColorToRN, fadeColor, filterColorAlpha } from '../controllers'
 import { Filler as FillerUtil } from '@utils/Filler'
-import { filterColorAlpha } from '../controllers'
-import { ResizableTool, Spry, SquareDotPen, Zoom } from '../models'
+import { ResizableTool, Spry, SquareDotPen, Tape, Zoom } from '../models'
 import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
@@ -88,6 +87,21 @@ function useDotPen( color:string, size:number ): DotPen {
 
 }
 
+function useTape( color:string, size:number ): Tape {
+
+  const initColor: string = useFreeze( color )
+  const initSize: number = useFreeze( size )
+
+  const tape = useMemo( () => {
+    return new Tape( initColor, initSize, fadeColor )
+  }, [ initColor, initSize ] )
+
+  useColorStateSetter( tape, color )
+  useSizeStateSetter( tape, size )
+  return tape
+
+}
+
 function usePencil( color:string, size:number ): Pencil {
 
   const initColor: string = useFreeze( color )
@@ -146,6 +160,7 @@ export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
   toolIndex[ Tool.Spry ] = useSpry( color, size, spryParticlesAmount, spryParticlesScale )
   toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
   toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )
+  toolIndex[ Tool.TAPE ] = useTape( color, size )
   toolIndex[ Tool.PENCIL ] = usePencil( color, size )
   toolIndex[ Tool.ERASER ] = useEraser( size )
   toolIndex[ Tool.FILLER ] = useFiller( color )

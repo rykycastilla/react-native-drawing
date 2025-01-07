@@ -9,13 +9,21 @@ export abstract class Shape {
 
   protected abstract draw( path:Path2D ): void
 
-  public render( context:CanvasRenderingContext2D ) {
+  private tryDraw() {
     if( !this.wasDrawed ) {
       this.draw( this.path )
       this.wasDrawed = true
     }
+  }
+
+  protected printBody( context:CanvasRenderingContext2D, path:Path2D ) {
     context.fillStyle = this.color
-    context.fill( this.path )
+    context.fill( path )
+  }
+
+  public render( context:CanvasRenderingContext2D ) {
+    this.tryDraw()
+    this.printBody( context, this.path )
   }
 
 }

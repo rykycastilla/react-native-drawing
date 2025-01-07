@@ -1,9 +1,11 @@
 import { DrawingBoard } from '../../models'
 import { EmptyDisplay } from './EmptyDisplay'
+import { Shape } from './shapes'
 import { StrokesCreator } from './StrokesCreator'
 
 export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
 
+  override shapeList: Shape[] = []
   override readonly context: CanvasRenderingContext2D
 
   constructor(

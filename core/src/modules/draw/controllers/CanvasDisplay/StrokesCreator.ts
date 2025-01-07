@@ -1,12 +1,11 @@
 import { ClearPath } from './ClearPath'
 import { ClearPathProps, StrokeProps } from '../../models'
-import { DotsCreator } from './DotsCreator'
 import { DrawingStroke } from './DrawingStroke'
+import { LinesCreator } from './LinesCreator'
 import { StrokeManager } from './StrokeManager'
 
-export abstract class StrokesCreator extends DotsCreator {
+export abstract class StrokesCreator extends LinesCreator {
 
-  protected abstract readonly context: CanvasRenderingContext2D
   private readonly strokeManager = new StrokeManager<DrawingStroke>( DrawingStroke )
   private readonly clearPathManager = new StrokeManager<ClearPath>( ClearPath )
 
