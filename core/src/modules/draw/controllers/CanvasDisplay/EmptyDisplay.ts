@@ -23,6 +23,14 @@ export class EmptyDisplay implements DrawingBoard {
     return { width:0, height:0, pixelList, colorChanels:0, maxChanel:0 }
   }
 
+  get width(): number {
+    return 0
+  }
+
+  get height(): number {
+    return 0
+  }
+
   public setBinaryData() {}
 
 }

@@ -15,6 +15,7 @@ export interface DrawProps {
   antialiasing?: boolean
   tool: Tool
   toolSize?: number
+  spryParticles?: { amount?:number, scale?:number }
   onLoad?: () => void
   onEyeDropper?: ( color:string ) => void
 }

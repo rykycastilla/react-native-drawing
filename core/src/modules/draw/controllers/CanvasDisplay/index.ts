@@ -2,11 +2,6 @@ import { DrawingBoard } from '../../models'
 import { EmptyDisplay } from './EmptyDisplay'
 import { StrokesCreator } from './StrokesCreator'
 
-// cnavasdisplay: renderizador y creador de nulo
-// el creador de trazos
-// creador de puntos
-// el reemplazador de imagene sbinarias
-
 export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
 
   override readonly context: CanvasRenderingContext2D
@@ -32,6 +27,14 @@ export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
   private scene() {
     this.render()
     requestAnimationFrame( () => this.scene() )
+  }
+
+  get width(): number {
+    return this.canvas.width
+  }
+
+  get height(): number {
+    return this.canvas.height
   }
 
   public static createEmpty(): EmptyDisplay {

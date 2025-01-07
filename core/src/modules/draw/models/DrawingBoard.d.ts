@@ -2,6 +2,8 @@ import { BinImage } from './BinImage'
 import { Stroke } from './Stroke'
 
 export interface DrawingBoard {
+  width: number
+  height: number
   createDot( x:number, y:number, width:number, color:string, isSquare:boolean ): void
   createStroke( x:number, y:number, props:StrokeProps ): Stroke<StrokeProps>
   createClearPath( x:number, y:number, props:ClearPathProps ): Stroke<ClearPathProps>

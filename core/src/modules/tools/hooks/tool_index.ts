@@ -2,7 +2,8 @@ import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, ITool, None } from '
 import { exposeColorToRN } from '../controllers'
 import { Filler as FillerUtil } from '@utils/Filler'
 import { filterColorAlpha } from '../controllers'
-import { Pencil, ResizableTool, SquareDotPen, Zoom } from '../models'
+import { Pencil, ResizableTool, Spry, SquareDotPen, Zoom } from '../models'
+import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
 import { useFreeze } from '@hooks'
@@ -39,6 +40,28 @@ function useEyeDropper(): EyeDropper {
   return useMemo( () => {
     return new EyeDropper( exposeColorToRN )
   }, [] )
+}
+
+function useSpry( color:string, size:number, particlesAmount:number, particlesScale:number ): Spry {
+
+  const initColor: string = useFreeze( color )
+  const initSize: number = useFreeze( size )
+  const initParticlesAmount: number = useFreeze( particlesAmount )
+  const initParticlesScale: number = useFreeze( particlesScale )
+
+  const spry = useMemo( () => {
+    return new Spry( initColor, initSize, initParticlesAmount, initParticlesScale )
+  }, [ initColor, initSize, initParticlesAmount, initParticlesScale ] )
+
+  useEffect( () => {
+    spry.setParticlesAmount( particlesAmount )
+    spry.setParticlesScale( particlesScale )
+  }, [ spry, particlesAmount, particlesScale ] )
+
+  useColorStateSetter( spry, color )
+  useSizeStateSetter( spry, size )
+  return spry
+
 }
 
 function useSquareDotPen( color:string, size:number ): SquareDotPen {
@@ -111,12 +134,14 @@ function useFiller( color:string ): Filler {
 interface UseToolIndexArgs {
   color: string
   size: number
+  spryParticles: SpryParticlesProps
   setViewportControlAllowed( viewportControlAllowed:boolean ): void
 }
 
 export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
 
-  const { color, size, setViewportControlAllowed } = args
+  const { color, size, spryParticles, setViewportControlAllowed } = args
+  const { amount:spryParticlesAmount, scale:spryParticlesScale } = spryParticles
 
   const toolIndex: Record<number,ITool> = useMemo( () => {
     return {}
@@ -125,6 +150,7 @@ export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
   toolIndex[ Tool.NONE] = useNone()
   toolIndex[ Tool.ZOOM ] = useZoom( setViewportControlAllowed )
   toolIndex[ Tool.EYE_DROPPER ] = useEyeDropper()
+  toolIndex[ Tool.Spry ] = useSpry( color, size, spryParticlesAmount, spryParticlesScale )
   toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
   toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )
   toolIndex[ Tool.PENCIL ] = usePencil( color, size )

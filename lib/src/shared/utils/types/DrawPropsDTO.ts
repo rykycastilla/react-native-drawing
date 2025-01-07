@@ -1,1 +1,1 @@
-export * from '../../../../../shared/utils/types/DrawPropsDTO'
+export type * from '../../../../../shared/utils/types/DrawPropsDTO'

@@ -1,3 +1,5 @@
+import { SpryParticlesProps } from './SpryParticlesProps'
+
 export interface DrawPropsDTO<T> {
   resolution: number
   color: string
@@ -5,4 +7,5 @@ export interface DrawPropsDTO<T> {
   antialiasing: boolean | undefined
   tool: T
   toolSize: number | undefined
+  spryParticles: SpryParticlesProps
 }
