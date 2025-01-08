@@ -11,7 +11,6 @@ export function useScreenLayout( screenRef:MutableRefObject<HTMLDivElement|null>
 
   // Peparing instructions to get layout information
   const buildLayout = useCallback( () => {
-    console.log( 'building layout...' )
     const $screen: HTMLDivElement | null = screenRef.current
     if( $screen === null ) { return }
     const { width, height, top, left } = $screen.getBoundingClientRect()

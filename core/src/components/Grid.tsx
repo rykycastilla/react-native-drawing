@@ -5,17 +5,21 @@ import { useGridDisplay, useGridService } from '@grid/hooks'
 import './Grid.css'
 
 interface GridProps {
-  amount?: number
+  amount: number | [ amountWidth:number, amountHeight:number ] | undefined
+  aspectRatio: number
   onLoad( loaded:boolean ): void
 }
 
 const Grid = ( props:GridProps ): ReactElement => {
 
-  const { amount = 0, onLoad } = props
-  const RESOLUTION = 450
+  const { amount = 0, aspectRatio, onLoad } = props
+  // Structuring cells amount
+  const [ widthAmount, heightAmount ] = ( typeof amount === 'number' ) ? [ amount, amount ] : amount
+  const resolutionWidth = 450
+  const resolutionHeight: number = resolutionWidth / aspectRatio
   const show: boolean = amount !== 0
-  const { gridDisplay, onCanvasCreate } = useGridDisplay( RESOLUTION )
-  const gridService: GridService | null = useGridService( amount, gridDisplay )
+  const { gridDisplay, onCanvasCreate } = useGridDisplay()
+  const gridService: GridService | null = useGridService( widthAmount, heightAmount, gridDisplay )
 
   useEffect( () => {
     if( gridService === null ) { return }
@@ -25,8 +29,8 @@ const Grid = ( props:GridProps ): ReactElement => {
   return (
     <CanvasDisplay
       className={ `${ !show ? 'grid-hidden' : '' }` }
-      width={ RESOLUTION }
-      height={ RESOLUTION }
+      width={ resolutionWidth }
+      height={ resolutionHeight }
       onLoad={ onLoad }
       onCanvasCreate={ onCanvasCreate } />
   )

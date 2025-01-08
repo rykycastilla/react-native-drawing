@@ -8,6 +8,7 @@ import { useTouchPosition } from '@touch/hooks'
 
 interface UseInteractionDepsArgs {
   resolution: number
+  aspectRatio: number
   viewportControlAllowed: boolean
   screenRef: MutableRefObject<HTMLDivElement|null>
 }
@@ -18,9 +19,9 @@ interface UseInteractionDepsResult {
 }
 
 export function useInteractionDeps( args:UseInteractionDepsArgs ): UseInteractionDepsResult {
-  const { resolution, viewportControlAllowed, screenRef } = args
+  const { resolution, aspectRatio, viewportControlAllowed, screenRef } = args
   const layout: ScreenLayout = useScreenLayout( screenRef )
-  const coordinatesService: CoordinatesService = useCoordinatesService( layout, resolution )
+  const coordinatesService: CoordinatesService = useCoordinatesService( layout, resolution, aspectRatio )
   const { touchService } = useTouchPosition( { viewportControlAllowed, screenRef } )
   return { coordinatesService, touchService }
 }

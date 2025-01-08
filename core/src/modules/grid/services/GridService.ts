@@ -6,13 +6,17 @@ export class GridService {
   public static readonly COLOR = 'black'
 
   constructor(
-    private readonly grid: number,
+    private readonly widthGrid: number,
+    private readonly heightGrid: number,
     private readonly display: Display,
   ) {}
 
   private hatch( axis:Orientation ) {
-    const gridSize: number = this.display.RESOLUTION / this.grid,
-      lastLine = this.grid,
+    const [ grid, resolution ] = ( axis === Orientation.HORIZONTAL )
+      ? [ this.heightGrid, this.display.height ]
+      : [ this.widthGrid, this.display.width ]
+    const gridSize: number = resolution / grid,
+      lastLine = grid,
       middleLine = GridService.WIDTH / 2
     for( let i = 0; i <= lastLine; i++ ) {
       let position: number = i * gridSize

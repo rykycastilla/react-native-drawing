@@ -10,9 +10,10 @@ import { InvalidGridError } from '../errors'  // eslint-disable-line
 
 export interface DrawProps {
   width?: ViewportWidth
+  aspectRatio?: number
   resolution: number
   color: string
-  grid?: number
+  grid?: number | [ number, number ]
   antialiasing?: boolean
   tool: Tool
   toolSize?: number
@@ -26,7 +27,7 @@ export interface DrawProps {
 */
 const Draw = ( props:DrawProps ): ReactElement => {
 
-  const { width = '100%', grid, onLoad, onEyeDropper } = props
+  const { width = '100%', aspectRatio = 1, grid, onLoad, onEyeDropper } = props
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = Hooks.useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
@@ -35,6 +36,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
   Hooks.useDrawState( webBridge, props )
   Hooks.useLoadEvent( webBridge, onLoad )
   Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )
+  const initAspectRatio: number = Hooks.useFreeze( aspectRatio )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent
@@ -45,6 +47,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
     <WebContainer
       ref={ webViewRef }
       width={ width }
+      aspectRatio={ initAspectRatio }
       source={ webSource }
       onLoad={ onLoadWebView }
       onMessage={ onMessage } />

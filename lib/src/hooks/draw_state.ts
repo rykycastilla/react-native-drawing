@@ -7,8 +7,9 @@ import { useSpryParticlesPropsDefinition } from './spry_particles_props_definiti
 
 export interface WebDrawProps {
   resolution: number
+  aspectRatio?: number
   color: string
-  grid?: number
+  grid?: number | [ number, number ]
   antialiasing?: boolean
   tool: Tool
   toolSize?: number
@@ -17,15 +18,15 @@ export interface WebDrawProps {
 
 export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawProps ) {
 
-  const { resolution, color, grid, antialiasing, tool, toolSize } = stateProps
+  const { resolution, aspectRatio = 1, color, grid, antialiasing, tool, toolSize } = stateProps
   const spryParticles: SpryParticlesProps =
     useSpryParticlesPropsDefinition( stateProps.spryParticles )
 
   useEffect( () => {
     if( webBridge === null ) { return }
     const state: DrawPropsDTO<Tool> =
-      { resolution, color, grid, antialiasing, tool, toolSize, spryParticles }
+      { resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, spryParticles }
     webBridge.postMessage( 'state-update', state )
-  }, [ webBridge, resolution, color, grid, antialiasing, tool, toolSize, spryParticles ] )
+  }, [ webBridge, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, spryParticles ] )
 
 }
