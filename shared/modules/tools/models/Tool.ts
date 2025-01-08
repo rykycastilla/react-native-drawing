@@ -2,7 +2,7 @@ export enum Tool {
   NONE,
   ZOOM,
   EYE_DROPPER,
-  Spry,
+  SPRY,
   SQUARE_DOT_PEN,
   DOT_PEN,
   TAPE,
