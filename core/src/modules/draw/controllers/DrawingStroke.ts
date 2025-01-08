@@ -1,5 +1,5 @@
-import { Stroke } from '../Stroke'
-import { StrokeProps } from '../../models'
+import { Stroke } from './Stroke'
+import { StrokeProps } from '../models'
 
 export class DrawingStroke extends Stroke<StrokeProps> {
   /** @protected */

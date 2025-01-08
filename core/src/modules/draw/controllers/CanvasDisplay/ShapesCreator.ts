@@ -1,5 +1,5 @@
 import { BinaryDisplay } from './BinaryDisplay'
-import { Shape } from './shapes'
+import { Shape } from '../shapes'
 
 export abstract class ShapesCreator extends BinaryDisplay {
 

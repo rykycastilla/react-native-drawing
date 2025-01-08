@@ -1,6 +1,6 @@
 import { DrawingBoard } from '../../models'
 import { EmptyDisplay } from './EmptyDisplay'
-import { Shape } from './shapes'
+import { Shape } from '../shapes'
 import { StrokesCreator } from './StrokesCreator'
 
 export class CanvasDisplay extends StrokesCreator implements DrawingBoard {

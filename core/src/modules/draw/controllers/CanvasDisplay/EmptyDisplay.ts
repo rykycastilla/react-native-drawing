@@ -1,7 +1,7 @@
 import { BinImage } from '../../models'
-import { ClearPath } from './ClearPath'
+import { ClearPath } from '../ClearPath'
 import { DrawingBoard } from '../../models'
-import { DrawingStroke } from './DrawingStroke'
+import { DrawingStroke } from '../DrawingStroke'
 
 export class EmptyDisplay implements DrawingBoard {
 

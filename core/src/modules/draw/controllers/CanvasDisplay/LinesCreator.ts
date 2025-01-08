@@ -1,5 +1,5 @@
 import { DotsCreator } from './DotsCreator'
-import { Line } from './shapes'
+import { Line } from '../shapes'
 
 export abstract class LinesCreator extends DotsCreator {
   public printLine( color:string, width:number, init:Pixel, end:Pixel ) {

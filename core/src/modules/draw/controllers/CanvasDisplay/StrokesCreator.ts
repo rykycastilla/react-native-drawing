@@ -1,8 +1,8 @@
-import { ClearPath } from './ClearPath'
+import { ClearPath } from '../ClearPath'
 import { ClearPathProps, StrokeProps } from '../../models'
-import { DrawingStroke } from './DrawingStroke'
+import { DrawingStroke } from '../DrawingStroke'
 import { LinesCreator } from './LinesCreator'
-import { StrokeManager } from './StrokeManager'
+import { StrokeManager } from '../StrokeManager'
 
 export abstract class StrokesCreator extends LinesCreator {
 

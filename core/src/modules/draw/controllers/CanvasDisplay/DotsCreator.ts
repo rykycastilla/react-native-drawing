@@ -1,4 +1,4 @@
-import { Dot, SquareDot } from './shapes'
+import { Dot, SquareDot } from '../shapes'
 import { ShapesCreator } from './ShapesCreator'
 
 export abstract class DotsCreator extends ShapesCreator {

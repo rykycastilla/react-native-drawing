@@ -1,5 +1,5 @@
-import { ClearPathProps } from '../../models'
-import { Stroke } from '../Stroke'
+import { ClearPathProps } from '../models'
+import { Stroke } from './Stroke'
 
 export class ClearPath extends Stroke<ClearPathProps> {
   /** @protected */
