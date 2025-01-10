@@ -1,68 +1,51 @@
-import { MessageManager } from './MessageManager'
+import { AnswerAck } from './AnswerAck'
+import { Codec } from './Codec'
+import { MessageEventSuscriber, Receiver } from './Receiver'
+import { MessageDTO } from './MessageDTO'
+import { MessageHandler } from './MessageEventDispatcher'
+import { ReceivedAck } from './ReceivedAck'
+import { SendDataFunction } from './SendDataFunction'
+import { Sender } from './Sender'
 
 export class MessageSystem {
 
-  private readonly manager: MessageManager
-  private receiveStructured: MessageReceiver | null = null
-  private readonly sendEncodedMessage: MessageEmitter
+  private readonly sender: Sender
+  private readonly receiver: Receiver
 
-  constructor(
-    suscribe:MessageEventSuscriber, sendMessage:MessageEmitter,
-    private readonly codec: Codec<MessageData>,
-  ) {
-    this.manager = new MessageManager(
-      ( receive:MessageReceiver ) => this.suscribe( receive ),
-      ( target:string, data:unknown ) => this.sendStructuredMessage( target, data ) )
-    this.sendEncodedMessage = sendMessage
-    suscribe( ( data:string ) => this.receiveEncoded( data ) )
+  constructor( suscribe:MessageEventSuscriber, sendData:SendDataFunction ) {
+    // Building codec
+    const codec = new Codec<MessageDTO>( ( struct:object ) => {
+      return MessageSystem.fixCodecStruct( struct )
+    } )
+    // Building ACKs
+    const receivedAck = new ReceivedAck( sendData )
+    const answerAck = new AnswerAck( sendData )
+    // Creating dependencies (both sides of Message System)
+    this.sender = new Sender( codec, receivedAck, answerAck, sendData )
+    this.receiver = new Receiver( codec, receivedAck, answerAck, suscribe )
   }
 
-  private suscribe( receive:MessageReceiver ) {
-    this.receiveStructured = receive
+  /**
+   * Send messages to the other side (ReactNative/WebView) and get back an answer
+  */
+  public postMessage( target:string, data:unknown ): Promise<unknown> {
+    return this.sender.postMessage( target, data )
   }
 
-  private receiveEncoded( encoded:string ) {
-    const structuredData: MessageData | null = this.codec.toData( encoded )
-    if( structuredData === null ) { return }
-    if( this.receiveStructured === null ) { return }
-    const { target, data } = structuredData
-    this.receiveStructured( target, data )
+  /**
+   * Listen messages from the other side (ReactNative/WebView)
+  */
+  public onMessage( target:string, handle:MessageHandler ) {
+    this.receiver.onMessage( target, handle )
   }
 
-  private sendStructuredMessage( target:string, data:unknown ) {
-    const structure: MessageData = { target, data }
-    const encoded: string = this.codec.toJSON( structure )
-    this.sendEncodedMessage( encoded )
+  private static fixCodecStruct( struct:object ): MessageDTO {
+    const { id, target, arg } = struct as { id:unknown, target:unknown, arg:unknown }
+    return {
+      id: ( typeof id === 'number' ) ? id : NaN,
+      target: ( typeof target === 'string' ) ? target : '',
+      arg,
+    }
   }
 
-  public postMessage( target:string, data:unknown ) {
-    this.manager.postMessage( target, data )
-  }
-
-  public onMessage( target:string, callback:( data:unknown )=>void ) {
-    this.manager.onMessage( target, callback )
-  }
-
-}
-
-interface MessageReceiver {
-  ( target: string, data:unknown ): void
-}
-
-interface MessageEmitter {
-  ( data:string ): void
-}
-
-interface MessageEventSuscriber {
-  ( receive:MessageEmitter ): void
-}
-
-interface Codec<T> {
-  toData( data:string ): T | null
-  toJSON( data:T ): string
-}
-
-export interface MessageData {
-  target: string
-  data: unknown
 }

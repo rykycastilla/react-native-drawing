@@ -1,7 +1,5 @@
-import { Codec } from '../shared/utils/Codec'
-import { MessageData, MessageSystem } from '../shared/utils/MessageSystem'
+import { MessageSystem } from '../shared/utils/MessageSystem'
 import { useCallback, useMemo, useState } from 'react'
-import { useMessageCodec } from './message_codec'
 
 type MessageCallback = ( message:string ) => void
 type Suscriber = ( callback:MessageCallback ) => void
@@ -14,7 +12,6 @@ interface UseWebBridgeResult {
 export function useWebBridge( suscribe:Suscriber, postMessage:MessageCallback ): UseWebBridgeResult {
 
   const [ ready, setReady ] = useState( false )
-  const messageCodec: Codec<MessageData> = useMessageCodec()
 
   const onLoadWebView = useCallback( () => {
     setReady( true )
@@ -22,8 +19,8 @@ export function useWebBridge( suscribe:Suscriber, postMessage:MessageCallback ):
 
   const webBridge: MessageSystem | null = useMemo( () => {
     if( !ready ) { return null }
-    return new MessageSystem( suscribe, postMessage, messageCodec )
-  }, [ ready, suscribe, postMessage, messageCodec ] )
+    return new MessageSystem( suscribe, postMessage )
+  }, [ ready, suscribe, postMessage ] )
 
   return { webBridge, onLoadWebView }
 
