@@ -8,11 +8,13 @@ export class CoordinatesService {
   }
 
   private layout: Layout | null = null
+  #resolutionWidth: number
+  #resolutionHeight: number
 
-  constructor(
-    private readonly resolutionWidth: number,
-    private readonly resolutionHeight: number,
-  ) {}
+  constructor( resolutionWidth:number, resolutionHeight:number ) {
+    this.#resolutionWidth = resolutionWidth
+    this.#resolutionHeight = resolutionHeight
+  }
 
   private fixAxis( resolution:number, axis:number, size:number, position:number ): number {
     const scale: number = resolution / size,
@@ -26,6 +28,22 @@ export class CoordinatesService {
     const x: number = this.fixAxis( this.resolutionWidth, externalX, width, left ),
       y = this.fixAxis( this.resolutionHeight, externalY, height, top )
     return { x, y }
+  }
+
+  get resolutionWidth(): number {
+    return this.#resolutionWidth
+  }
+
+  public setResolutionWidth( resolutionWidth:number ) {
+    this.#resolutionWidth = resolutionWidth
+  }
+
+  get resolutionHeight(): number {
+    return this.#resolutionHeight
+  }
+
+  public setResolutionHeight( resolutionHeight:number ) {
+    this.#resolutionHeight = resolutionHeight
   }
 
   public setLayout( layout:Layout ) {

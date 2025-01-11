@@ -36,7 +36,6 @@ const Draw = ( props:DrawProps ): ReactElement => {
   Hooks.useDrawState( webBridge, props )
   Hooks.useLoadEvent( webBridge, onLoad )
   Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )
-  const initAspectRatio: number = Hooks.useFreeze( aspectRatio )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent
@@ -47,7 +46,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
     <WebContainer
       ref={ webViewRef }
       width={ width }
-      aspectRatio={ initAspectRatio }
+      aspectRatio={ aspectRatio }
       source={ webSource }
       onLoad={ onLoadWebView }
       onMessage={ onMessage } />

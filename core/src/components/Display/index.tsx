@@ -23,8 +23,8 @@ const Display = forwardRef( ( props:DisplayProps, ref:ForwardedRef<DrawingServic
   return (
     <CanvasDisplay
       className={ antialiasing ? '' : 'pixelated' }
-      width={ resolution }
-      height={ resolution / aspectRatio }
+      resolution={ resolution }
+      aspectRatio={ aspectRatio }
       onLoad={ onLoad }
       onCanvasCreate={ loadDisplay } />
   )

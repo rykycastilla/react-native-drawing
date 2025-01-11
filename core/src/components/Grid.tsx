@@ -15,8 +15,7 @@ const Grid = ( props:GridProps ): ReactElement => {
   const { amount = 0, aspectRatio, onLoad } = props
   // Structuring cells amount
   const [ widthAmount, heightAmount ] = ( typeof amount === 'number' ) ? [ amount, amount ] : amount
-  const resolutionWidth = 450
-  const resolutionHeight: number = resolutionWidth / aspectRatio
+  const resolution = 450
   const show: boolean = amount !== 0
   const { gridDisplay, onCanvasCreate } = useGridDisplay()
   const gridService: GridService | null = useGridService( widthAmount, heightAmount, gridDisplay )
@@ -29,8 +28,8 @@ const Grid = ( props:GridProps ): ReactElement => {
   return (
     <CanvasDisplay
       className={ `${ !show ? 'grid-hidden' : '' }` }
-      width={ resolutionWidth }
-      height={ resolutionHeight }
+      resolution={ resolution }
+      aspectRatio={ aspectRatio }
       onLoad={ onLoad }
       onCanvasCreate={ onCanvasCreate } />
   )

@@ -4,17 +4,17 @@ import './styles.css'
 
 interface CanvasDisplayProps {
   className?: string
-  width: number
-  height: number
+  resolution: number
+  aspectRatio: number
   onLoad( loaded:boolean ): void
   onCanvasCreate( canvas:HTMLCanvasElement ): void
 }
 
 const CanvasDisplay = ( props:CanvasDisplayProps ): ReactElement => {
 
-  const { className = '', width, height, onLoad, onCanvasCreate } = props
+  const { className = '', resolution, aspectRatio, onLoad, onCanvasCreate } = props
   const displayRef = useRef<HTMLCanvasElement|null>( null )
-  useResolution( { width, height, displayRef } )
+  useResolution( { resolution, aspectRatio, displayRef } )
 
   useEffect( () => {
     onLoad( false )
