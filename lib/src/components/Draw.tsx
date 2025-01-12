@@ -1,12 +1,16 @@
 import WebContainer, { ViewportWidth } from './WebContainer'
 import * as Hooks from '../hooks'
-import { ReactElement, useCallback, useRef } from 'react'
+import { ForwardedRef, ReactElement } from 'react'
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
+import { IDraw } from '../shared/utils/types/IDraw'
 import { Tool } from '../shared/modules/tools/models'
 import { webSource } from '../utils/web_source'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 // @ts-expect-error - JSDoc Type
 import { InvalidGridError } from '../errors'  // eslint-disable-line
+
+interface Draw extends IDraw {}
 
 export interface DrawProps {
   width?: ViewportWidth
@@ -25,17 +29,22 @@ export interface DrawProps {
 /**
  * @throws { InvalidGridError }
 */
-const Draw = ( props:DrawProps ): ReactElement => {
+const Draw = forwardRef( ( props:DrawProps, ref:ForwardedRef<Draw|null> ): ReactElement => {
 
   const { width = '100%', aspectRatio = 1, grid, onLoad, onEyeDropper } = props
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = Hooks.useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
+  const draw: Draw = Hooks.useDraw( webBridge )
   Hooks.useGridGuard( grid )
   Hooks.useViewResizer( webBridge, width )
   Hooks.useDrawState( webBridge, props )
   Hooks.useLoadEvent( webBridge, onLoad )
   Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )
+
+  useImperativeHandle( ref, () => {
+    return draw
+  }, [ draw ] )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent
@@ -52,6 +61,6 @@ const Draw = ( props:DrawProps ): ReactElement => {
       onMessage={ onMessage } />
   )
 
-}
+} )
 
 export default Draw

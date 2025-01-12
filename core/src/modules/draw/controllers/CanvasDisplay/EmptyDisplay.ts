@@ -25,6 +25,14 @@ export class EmptyDisplay implements DrawingBoard {
     return { width:0, height:0, pixelList, colorChanels:0, maxChanel:0 }
   }
 
+  get image(): string {
+    return ''
+  }
+
+  public setImage( image:string ) {
+    image
+  }
+
   get width(): number {
     return 0
   }

@@ -1,3 +1,4 @@
+export * from './draw'
 export * from './draw_state'
 export * from './edge_dropper_event'
 export * from './grid_guard'

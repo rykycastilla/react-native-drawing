@@ -15,4 +15,13 @@ export class DrawingService {
     tool.addStrokePoint( x, y, strokeId, this.board )
   }
 
+  get image(): string {
+    console.log( this.board )
+    return this.board.image
+  }
+
+  public setImage( image:string ) {
+    this.board.setImage( image )
+  }
+
 }

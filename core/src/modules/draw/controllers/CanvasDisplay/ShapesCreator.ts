@@ -1,7 +1,7 @@
-import { BinaryDisplay } from './BinaryDisplay'
+import { Base64Display } from './Base64Display'
 import { Shape } from '../shapes'
 
-export abstract class ShapesCreator extends BinaryDisplay {
+export abstract class ShapesCreator extends Base64Display {
 
   protected abstract shapeList: Shape[]
 

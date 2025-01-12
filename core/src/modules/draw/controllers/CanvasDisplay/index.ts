@@ -16,18 +16,26 @@ export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
     this.scene()
   }
 
-  private render() {
+  private async render() {
+    // Rendering only base64
+    const baseRendered: boolean = await this.renderBase()
+    if( baseRendered ) {
+      this.cleanStrokes()
+      return
+    }
+    // Rendering only binary changes
     const binaryRendered: boolean = this.renderImage()
     if( binaryRendered ) {
       this.cleanStrokes()
       return
     }
+    // Rendering normal flow
     this.renderStrokes()
     this.renderShapes()
   }
 
-  private scene() {
-    this.render()
+  private async scene() {
+    await this.render()
     requestAnimationFrame( () => this.scene() )
   }
 
