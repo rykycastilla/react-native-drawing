@@ -5,7 +5,14 @@ export class DrawingService {
 
   constructor(
     private readonly board: DrawingBoard,
+    private readonly createEmptyImage: CreateEmptyImageFunction,
   ) {}
+
+  public clear( color?:string ) {
+    const { width, height } = this.board
+    const image: string = this.createEmptyImage( width, height, color )
+    this.board.setImage( image )
+  }
 
   public stopStroke( x:number, y:number, strokeId:symbol, tool:ITool ) {
     tool.endShapeStroke( x, y, strokeId, this.board )
@@ -24,4 +31,8 @@ export class DrawingService {
     this.board.setImage( image )
   }
 
+}
+
+interface CreateEmptyImageFunction {
+  ( width:number, height:number, color?:string ): string
 }

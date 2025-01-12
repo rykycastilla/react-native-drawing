@@ -7,11 +7,15 @@ export class DrawController implements IDraw {
     private readonly drawingServiceRef: DrawingServiceRef,
   ) {}
 
+  public async clear( color?:string ) {
+    this.drawingService.clear( color )
+  }
+
   public async getImage(): Promise<string> {
     return this.drawingService.image
   }
 
-  public async setImage( image:string ): Promise<void> {
+  public async setImage( image:string ) {
     this.drawingService.setImage( image )
   }
 
