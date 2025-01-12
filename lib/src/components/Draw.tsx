@@ -1,8 +1,9 @@
 import WebContainer, { ViewportWidth } from './WebContainer'
 import * as Hooks from '../hooks'
+import { DEFAULT_ASPECT_RATIO } from '../constants'
 import { ForwardedRef, ReactElement } from 'react'
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
-import { IDraw } from '../shared/utils/types/IDraw'
+import { IDraw } from '../services/Draw'
 import { Tool } from '../shared/modules/tools/models'
 import { webSource } from '../utils/web_source'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
@@ -31,11 +32,11 @@ export interface DrawProps {
 */
 const Draw = forwardRef( ( props:DrawProps, ref:ForwardedRef<Draw|null> ): ReactElement => {
 
-  const { width = '100%', aspectRatio = 1, grid, onLoad, onEyeDropper } = props
+  const { width = '100%', aspectRatio = DEFAULT_ASPECT_RATIO, grid, onLoad, onEyeDropper } = props
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = Hooks.useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
-  const draw: Draw = Hooks.useDraw( webBridge )
+  const draw: Draw = Hooks.useDraw( webBridge, props )
   Hooks.useGridGuard( grid )
   Hooks.useViewResizer( webBridge, width )
   Hooks.useDrawState( webBridge, props )

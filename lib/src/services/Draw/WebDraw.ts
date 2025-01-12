@@ -1,8 +1,8 @@
-import { IDraw } from '../../shared/utils/types/IDraw'
+import { IWebDraw } from '../../shared/utils/types/IWebDraw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
 import { WebBridgeLoader } from './WebBridgeLoader'
 
-export class Draw extends WebBridgeLoader implements IDraw {
+export class WebDraw extends WebBridgeLoader implements IWebDraw {
 
   public async clear( color?:string ): Promise<void> {
     const webBridge: MessageSystem = await this.webBridgeLoaded

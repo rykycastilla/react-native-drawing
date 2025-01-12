@@ -1,7 +1,7 @@
 import { DrawingService } from '../services'
-import { IDraw } from '@shared/utils/types/IDraw'
+import { IWebDraw } from '@shared/utils/types/IWebDraw'
 
-export class DrawController implements IDraw {
+export class DrawController implements IWebDraw {
 
   constructor(
     private readonly drawingServiceRef: DrawingServiceRef,
