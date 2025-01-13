@@ -1,49 +1,32 @@
-import { BinImage, DrawingScene } from '@draw/models'
+import { DrawingScene } from '@draw/models'
 import { ColorFilter } from '../ColorFilter'
 import { ColorableTool } from '../ColorableTool'
-import { FillerUtil, FillerUtilClass } from '../FillerUtilClass'
 import { Tool } from './Tool'
 
 export class Filler extends Tool implements ColorableTool {
 
-  private currentUtil: FillerUtil | null = null
-  private filling: Promise<void> | null = null
   #color: string
 
   constructor(
     color:string,
-    private readonly FillerUtil: FillerUtilClass,
+    private readonly fillerQueue: FillerQueue,
     private readonly filterColor: ColorFilter,
   ) {
     super()
     this.#color = this.filterColor( color )
   }
 
-  private work( x:number, y:number, scene:DrawingScene ): Promise<void> {
-    const { width, height, pixelList } = scene.getBinaryData()
-    const util = new this.FillerUtil( width, height )
-    this.currentUtil = util
-    util.onFrame( ( image:BinImage ) => scene.setBinaryData( image ) )
-    return util.fill( x, y, this.color, pixelList )
-  }
-
-  override addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
+  override async addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
-    // Filtering if it is filling right now
-    if( this.filling !== null ) { return }
-    const task: Promise<void> = this.work( x, y, scene )
-    // Remember to forget the state when the task is terminated
-    task.then( () => this.filling = null )
-    task.catch( () => this.filling = null )
-    this.filling = task  // Saving current task state
+    const { color } = this
+    this.fillerQueue.enqueueTask( { x, y, color, scene } )
   }
 
   /**
    * Stops the current filling task
   */
   override stopUsing() {
-    if( ( this.currentUtil === null ) || ( this.filling === null ) ) { return }
-    this.currentUtil.stop( this.filling )
+    this.fillerQueue.stopTasks()
   }
 
   public setColor( color:string ) {
@@ -55,4 +38,16 @@ export class Filler extends Tool implements ColorableTool {
     return this.#color
   }
 
+}
+
+export interface FillerArgs {
+  x: number
+  y: number
+  color: string
+  scene: DrawingScene
+}
+
+interface FillerQueue {
+  enqueueTask( args:FillerArgs ): void
+  stopTasks(): void
 }

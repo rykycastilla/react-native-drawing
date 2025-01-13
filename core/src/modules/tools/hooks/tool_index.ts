@@ -1,12 +1,11 @@
 import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, ITool, Pencil } from '../models'
 import { exposeColorToRN, fadeColor, filterColorAlpha } from '../controllers'
-import { Filler as FillerUtil } from '@utils/Filler'
+import { FillerQueue, Viewport } from '../services'
 import { ResizableTool, Spry, SquareDotPen, Tape, Zoom } from '../models'
 import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
 import { useFreeze } from '@hooks'
-import { Viewport } from '../services'
 
 function useColorStateSetter( tool:ColorableTool, color:string ) {
   useEffect( () => {
@@ -131,7 +130,8 @@ function useFiller( color:string ): Filler {
   const initColor: string = useFreeze( color )
 
   const filler = useMemo( () => {
-    return new Filler( initColor, FillerUtil, filterColorAlpha )
+    const fillerQueue = new FillerQueue()
+    return new Filler( initColor, fillerQueue, filterColorAlpha )
   }, [ initColor ] )
 
   useColorStateSetter( filler, color )

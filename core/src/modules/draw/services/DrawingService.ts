@@ -23,7 +23,6 @@ export class DrawingService {
   }
 
   get image(): string {
-    console.log( this.scene )
     return this.scene.image
   }
 
