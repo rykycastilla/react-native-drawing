@@ -8,7 +8,7 @@ export class DrawController implements IWebDraw {
   ) {}
 
   public async clear( color?:string ) {
-    this.drawingService.clear( color )
+    await this.drawingService.clear( color )
   }
 
   public async getImage(): Promise<string> {
@@ -16,7 +16,7 @@ export class DrawController implements IWebDraw {
   }
 
   public async setImage( image:string ) {
-    this.drawingService.setImage( image )
+    await this.drawingService.setImage( image )
   }
 
   private get drawingService(): DrawingService {

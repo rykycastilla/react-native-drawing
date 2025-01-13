@@ -29,7 +29,7 @@ export class EmptyDisplay implements DrawingBoard {
     return ''
   }
 
-  public setImage( image:string ) {
+  public async setImage( image:string ) {
     image
   }
 

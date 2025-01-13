@@ -16,12 +16,9 @@ export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
     this.scene()
   }
 
-  private async render() {
-    // Rendering only base64
-    const baseRendered: boolean = await this.renderBase()
-    if( baseRendered ) {
-      this.cleanStrokes()
-      return
+  private render() {
+    if( this.contextIsCaptured ) {
+      this.cleanStrokes()  // Excluding previous strokes (simulating a 'new context')
     }
     // Rendering only binary changes
     const binaryRendered: boolean = this.renderImage()
@@ -32,10 +29,14 @@ export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
     // Rendering normal flow
     this.renderStrokes()
     this.renderShapes()
+    // Allowing rendering again after context capturing
+    if( this.contextIsCaptured ) {
+      this.releaseContext()
+    }
   }
 
-  private async scene() {
-    await this.render()
+  private scene() {
+    this.render()
     requestAnimationFrame( () => this.scene() )
   }
 

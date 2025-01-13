@@ -1,30 +1,46 @@
 import { BinaryDisplay } from './BinaryDisplay'
+import { ContextCapturer } from '../ContextCapturer'
 
+/**
+ * This object can get and set base64 information of a canvas with 'scene strategy'
+*/
 export abstract class Base64Display extends BinaryDisplay {
 
-  private cachedBase: string | null = null
+  protected abstract context: CanvasRenderingContext2D
+  private readonly contextCapturer: ContextCapturer
 
-  /**
-   * @returns { boolean } - If the image was rendered (changes detected)
-  */
-  protected async renderBase(): Promise<boolean> {
-    if( this.cachedBase === null ) { return false }
-    // Erasing previous display content
-    const { width, height } = this.canvas
-    this.context.clearRect( 0, 0, width, height )
-    // Rendering new content
-    const image: HTMLImageElement = await Base64Display.createImage( this.cachedBase )
-    this.context.drawImage( image, 0, 0 )
-    this.cachedBase = null
-    return true
+  constructor() {
+    super()
+    this.contextCapturer = new ContextCapturer(
+      () => this.context,
+      ( context:CanvasRenderingContext2D ) => this.context = context )
+  }
+
+  protected releaseContext() {
+    this.contextCapturer.releaseContext()
   }
 
   get image(): string {
     return this.canvas.toDataURL()
   }
 
-  public setImage( image:string ) {
-    this.cachedBase = image
+  /**
+   * Set a new base64 image to the display, stopping all the renderable processes.
+   * @returns - A promise that indicates the next frame occurs.
+   * The display only can render data after next frame from the base64 set action
+  */
+  public async setImage( base64:string ) {
+    // Erasing previous display content
+    const { width, height } = this.canvas
+    this.context.clearRect( 0, 0, width, height )
+    // Rendering new content
+    const image: HTMLImageElement = await Base64Display.createImage( base64 )
+    this.context.drawImage( image, 0, 0 )
+    await this.contextCapturer.caputreContext()
+  }
+
+  protected get contextIsCaptured(): boolean {
+    return this.contextCapturer.contextIsCaptured
   }
 
   /**

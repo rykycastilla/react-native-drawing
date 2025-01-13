@@ -8,10 +8,10 @@ export class DrawingService {
     private readonly createEmptyImage: CreateEmptyImageFunction,
   ) {}
 
-  public clear( color?:string ) {
+  public async clear( color?:string ) {
     const { width, height } = this.board
     const image: string = this.createEmptyImage( width, height, color )
-    this.board.setImage( image )
+    await this.board.setImage( image )
   }
 
   public stopStroke( x:number, y:number, strokeId:symbol, tool:ITool ) {
@@ -27,8 +27,8 @@ export class DrawingService {
     return this.board.image
   }
 
-  public setImage( image:string ) {
-    this.board.setImage( image )
+  public async setImage( image:string ) {
+    await this.board.setImage( image )
   }
 
 }

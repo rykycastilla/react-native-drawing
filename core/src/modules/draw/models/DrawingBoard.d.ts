@@ -5,7 +5,7 @@ export interface DrawingBoard {
   width: number
   height: number
   image: string
-  setImage( image:string ): void
+  setImage( image:string ): Promise<void>
   createDot( x:number, y:number, width:number, color:string, isSquare:boolean ): void
   printLine( color:string, width:number, init:Pixel, end:Pixel ): void
   createStroke( x:number, y:number, props:StrokeProps ): Stroke<StrokeProps>

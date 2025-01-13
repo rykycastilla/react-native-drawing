@@ -26,13 +26,13 @@ export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
   useEffect( () => {
     if( drawController === null ) { return }
     RNBridge.onMessage( 'draw-clear', async( color:unknown ) => {
-      return drawController.clear( color as string | undefined )
+      await drawController.clear( color as string | undefined )
     } )
     RNBridge.onMessage( 'draw-get-image', async() => {
       return drawController.getImage()
     } )
     RNBridge.onMessage( 'draw-set-image', async( image:unknown ) => {
-      drawController.setImage( image as string )
+      await drawController.setImage( image as string )
     } )
   }, [ drawController ] )
 
