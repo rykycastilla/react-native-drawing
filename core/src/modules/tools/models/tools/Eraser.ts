@@ -1,4 +1,4 @@
-import { ClearPathProps, DrawingBoard, Stroke } from '@draw/models'
+import { ClearPathProps, DrawingScene, Stroke } from '@draw/models'
 import { ResizableTool } from '../ResizableTool'
 import { StrokeTool } from './StrokeTool'
 
@@ -12,8 +12,8 @@ export class Eraser extends StrokeTool<ClearPathProps> implements ResizableTool 
   }
 
   /** @protected */
-  override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<ClearPathProps> {
-    return board.createClearPath( x, y, { width:this.size } )
+  override createStroke( x:number, y:number, scene:DrawingScene ): Stroke<ClearPathProps> {
+    return scene.createClearPath( x, y, { width:this.size } )
   }
 
   /** @protected */

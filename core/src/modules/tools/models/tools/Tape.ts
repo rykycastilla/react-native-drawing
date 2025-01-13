@@ -1,4 +1,4 @@
-import { DrawingBoard } from '@draw/models'
+import { DrawingScene } from '@draw/models'
 import { ColorableTool } from '../ColorableTool'
 import { ResizableTool } from '../ResizableTool'
 import { Tool } from './Tool'
@@ -19,19 +19,19 @@ export class Tape extends Tool implements ColorableTool, ResizableTool {
     this.#size = size
   }
 
-  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     const latestPixel: Pixel | undefined = this.latestPixelIndex[ strokeId ]
     const newPixel: Pixel = [ x, y ]
     this.latestPixelIndex[ strokeId ] = newPixel
     if( latestPixel === undefined ) { return }
-    board.printLine( this.color, this.size, latestPixel, newPixel )
+    scene.printLine( this.color, this.size, latestPixel, newPixel )
   }
 
-  override endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override endShapeStroke( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     const [ latestX, latestY ] = this.latestPixelIndex[ strokeId ] ?? []
     if( ( latestX === undefined ) || ( latestY === undefined ) ) { return }
     if( ( latestX !== x ) || ( latestY !== y ) ) {
-      board.printLine( this.color, this.size, [ latestX, latestY ], [ x, y ] )
+      scene.printLine( this.color, this.size, [ latestX, latestY ], [ x, y ] )
     }
     delete this.latestPixelIndex[ strokeId ]
   }

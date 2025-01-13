@@ -1,4 +1,4 @@
-import { BinImage, DrawingBoard } from '@draw/models'
+import { BinImage, DrawingScene } from '@draw/models'
 import { ColorFilter } from '../ColorFilter'
 import { ColorableTool } from '../ColorableTool'
 import { FillerUtil, FillerUtilClass } from '../FillerUtilClass'
@@ -19,19 +19,19 @@ export class Filler extends Tool implements ColorableTool {
     this.#color = this.filterColor( color )
   }
 
-  private work( x:number, y:number, board:DrawingBoard ): Promise<void> {
-    const { width, height, pixelList } = board.getBinaryData()
+  private work( x:number, y:number, scene:DrawingScene ): Promise<void> {
+    const { width, height, pixelList } = scene.getBinaryData()
     const util = new this.FillerUtil( width, height )
     this.currentUtil = util
-    util.onFrame( ( image:BinImage ) => board.setBinaryData( image ) )
+    util.onFrame( ( image:BinImage ) => scene.setBinaryData( image ) )
     return util.fill( x, y, this.color, pixelList )
   }
 
-  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
     // Filtering if it is filling right now
     if( this.filling !== null ) { return }
-    const task: Promise<void> = this.work( x, y, board )
+    const task: Promise<void> = this.work( x, y, scene )
     // Remember to forget the state when the task is terminated
     task.then( () => this.filling = null )
     task.catch( () => this.filling = null )

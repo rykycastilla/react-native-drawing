@@ -1,7 +1,11 @@
 import { BinImage } from './BinImage'
 import { Stroke } from './Stroke'
 
-export interface DrawingBoard {
+/**
+ * An interface representing an object that performs graphicall and drawing actions
+ * in every display frame
+*/
+export interface DrawingScene {
   width: number
   height: number
   image: string
@@ -11,7 +15,7 @@ export interface DrawingBoard {
   createStroke( x:number, y:number, props:StrokeProps ): Stroke<StrokeProps>
   createClearPath( x:number, y:number, props:ClearPathProps ): Stroke<ClearPathProps>
   getBinaryData(): BinImage
-  setBinaryData( image:BinData ): void
+  setBinaryData( image:BinImage ): void
 }
 
 type Pixel = [ x:number, y:number ]

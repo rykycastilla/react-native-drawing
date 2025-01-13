@@ -1,9 +1,13 @@
-import { DrawingBoard } from '../../models'
+import { DrawingScene } from '../../models'
 import { EmptyDisplay } from './EmptyDisplay'
 import { Shape } from '../shapes'
 import { StrokesCreator } from './StrokesCreator'
 
-export class CanvasDisplay extends StrokesCreator implements DrawingBoard {
+/**
+ * It has thet implementation of a canvas display abstraction that cached every action and render it
+ * automatically when the next frame occurs
+*/
+export class SceneDisplay extends StrokesCreator implements DrawingScene {
 
   override shapeList: Shape[] = []
   override readonly context: CanvasRenderingContext2D

@@ -1,6 +1,6 @@
 import { ColorFilter } from '../ColorFilter'
 import { ColorableTool } from '../ColorableTool'
-import { DrawingBoard, Stroke, StrokeProps } from '@draw/models'
+import { DrawingScene, Stroke, StrokeProps } from '@draw/models'
 import { ResizableTool } from '../ResizableTool'
 import { StrokeTool } from './StrokeTool'
 
@@ -18,8 +18,8 @@ export class Pencil extends StrokeTool<StrokeProps> implements ColorableTool, Re
   }
 
   /** @protected */
-  override createStroke( x:number, y:number, board:DrawingBoard ): Stroke<StrokeProps> {
-    return board.createStroke( x, y, { color:this.color, width:this.size } )
+  override createStroke( x:number, y:number, scene:DrawingScene ): Stroke<StrokeProps> {
+    return scene.createStroke( x, y, { color:this.color, width:this.size } )
   }
 
   /** @protected */

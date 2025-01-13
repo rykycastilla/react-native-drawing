@@ -1,4 +1,4 @@
-import { DrawingBoard } from '@draw/models'
+import { DrawingScene } from '@draw/models'
 import { Tool } from './Tool'
 
 export class EyeDropper extends Tool {
@@ -7,9 +7,9 @@ export class EyeDropper extends Tool {
     private readonly exposeColor: ExposeColorFunction,
   ) { super() }
 
-  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
-    const { width, pixelList, colorChanels, maxChanel } = board.getBinaryData()
+    const { width, pixelList, colorChanels, maxChanel } = scene.getBinaryData()
     const baseIndex: number = EyeDropper.calcIndex( x, y, width ) * colorChanels,
       red = pixelList[ baseIndex + 0 ]!,
       green = pixelList[ baseIndex + 1 ]!,

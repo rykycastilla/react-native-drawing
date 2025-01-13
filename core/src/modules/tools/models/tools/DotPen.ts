@@ -1,4 +1,4 @@
-import { DrawingBoard } from '@draw/models'
+import { DrawingScene } from '@draw/models'
 import { ColorableTool } from '../ColorableTool'
 import { ResizableTool } from '../ResizableTool'
 import { Tool } from './Tool'
@@ -18,17 +18,17 @@ export class DotPen extends Tool implements ColorableTool, ResizableTool {
     this.#size = size
   }
 
-  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
     this.latestPoint = `${ x };${ y }`
-    board.createDot( x, y, this.size, this.color, this.IS_SQUARE )
+    scene.createDot( x, y, this.size, this.color, this.IS_SQUARE )
   }
 
-  override endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override endShapeStroke( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
     const thisPoint = `${ x };${ y }`
     if( thisPoint !== this.latestPoint ) {
-      board.createDot( x, y, this.size, this.color, this.IS_SQUARE )
+      scene.createDot( x, y, this.size, this.color, this.IS_SQUARE )
     }
     this.latestPoint = null
   }

@@ -1,16 +1,16 @@
-import { DrawingBoard, Stroke } from '@draw/models'
+import { DrawingScene, Stroke } from '@draw/models'
 import { Tool } from './Tool'
 
 export abstract class StrokeTool<T extends object> extends Tool {
 
   private readonly strokeIndex: Record<symbol,Stroke<T>> = {}
 
-  protected abstract createStroke( x:number, y:number, board:DrawingBoard ): Stroke<T>
+  protected abstract createStroke( x:number, y:number, scene:DrawingScene ): Stroke<T>
   protected abstract updateProps( stroke:Stroke<T> ): void
 
-  override addStrokePoint ( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint ( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     if( this.strokeIndex[ strokeId ] === undefined ) {
-      const stroke: Stroke<T> = this.createStroke( x, y, board )
+      const stroke: Stroke<T> = this.createStroke( x, y, scene )
       this.strokeIndex[ strokeId ] = stroke
       stroke.onStop( () => delete this.strokeIndex[ strokeId ] )
     }
@@ -21,8 +21,8 @@ export abstract class StrokeTool<T extends object> extends Tool {
     }
   }
 
-  override endShapeStroke( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
-    this.addStrokePoint( x, y, strokeId, board )
+  override endShapeStroke( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
+    this.addStrokePoint( x, y, strokeId, scene )
     const stroke: Stroke<T> | undefined = this.strokeIndex[ strokeId ]
     if( stroke === undefined ) { return }
     stroke.stop()

@@ -1,6 +1,6 @@
-import { DrawingBoard } from '@draw/models'
+import { DrawingScene } from '@draw/models'
 import { DrawingService } from '@draw/services'
-import { useDrawingBoard, useDrawingService } from '@draw/hooks'
+import { useDrawingScene, useDrawingService } from '@draw/hooks'
 import { useCallback, useState } from 'react'
 
 interface UseDrawingDepsResult {
@@ -11,8 +11,8 @@ interface UseDrawingDepsResult {
 export function useDrawingDeps(): UseDrawingDepsResult {
 
   const [ canvas, setCanvas ] = useState<HTMLCanvasElement|null>( null )
-  const drawingBoard: DrawingBoard = useDrawingBoard( canvas )
-  const drawingService: DrawingService = useDrawingService( drawingBoard )
+  const DrawingScene: DrawingScene = useDrawingScene( canvas )
+  const drawingService: DrawingService = useDrawingService( DrawingScene )
 
   const loadDisplay = useCallback( ( canvas:HTMLCanvasElement ) => {
     setCanvas( canvas )

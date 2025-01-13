@@ -1,4 +1,4 @@
-import { DrawingBoard } from '@draw/models'
+import { DrawingScene } from '@draw/models'
 import { ColorableTool } from '../ColorableTool'
 import { ResizableTool } from '../ResizableTool'
 import { Tool } from './Tool'
@@ -38,14 +38,14 @@ export class Spry extends Tool implements ColorableTool, ResizableTool {
     return { x, y }
   }
 
-  override addStrokePoint( x:number, y:number, strokeId:symbol, board:DrawingBoard ) {
+  override addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
-    const { width, height } = board
+    const { width, height } = scene
     const particleSize: number = this.calcParticleSize( width, height )
     const center: Pixel = { x, y }
     for( let i = 0; i < this.particlesAmount; i++ ) {
       const particle: Pixel = this.getRandomPixelAround( center )
-      board.createDot( particle.x, particle.y, particleSize, this.color, true )
+      scene.createDot( particle.x, particle.y, particleSize, this.color, true )
     }
   }
 

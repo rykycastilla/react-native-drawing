@@ -1,10 +1,10 @@
 import { createEmptyImage } from '../controllers'
-import { DrawingBoard } from '../models/DrawingBoard'
+import { DrawingScene } from '../models/DrawingScene'
 import { DrawingService } from '../services'
 import { useMemo } from 'react'
 
-export function useDrawingService( board:DrawingBoard ): DrawingService {
+export function useDrawingService( scene:DrawingScene ): DrawingService {
   return useMemo( () => {
-    return new DrawingService( board, createEmptyImage )
-  }, [ board ] )
+    return new DrawingService( scene, createEmptyImage )
+  }, [ scene ] )
 }

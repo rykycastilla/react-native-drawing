@@ -1,9 +1,9 @@
 import { BinImage } from '../../models'
 import { ClearPath } from '../ClearPath'
-import { DrawingBoard } from '../../models'
+import { DrawingScene } from '../../models'
 import { DrawingStroke } from '../DrawingStroke'
 
-export class EmptyDisplay implements DrawingBoard {
+export class EmptyDisplay implements DrawingScene {
 
   private readonly canvas: HTMLCanvasElement = document.createElement( 'canvas' )
   private readonly context: CanvasRenderingContext2D = this.canvas.getContext( '2d' )!
