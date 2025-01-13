@@ -36,11 +36,11 @@ const Draw = forwardRef( ( props:DrawProps, ref:ForwardedRef<Draw|null> ): React
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = Hooks.useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
-  const draw: Draw = Hooks.useDraw( webBridge, props )
+  const { draw, onLoad:onLoadWebBridge } = Hooks.useDraw( props )
   Hooks.useGridGuard( grid )
   Hooks.useViewResizer( webBridge, width )
   Hooks.useDrawState( webBridge, props )
-  Hooks.useLoadEvent( webBridge, onLoad )
+  Hooks.useLoadEvent( { webBridge:webBridge!, onLoad, onLoadWebBridge } )
   Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )
 
   useImperativeHandle( ref, () => {

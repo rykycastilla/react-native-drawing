@@ -4,21 +4,28 @@ import { useEffect, useMemo, useState } from 'react'
 
 type FunctionVoid = () => void
 
-function useLoadHandlerRef( onLoad:FunctionVoid|undefined ): Ref<FunctionVoid|undefined> {
+function useRef<T>( value:T ): Ref<T> {
 
-  const loadHandlerRef: Ref<FunctionVoid|undefined> = useMemo( () => {
-    return new Ref<FunctionVoid|undefined>( undefined )
-  }, [] )
+  const ref: Ref<T> = useMemo( () => {
+    return new Ref<T>( value )
+  }, [] )  // eslint-disable-line
 
   useEffect( () => {
-    loadHandlerRef.setValue( onLoad )
-  }, [ loadHandlerRef, onLoad ] )
+    ref.setValue( value )
+  }, [ ref, value ] )
 
-  return loadHandlerRef
+  return ref
 
 }
 
-async function waitLoadEvent( webBridge:MessageSystem, loadHandlerRef:Ref<FunctionVoid|undefined> ) {
+interface WaitLoadEventArgs {
+  webBridge: MessageSystem
+  loadHandlerRef: Ref<FunctionVoid|undefined>
+  loadWebBridgeHandlerRef: Ref<( webBridge:MessageSystem ) => void>
+}
+
+async function waitLoadEvent( args:WaitLoadEventArgs ) {
+  const { webBridge, loadHandlerRef, loadWebBridgeHandlerRef } = args
   const loaded = new Promise( ( resolve ) => {
     webBridge.onMessage( 'loaded', resolve )
   } )
@@ -26,18 +33,27 @@ async function waitLoadEvent( webBridge:MessageSystem, loadHandlerRef:Ref<Functi
   const onLoad: FunctionVoid | undefined = loadHandlerRef.current
   if( onLoad === undefined ) { return }
   onLoad()
+  loadWebBridgeHandlerRef.current( webBridge )
 }
 
-export function useLoadEvent( webBridge:MessageSystem|null, onLoad:FunctionVoid|undefined ) {
+interface UseLoadEventArgs {
+  webBridge: MessageSystem
+  onLoad: FunctionVoid | undefined
+  onLoadWebBridge( webBridge:MessageSystem ): void
+}
 
+export function useLoadEvent( args:UseLoadEventArgs ) {
+
+  const { webBridge, onLoad, onLoadWebBridge } = args
   const [ eventSuscribed, setEventSuscribed ] = useState( false )
-  const loadHandlerRef: Ref<FunctionVoid|undefined> = useLoadHandlerRef( onLoad )
+  const loadHandlerRef = useRef( onLoad )
+  const loadWebBridgeHandlerRef = useRef( onLoadWebBridge )
 
   useEffect( () => {
     if( webBridge === null ) { return }
     if( eventSuscribed ) { return }
-    waitLoadEvent( webBridge, loadHandlerRef )
+    waitLoadEvent( { webBridge, loadHandlerRef, loadWebBridgeHandlerRef } )
     setEventSuscribed( true )
-  }, [ webBridge, eventSuscribed, loadHandlerRef ] )
+  }, [ webBridge, eventSuscribed, loadHandlerRef, loadWebBridgeHandlerRef ] )
 
 }
