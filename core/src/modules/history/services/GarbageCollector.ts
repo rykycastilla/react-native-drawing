@@ -1,8 +1,14 @@
 import { IGarbageCollector } from '../models'
 
+/**
+ * Gets access to a 'memory' array and delete random elements of it
+ * when the mmeory top is exceed
+*/
 export class GarbageCollector implements IGarbageCollector {
 
+  /** Areas in which the memory is divided and its probabilites to to be deleted an own element */
   private static readonly MEMORY_AREA_PROBABILITIES = [ 9, 8, 7, 6, 5, 4, 0 ]
+
   public readonly maxLength: number
 
   constructor(
@@ -11,6 +17,9 @@ export class GarbageCollector implements IGarbageCollector {
     private readonly getMemory: MemoryGetter,
   ) { this.maxLength = Math.floor( MEMORY_CAP / ITEM_MEMORY ) }
 
+  /**
+   * Delete the index element in the memory
+  */
   private deleteMemoryItem( i:number ) {
     this.memory.splice( i, 1 )
   }
@@ -44,12 +53,18 @@ export class GarbageCollector implements IGarbageCollector {
     return [ from, to ]
   }
 
+  /**
+   * Delete a random element (with the area probabilities)
+  */
   private deleteData() {
     const [ from, to ] = this.getRandomArea()
     const dataIndex: number = GarbageCollector.genRandomInRange( from, to )
     this.deleteMemoryItem( dataIndex )
   }
 
+  /**
+   * Runs the garbage collector an oly deletes an element if it is neccesary
+  */
   public collect() {
     while( this.memory.length >= this.maxLength ) {
       this.deleteData()
@@ -65,6 +80,9 @@ export class GarbageCollector implements IGarbageCollector {
     return memory.length * this.ITEM_MEMORY
   }
 
+  /**
+   * Generates a random integer number between the provided range
+  */
   private static genRandomInRange( from:number, to:number ): number {
     const range: number = to - from
     const random: number = from + range * Math.random()
