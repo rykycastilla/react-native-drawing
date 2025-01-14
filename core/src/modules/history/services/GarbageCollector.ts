@@ -1,7 +1,9 @@
-export class GarbageCollector {
+import { IGarbageCollector } from '../models'
+
+export class GarbageCollector implements IGarbageCollector {
 
   private static readonly MEMORY_AREA_PROBABILITIES = [ 9, 8, 7, 6, 5, 4, 0 ]
-  private readonly maxLength: number
+  public readonly maxLength: number
 
   constructor(
     MEMORY_CAP:number,
@@ -42,7 +44,7 @@ export class GarbageCollector {
     return [ from, to ]
   }
 
-  public deleteData() {
+  private deleteData() {
     const [ from, to ] = this.getRandomArea()
     const dataIndex: number = GarbageCollector.genRandomInRange( from, to )
     this.deleteMemoryItem( dataIndex )
