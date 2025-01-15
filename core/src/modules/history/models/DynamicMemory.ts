@@ -8,6 +8,11 @@ export class DynamicMemory<T> {
   private readonly itemList: T[] = []
   private readonly collector: IGarbageCollector
 
+  /**
+   * @param memoryCap  Memory limit (MB)
+   * @param itemMemory  Size expected for every item (MB) (only a reference)
+   * It dosn't have runtime consecuencies
+  */
   constructor(
     memoryCap:number, itemMemory:number,
     GarbageCollector: GarbageCollectorConstructor,

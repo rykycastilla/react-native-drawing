@@ -1,4 +1,4 @@
-import { HTMLCanvasElement } from './HTMLCanvasElement'
+import { HTMLCanvasElement } from '@utils/HTMLCanvasElement'
 import { Resolver } from '@utils/Resolver'
 
 /**

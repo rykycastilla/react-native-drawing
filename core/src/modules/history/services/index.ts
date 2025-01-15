@@ -1,1 +1,2 @@
-export * from './SnapShotProvider'
+export * from './History'
+export type * from './SnapShotUtil'

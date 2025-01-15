@@ -11,6 +11,12 @@ export class GarbageCollector implements IGarbageCollector {
 
   public readonly maxLength: number
 
+  /**
+   * @param MEMORY_CAP  Memory limit (MB)
+   * @param ITEM_MEMORY  Size expected for every item (MB) (only a reference)
+   * It dosn't have runtime consecuencies
+   * @param getMemory  Getter function to access to the reference of the memory
+  */
   constructor(
     MEMORY_CAP:number,
     private readonly ITEM_MEMORY: number,
@@ -71,6 +77,7 @@ export class GarbageCollector implements IGarbageCollector {
     }
   }
 
+  /** Access to the reference of the memory */
   private get memory(): unknown[] {
     return this.getMemory()
   }

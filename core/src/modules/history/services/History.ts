@@ -1,7 +1,7 @@
 import { DynamicMemory } from '../models'
 import { GarbageCollector } from './GarbageCollector'
 import { HistoryOutOfBoundsError } from '../errors'
-import { SnapShotProvider } from './SnapShotProvider'
+import { SnapShotUtil } from './SnapShotUtil'
 
 export class History {
 
@@ -11,12 +11,16 @@ export class History {
   private snapShotIndex = -1
   private readonly memory: DynamicMemory<string>
 
+  /**
+   * @param availableMemory  Available memory in the System (MB)
+   * @param snapShotProvider  Usefull tool to incorporate tasks related to the 'snapshot'
+  */
   constructor(
     availableMemory:number,
-    private readonly snapShotProvider: SnapShotProvider,
+    private readonly snapShotUtil: SnapShotUtil,
   ) {
     const memoryCap: number = History.calculateMemoryCap( availableMemory )
-    const imageSize: number = snapShotProvider.referenceSize
+    const imageSize: number = snapShotUtil.referenceSize
     this.memory = new DynamicMemory<string>( memoryCap, imageSize, GarbageCollector )
   }
 
@@ -32,9 +36,8 @@ export class History {
   /**
    * Includes a new snpahot on the History
   */
-  public add( base64:string ) {
-    const url: string | null = this.snapShotProvider.compactURL( base64 )
-    if( url === null ) { return }
+  public async add( base64:string ) {
+    const url: string = await this.snapShotUtil.compactURL( base64 )
     this.cleanFront()
     this.memory.add( url )
     this.snapShotIndex = this.memory.length - 1

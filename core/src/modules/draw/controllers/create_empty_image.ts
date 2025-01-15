@@ -1,4 +1,4 @@
-import { HTMLCanvasElement } from './HTMLCanvasElement'
+import { HTMLCanvasElement } from '@utils/HTMLCanvasElement'
 
 /**
  * Creates a single color base64 image

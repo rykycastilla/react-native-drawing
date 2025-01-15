@@ -13,6 +13,7 @@ export default defineConfig( {
       '@utils': join( __dirname, 'src/utils' ),
       '@draw': join( __dirname, 'src/modules/draw' ),
       '@grid': join( __dirname, 'src/modules/grid' ),
+      '@history': join( __dirname, 'src/modules/history' ),
       '@tools': join( __dirname, 'src/modules/tools' ),
       '@touch': join( __dirname, 'src/modules/touch' ),
     },

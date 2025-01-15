@@ -38,10 +38,11 @@
       "@utils/*": [ "src/utils/*" ],
       "@draw/*": [ "src/modules/draw/*" ],
       "@grid/*": [ "src/modules/grid/*" ],
+      "@history/*": [ "src/modules/history/*" ],
       "@tools/*": [ "src/modules/tools/*" ],
       "@touch/*": [ "src/modules/touch/*" ],
     },
     
   },
-  "include": ["src", "../shared/MessageSystem"]
+  "include": ["src", "../shared/MessageSystem", "src/utils/HTMLCanvasElement.ts"]
 }
