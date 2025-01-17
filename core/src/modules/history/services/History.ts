@@ -1,12 +1,12 @@
 import { DynamicMemory } from '../models'
 import { GarbageCollector } from './GarbageCollector'
-import { HistoryOutOfBoundsError } from '../errors'
+import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'
 import { SnapShotUtil } from './SnapShotUtil'
 
 export class History {
 
   /** Allowed memory usage by this history instance */
-  public static MEMORY_PERCENTAGE = 10
+  public static MEMORY_PERCENTAGE = 25
 
   private snapShotIndex = -1
   private readonly memory: DynamicMemory<string>
@@ -25,11 +25,23 @@ export class History {
   }
 
   /**
+   * Check if the new state is the same of the current state
+   * @returns true if the new state is equals to the current state
+  */
+  private async checkSameState( base64:string ): Promise<boolean> {
+    const { snapShotIndex } = this
+    const currentSnapShotURL: string | null = this.memory.get( snapShotIndex )
+    if( currentSnapShotURL === null ) { return false }
+    return this.snapShotUtil.compare( currentSnapShotURL, base64 )
+  }
+
+  /**
    * Eliminates of the elements after the current snapshot index
   */
   private cleanFront() {
-    for( let i = this.snapShotIndex + 1; i < this.memory.length; i++ ) {
-      this.memory.delete( i )
+    const nextIndex: number = this.snapShotIndex + 1
+    while( nextIndex < this.memory.length ) {
+      this.memory.delete( nextIndex )
     }
   }
 
@@ -38,6 +50,8 @@ export class History {
   */
   public async add( base64:string ) {
     const url: string = await this.snapShotUtil.compactURL( base64 )
+    const areEquals: boolean = await this.checkSameState( base64 )
+    if( areEquals ) { return }
     this.cleanFront()
     this.memory.add( url )
     this.snapShotIndex = this.memory.length - 1

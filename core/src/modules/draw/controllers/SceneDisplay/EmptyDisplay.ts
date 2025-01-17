@@ -25,6 +25,8 @@ export class EmptyDisplay implements DrawingScene {
     return { width:0, height:0, pixelList, colorChanels:0, maxChanel:0 }
   }
 
+  public async waitNextFrame() {}
+
   get image(): string {
     return ''
   }

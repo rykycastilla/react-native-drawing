@@ -1,6 +1,9 @@
 import { DrawingService } from '../services'
 import { IWebDraw } from '@shared/utils/types/IWebDraw'
 
+// @ts-expect-error - JSDoc Type
+import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'  // eslint-disable-line
+
 export class DrawController implements IWebDraw {
 
   constructor(
@@ -17,6 +20,20 @@ export class DrawController implements IWebDraw {
 
   public async setImage( image:string ) {
     await this.drawingService.setImage( image )
+  }
+
+  /**
+   * @throws { HistoryOutOfBoundsError }
+  */
+  public async undo() {
+    await this.drawingService.undo()
+  }
+
+  /**
+   * @throws { HistoryOutOfBoundsError }
+  */
+  public async redo() {
+    await this.drawingService.redo()
   }
 
   private get drawingService(): DrawingService {

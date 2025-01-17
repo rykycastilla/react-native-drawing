@@ -7,7 +7,7 @@ import { IGarbageCollector } from '../models'
 export class GarbageCollector implements IGarbageCollector {
 
   /** Areas in which the memory is divided and its probabilites to to be deleted an own element */
-  private static readonly MEMORY_AREA_PROBABILITIES = [ 9, 8, 7, 6, 5, 4, 0 ]
+  private static readonly MEMORY_AREA_PROBABILITIES = [ 0, 1, 1, 0, 1, 1, 0 ]
 
   public readonly maxLength: number
 

@@ -16,6 +16,7 @@ export interface DrawingScene {
   createClearPath( x:number, y:number, props:ClearPathProps ): Stroke<ClearPathProps>
   getBinaryData(): BinImage
   setBinaryData( image:BinImage ): void
+  waitNextFrame(): Promise<void>
 }
 
 type Pixel = [ x:number, y:number ]

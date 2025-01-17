@@ -34,6 +34,12 @@ export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
     RNBridge.onMessage( 'draw-set-image', async( image:unknown ) => {
       await drawController.setImage( image as string )
     } )
+    RNBridge.onMessage( 'draw-history-undo', async() => {
+      await drawController.undo()
+    } )
+    RNBridge.onMessage( 'draw-history-redo', async() => {
+      await drawController.redo()
+    } )
   }, [ drawController ] )
 
 }

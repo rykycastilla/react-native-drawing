@@ -11,6 +11,7 @@ export class SceneDisplay extends StrokesCreator implements DrawingScene {
 
   override shapeList: Shape[] = []
   override readonly context: CanvasRenderingContext2D
+  private nextFrameResolverList: ( () => void )[] = []
 
   constructor(
     protected readonly canvas: HTMLCanvasElement,
@@ -18,6 +19,13 @@ export class SceneDisplay extends StrokesCreator implements DrawingScene {
     super()
     this.context = canvas.getContext( '2d' )!
     this.scene()
+  }
+
+  private resolveNextFrame() {
+    for( const resolve of this.nextFrameResolverList ) {
+      resolve()
+    }
+    this.nextFrameResolverList = []
   }
 
   private render() {
@@ -41,7 +49,15 @@ export class SceneDisplay extends StrokesCreator implements DrawingScene {
 
   private scene() {
     this.render()
+    this.resolveNextFrame()
     requestAnimationFrame( () => this.scene() )
+  }
+
+  public waitNextFrame(): Promise<void> {
+    let resolveNextFrame!: () => void
+    const nextFrameExecuted = new Promise<void>( ( resolve ) => resolveNextFrame = resolve )
+    this.nextFrameResolverList.push( resolveNextFrame )
+    return nextFrameExecuted
   }
 
   get width(): number {

@@ -44,5 +44,5 @@
     },
     
   },
-  "include": ["src", "../shared/MessageSystem", "src/utils/HTMLCanvasElement.ts"]
+  "include": ["src", "../shared/MessageSystem", "src/utils/HTMLCanvasElement.ts", "../shared/modules/history/errors/HistoryOutOfBoundsError.ts"]
 }

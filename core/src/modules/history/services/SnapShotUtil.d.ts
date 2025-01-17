@@ -18,4 +18,10 @@ export interface SnapShotUtil {
   */
   compactURL( base64:string ): Promise<string>
 
+  /**
+   * Compares two snapshots to check if both have the same image structure
+   * @returns  true if They have the same structure
+   */
+  compare( urlA:string, urlB:string ): Promise<boolean>
+
 }

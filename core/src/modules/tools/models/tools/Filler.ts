@@ -5,6 +5,7 @@ import { Tool } from './Tool'
 
 export class Filler extends Tool implements ColorableTool {
 
+  public onfinish: ( () => void ) | null = null
   #color: string
 
   constructor(
@@ -14,6 +15,12 @@ export class Filler extends Tool implements ColorableTool {
   ) {
     super()
     this.#color = this.filterColor( color )
+    this.fillerQueue.onfinish = () => this.handleFinish()
+  }
+
+  private handleFinish() {
+    if( this.onfinish === null ) { return }
+    this.onfinish()
   }
 
   override async addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
@@ -48,6 +55,7 @@ export interface FillerArgs {
 }
 
 interface FillerQueue {
+  onfinish: ( () => void ) | null
   enqueueTask( args:FillerArgs ): void
   stopTasks(): void
 }
