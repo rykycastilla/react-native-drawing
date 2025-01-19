@@ -1,2 +1,2 @@
-export * from './Draw'
+export * from './Draw/Draw'
 export * from './MessageManager'

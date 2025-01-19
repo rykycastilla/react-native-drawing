@@ -5,6 +5,9 @@ import { SnapShotUtil } from './SnapShotUtil'
 
 export class History {
 
+  /** Calls when the history timeline is moved */
+  public onmove: ( ( canUndo:boolean, canRedo:boolean ) => void ) | null = null
+
   /** Allowed memory usage by this history instance */
   public static MEMORY_PERCENTAGE = 25
 
@@ -22,6 +25,14 @@ export class History {
     const memoryCap: number = History.calculateMemoryCap( availableMemory )
     const imageSize: number = snapShotUtil.referenceSize
     this.memory = new DynamicMemory<string>( memoryCap, imageSize, GarbageCollector )
+  }
+
+  /**
+   * @event History#Move
+  */
+  private dispatchMove() {
+    if( this.onmove === null ) { return }
+    this.onmove( this.canUndo, this.canRedo )
   }
 
   /**
@@ -47,6 +58,7 @@ export class History {
 
   /**
    * Includes a new snpahot on the History
+   * @fires History#Move
   */
   public async add( base64:string ) {
     const url: string = await this.snapShotUtil.compactURL( base64 )
@@ -55,11 +67,13 @@ export class History {
     this.cleanFront()
     this.memory.add( url )
     this.snapShotIndex = this.memory.length - 1
+    this.dispatchMove()  // Firing TimeLine Movement Event
   }
 
   /**
    * Uses a new index as the current snapshot
    * @param steps - Progress from the current index to the new (negatives are to back)
+   * @fires History#Move
    * @throws { HistoryOutOfBoundsError }
   */
   private updateIndex( steps:number ): string {
@@ -67,6 +81,7 @@ export class History {
     const url: string | null = this.memory.get( newIndex )
     if( url === null ) { throw new HistoryOutOfBoundsError() }
     this.snapShotIndex = newIndex
+    this.dispatchMove()  // Firing TimeLine Movement Event
     return url
   }
 
@@ -87,7 +102,7 @@ export class History {
   }
 
   get canUndo(): boolean {
-    return this.snapShotIndex > -1
+    return this.snapShotIndex > 0
   }
 
   get canRedo(): boolean {

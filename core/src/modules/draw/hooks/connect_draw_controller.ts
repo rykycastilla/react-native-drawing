@@ -25,6 +25,11 @@ export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
 
   useEffect( () => {
     if( drawController === null ) { return }
+    if( drawController.onhistorymove === null ) {
+      drawController.onhistorymove = ( canUndo:boolean, canRedo:boolean ) => {
+        RNBridge.postMessage( 'draw-history-move', { canUndo, canRedo } )
+      }
+    }
     RNBridge.onMessage( 'draw-clear', async( color:unknown ) => {
       await drawController.clear( color as string | undefined )
     } )

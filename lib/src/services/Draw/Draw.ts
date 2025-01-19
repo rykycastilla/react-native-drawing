@@ -1,5 +1,6 @@
 import { DEFAULT_ANTIALIASING, DEFAULT_ASPECT_RATIO } from '../../constants'
 import { IDraw } from './IDraw'
+import { Ref } from '../../utils/Ref'
 import { Tool } from '../../shared/modules/tools/models'
 import { WebDraw } from './WebDraw'
 
@@ -7,7 +8,11 @@ export class Draw extends WebDraw implements IDraw {
 
   constructor(
     private props: DrawProps,
-  ) { super() }
+  ) {
+    const targetRef = new Ref<Draw|null>( null )
+    super( targetRef )
+    targetRef.setValue( this )
+  }
 
   public setProps( props:DrawProps ) {
     this.props = props

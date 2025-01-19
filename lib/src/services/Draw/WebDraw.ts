@@ -1,9 +1,20 @@
-import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'
+import { History, TargetRef } from './History'
+import { HistoryEvent } from './HistoryEvent'
 import { IWebDraw } from '../../shared/utils/types/IWebDraw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
 import { WebBridgeLoader } from './WebBridgeLoader'
 
+// @ts-expect-error - JSDoc Type
+import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'  // eslint-disable-line
+
 export class WebDraw extends WebBridgeLoader implements IWebDraw {
+
+  private readonly history: History
+
+  constructor( targetRef:TargetRef ) {
+    super()
+    this.history = new History( targetRef )
+  }
 
   public async clear( color?:string ): Promise<void> {
     const webBridge: MessageSystem = await this.webBridgeLoaded
@@ -20,22 +31,24 @@ export class WebDraw extends WebBridgeLoader implements IWebDraw {
     await webBridge.postMessage( 'draw-set-image', image )
   }
 
-  /**
-   * @throws { HistoryOutOfBoundsError }
-  */
   public async undo() {
-    const webBridge: MessageSystem = await this.webBridgeLoaded
-    try { await webBridge.postMessage( 'draw-history-undo', null ) }
-    catch { throw new HistoryOutOfBoundsError() }
+    await this.history.undo()
   }
 
-  /**
-   * @throws { HistoryOutOfBoundsError }
-  */
   public async redo() {
-    const webBridge: MessageSystem = await this.webBridgeLoaded
-    try { await webBridge.postMessage( 'draw-history-redo', null ) }
-    catch { throw new HistoryOutOfBoundsError() }
+    await this.history.redo()
   }
 
+  public addEventListener( type:'history-move', handle:HistoryHandler ) {
+    this.history.addEventListener( type, handle )
+  }
+
+  public removeEventListener( type:'history-move', handle:HistoryHandler ) {
+    this.history.removeEventListener( type, handle )
+  }
+
+}
+
+interface HistoryHandler {
+  ( event:HistoryEvent ): void
 }

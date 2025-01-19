@@ -8,11 +8,21 @@ import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'  // esl
 
 export class DrawingService {
 
+  public onhistorymove: ( ( canUnod:boolean, canRedo:boolean ) => void ) | null = null
+  #history!: History
+
+  /**
+   * @param history  The history passed to this object shouldn't use its onmove method
+   * in another place, because it is readed and modified by this object
+  */
   constructor(
     private readonly scene: DrawingScene,
-    private history: History,
+    history:History,
     private readonly createEmptyImage: CreateEmptyImageFunction,
-  ) { this.saveSnpaShot() }
+  ) {
+    this.history = history
+    this.saveSnpaShot()
+  }
 
   /**
    * Go back in the History
@@ -61,10 +71,21 @@ export class DrawingService {
     tool.addStrokePoint( x, y, strokeId, this.scene )
   }
 
+  private dispatchHistoryMove( canUndo:boolean, canRedo:boolean ) {
+    DrawingService.dispatchHistoryMove( this, canUndo, canRedo )
+    if( this.onhistorymove === null ) { return }
+    this.onhistorymove( canUndo, canRedo )
+  }
+
   get image(): string {
     return this.scene.image
   }
 
+  /**
+   * Set a new history instance to be controlled by the DrawingService
+   * @param history  The history passed to this object shouldn't use its onmove method
+   * in another place, because it is readed and modified by this object
+  */
   public setHistory( history:History ) {
     this.history = history
   }
@@ -72,6 +93,39 @@ export class DrawingService {
   public async setImage( image:string ) {
     await this.scene.setImage( image )
     this.saveSnpaShot()
+  }
+
+  private get history(): History {
+    return this.#history
+  }
+
+  /**
+   * @param history  The history passed to this object shouldn't use its onmove method
+   * in another place, because it is readed and modified by this object
+  */
+  private set history( history:History ) {
+    // Unsusing previous history event
+    if( this.#history !== undefined ) {
+      this.#history.onmove = null
+    }
+    this.#history = history  // Setting new history
+    // Setting event watcher in the new history
+    history.onmove = ( canUndo:boolean, canRedo:boolean ) => {
+      this.dispatchHistoryMove( canUndo, canRedo )
+    }
+  }
+
+  /**
+   * Global listener orientated to all objects
+  */
+  public static onhistorymove: ( ( target:DrawingService, canUndo:boolean, canRedo:boolean ) => void ) | null = null
+
+  /**
+   * Dispatch the globall listener
+  */
+  private static dispatchHistoryMove( target:DrawingService, canUndo:boolean, canRedo:boolean ) {
+    if( DrawingService.onhistorymove === null ) { return }
+    DrawingService.onhistorymove( target, canUndo, canRedo )
   }
 
 }
