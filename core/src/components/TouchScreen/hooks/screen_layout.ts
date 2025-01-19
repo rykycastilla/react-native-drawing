@@ -16,7 +16,7 @@ export function useScreenLayout( screenRef:MutableRefObject<HTMLDivElement|null>
     const { width, height, top, left } = $screen.getBoundingClientRect()
     const layout = new ScreenLayout( width, height, top, left )
     setLayout( layout )
-  }, [ screenRef, setLayout ] )
+  }, [ screenRef ] )
 
   // Creating by default
   useEffect( () => {

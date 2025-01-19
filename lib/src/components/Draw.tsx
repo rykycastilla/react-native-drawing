@@ -38,7 +38,7 @@ const Draw = forwardRef( ( props:DrawProps, ref:ForwardedRef<Draw|null> ): React
   const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
   const { draw, onLoad:onLoadWebBridge } = Hooks.useDraw( props )
   Hooks.useGridGuard( grid )
-  Hooks.useViewResizer( webBridge, width )
+  Hooks.useViewResizer( webBridge, width, aspectRatio )
   Hooks.useDrawState( webBridge, props )
   Hooks.useLoadEvent( { webBridge:webBridge!, onLoad, onLoadWebBridge } )
   Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )

@@ -69,14 +69,6 @@ export class HistoryService implements IHistoryService {
 
 }
 
-/**
-   * Global listener orientated to all objects
-  */
-
-/**
-   * Dispatch the globall listener
-  */
-
 interface Scene {
   image: string
   waitNextFrame(): Promise<void>
