@@ -9,6 +9,12 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
 
   private currentUtil: Filler | null = null
   private filled: Promise<void> | null = null
+  public onstarteachtask: ( () => void ) | null = null
+
+  private dispatchStartEachTask() {
+    if( this.onstarteachtask === null ) { return }
+    this.onstarteachtask()
+  }
 
   protected async runTask( args:FillerArgs ) {
     const { x, y, color, scene } = args
@@ -19,6 +25,7 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
     } )
     this.currentUtil = util
     this.filled = util.fill( x, y, color, pixelList )
+    this.dispatchStartEachTask()
     await this.filled
   }
 

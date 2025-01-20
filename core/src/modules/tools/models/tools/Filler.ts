@@ -6,6 +6,7 @@ import { Tool } from './Tool'
 export class Filler extends Tool implements ColorableTool {
 
   public onfinish: ( () => void ) | null = null
+  public onstarteachtask: ( () => void ) | null = null
   #color: string
 
   constructor(
@@ -16,11 +17,17 @@ export class Filler extends Tool implements ColorableTool {
     super()
     this.#color = this.filterColor( color )
     this.fillerQueue.onfinish = () => this.handleFinish()
+    this.fillerQueue.onstarteachtask = () => this.handleStartEachTask()
   }
 
   private handleFinish() {
     if( this.onfinish === null ) { return }
     this.onfinish()
+  }
+
+  private handleStartEachTask() {
+    if( this.onstarteachtask === null ) { return }
+    this.onstarteachtask()
   }
 
   override async addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
@@ -45,6 +52,10 @@ export class Filler extends Tool implements ColorableTool {
     return this.#color
   }
 
+  get isWorking(): boolean {
+    return this.fillerQueue.isConsuming
+  }
+
 }
 
 export interface FillerArgs {
@@ -55,7 +66,9 @@ export interface FillerArgs {
 }
 
 interface FillerQueue {
+  isConsuming: boolean
   onfinish: ( () => void ) | null
+  onstarteachtask: ( () => void ) | null
   enqueueTask( args:FillerArgs ): void
   stopTasks(): void
 }

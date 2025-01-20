@@ -28,7 +28,7 @@ export class HistoryService implements IHistoryService {
     await this.scene.setImage( snapshot )
   }
 
-  public async saveSnpaShot() {
+  public async saveSnapShot() {
     await this.scene.waitNextFrame()
     const snapShot: string = this.scene.image
     this.history.add( snapShot )
