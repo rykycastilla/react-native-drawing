@@ -22,7 +22,6 @@ export class DrawingService implements IHistoryService {
     this.historyService.onmove = ( canUndo:boolean, canRedo:boolean ) => {
       DrawingService.dispatchHistoryMove( this, canUndo, canRedo )
     }
-    this.historyService.saveSnapShot()
   }
 
   public async clear( color?:string ) {

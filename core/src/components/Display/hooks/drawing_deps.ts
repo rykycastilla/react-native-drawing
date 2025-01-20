@@ -8,11 +8,11 @@ interface UseDrawingDepsResult {
   drawingService: DrawingService
 }
 
-export function useDrawingDeps(): UseDrawingDepsResult {
+export function useDrawingDeps( width:number, height:number ): UseDrawingDepsResult {
 
   const [ canvas, setCanvas ] = useState<HTMLCanvasElement|null>( null )
   const DrawingScene: DrawingScene = useDrawingScene( canvas )
-  const drawingService: DrawingService = useDrawingService( DrawingScene )
+  const drawingService: DrawingService = useDrawingService( DrawingScene, width, height )
 
   const loadDisplay = useCallback( ( canvas:HTMLCanvasElement ) => {
     setCanvas( canvas )

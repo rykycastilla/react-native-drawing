@@ -65,6 +65,8 @@ export class HistoryService implements IHistoryService {
     history.onmove = ( canUndo:boolean, canRedo:boolean ) => {
       this.dispatchHistoryMove( canUndo, canRedo )
     }
+    // Assigning first state
+    this.saveSnapShot()
   }
 
 }
