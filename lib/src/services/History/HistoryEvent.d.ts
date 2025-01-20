@@ -1,4 +1,4 @@
-import { IDraw } from './IDraw'
+import { IDraw } from '../Draw/IDraw'
 
 export class HistoryEvent {
 

@@ -1,17 +1,30 @@
 import { DEFAULT_ANTIALIASING, DEFAULT_ASPECT_RATIO } from '../../constants'
+import { EventHandler, EventType } from '../../utils/EventDispatcher'
+import { EventListener, EventService } from '../EventService'
+import { History } from '../History'
 import { IDraw } from './IDraw'
-import { Ref } from '../../utils/Ref'
 import { Tool } from '../../shared/modules/tools/models'
 import { WebDraw } from './WebDraw'
 
 export class Draw extends WebDraw implements IDraw {
 
+  private readonly eventService: EventService
+
   constructor(
     private props: DrawProps,
   ) {
-    const targetRef = new Ref<Draw|null>( null )
-    super( targetRef )
-    targetRef.setValue( this )
+    super()
+    const history = new History( this )
+    this.eventService = new EventService( history )
+    this.setHistory( history )
+  }
+
+  public addEventListener<T extends EventType<EventListener>>( type:T, handler:EventHandler<T,EventListener> ) {
+    this.eventService.addEventListener( type, handler )
+  }
+
+  public removeEventListener<T extends EventType<EventListener>>( type:T, handler:EventHandler<T,EventListener> ) {
+    this.eventService.removeEventListener( type, handler )
   }
 
   public setProps( props:DrawProps ) {

@@ -1,5 +1,4 @@
-import { History, TargetRef } from './History'
-import { HistoryEvent } from './HistoryEvent'
+import { History } from '../History'
 import { IWebDraw } from '../../shared/utils/types/IWebDraw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
 import { WebBridgeLoader } from './WebBridgeLoader'
@@ -9,12 +8,7 @@ import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'  /
 
 export class WebDraw extends WebBridgeLoader implements IWebDraw {
 
-  private readonly history: History
-
-  constructor( targetRef:TargetRef ) {
-    super()
-    this.history = new History( targetRef )
-  }
+  private history: History | null = null
 
   public async clear( color?:string ): Promise<void> {
     const webBridge: MessageSystem = await this.webBridgeLoaded
@@ -32,23 +26,15 @@ export class WebDraw extends WebBridgeLoader implements IWebDraw {
   }
 
   public async undo() {
-    await this.history.undo()
+    await this.history?.undo()
   }
 
   public async redo() {
-    await this.history.redo()
+    await this.history?.redo()
   }
 
-  public addEventListener( type:'history-move', handle:HistoryHandler ) {
-    this.history.addEventListener( type, handle )
+  public setHistory( history:History ) {
+    this.history = history
   }
 
-  public removeEventListener( type:'history-move', handle:HistoryHandler ) {
-    this.history.removeEventListener( type, handle )
-  }
-
-}
-
-interface HistoryHandler {
-  ( event:HistoryEvent ): void
 }

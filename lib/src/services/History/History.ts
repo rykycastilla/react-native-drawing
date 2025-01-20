@@ -1,25 +1,23 @@
 import { EventDispatcher } from '../../utils/EventDispatcher'
-import { HistoryEvent } from './HistoryEvent'
+import { HistoryEvent } from './_HistoryEvent'
 import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'
-import { IDraw } from './IDraw'
+import { IDraw } from '../Draw/IDraw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
-import { Ref } from '../../utils/Ref'
 
 export class History extends EventDispatcher<HistoryListener> {
 
   constructor(
-    private readonly targetRef: TargetRef,
+    private readonly target: Target,
   ) {
     super()
-    setTimeout( () => this.setHistoryMoveEvent(), 1 )
+    this.setHistoryMoveEvent()
   }
 
   private async setHistoryMoveEvent() {
-    const target: Target = this.targetRef.current!
-    const webBridge: MessageSystem = await target.webBridgeLoaded
+    const webBridge: MessageSystem = await this.target.webBridgeLoaded
     webBridge.onMessage( 'draw-history-move', ( args:unknown ) => {
       const { canUndo, canRedo } = args as { canUndo:boolean, canRedo:boolean }
-      const event = new HistoryEvent( target, canUndo, canRedo )
+      const event = new HistoryEvent( this.target, canUndo, canRedo )
       this.dispatch( 'history-move', event )
     } )
   }
@@ -42,10 +40,6 @@ export class History extends EventDispatcher<HistoryListener> {
     catch { throw new HistoryOutOfBoundsError() }
   }
 
-  get target(): Target {
-    return this.targetRef.current!
-  }
-
 }
 
 interface HistoryListener {
@@ -56,5 +50,3 @@ interface HistoryListener {
 interface Target extends IDraw {
   webBridgeLoaded: Promise<MessageSystem>
 }
-
-export type TargetRef = Ref<Target|null>

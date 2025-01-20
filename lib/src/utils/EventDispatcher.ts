@@ -46,7 +46,7 @@ interface EventListener<T extends string,U extends object> {
   handle( event:U ): Promise<void> | void
 }
 
-type EventType<T extends EventListener<string,object>> =
+export type EventType<T extends EventListener<string,object>> =
   T extends EventListener<infer U,object> ? U : never
 
 type Event<T extends string,U extends EventListener<string,object>> =
@@ -54,5 +54,5 @@ type Event<T extends string,U extends EventListener<string,object>> =
 
 type Handler<T extends object> = ( event:T ) => Promise<void> | void
 
-type EventHandler<T extends string,U extends EventListener<string,object>> =
+export type EventHandler<T extends string,U extends EventListener<string,object>> =
   U extends EventListener<T,infer V> ? Handler<V> : never

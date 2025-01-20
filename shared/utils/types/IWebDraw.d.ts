@@ -19,4 +19,16 @@ export interface IWebDraw {
   */
   setImage( image:string ): Promise<void>
 
+  /**
+    * Go back in the history timeline
+    * @throws { HistoryOutOfBoundsError }
+  */
+  undo(): Promise<void>
+
+  /**
+   * Restores the state to what it was before the last "undo" operation
+   * @throws { HistoryOutOfBoundsError }
+  */
+  redo(): Promise<void>
+
 }
