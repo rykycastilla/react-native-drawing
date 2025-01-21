@@ -1,6 +1,5 @@
 export * from './draw'
 export * from './draw_state'
-export * from './edge_dropper_event'
 export * from './events'
 export * from './grid_guard'
 export * from './view_resizer'
