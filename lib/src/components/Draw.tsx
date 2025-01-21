@@ -3,7 +3,7 @@ import * as Hooks from '../hooks'
 import { DEFAULT_ASPECT_RATIO } from '../constants'
 import { ForwardedRef, ReactElement } from 'react'
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
-import { IDraw } from '../services/Draw/Draw'
+import { IDraw, LoadEvent } from '../services'
 import { Tool } from '../shared/modules/tools/models'
 import { webSource } from '../utils/web_source'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
@@ -23,7 +23,7 @@ export interface DrawProps {
   tool: Tool
   toolSize?: number
   spryParticles?: { amount?:number, scale?:number }
-  onLoad?: () => void
+  onLoad?: ( event:LoadEvent ) => void
   onEyeDropper?: ( color:string ) => void
 }
 
@@ -36,11 +36,11 @@ const Draw = forwardRef( ( props:DrawProps, ref:ForwardedRef<Draw|null> ): React
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = Hooks.useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = Hooks.useWebBridge( suscribe, postMessage )
-  const { draw, onLoad:onLoadWebBridge } = Hooks.useDraw( props )
+  const draw = Hooks.useDraw( props, webBridge )
   Hooks.useGridGuard( grid )
   Hooks.useViewResizer( webBridge, width, aspectRatio )
   Hooks.useDrawState( webBridge, props )
-  Hooks.useLoadEvent( { webBridge:webBridge!, onLoad, onLoadWebBridge } )
+  Hooks.useEvents( { onLoad, draw } )
   Hooks.useEyeDropperEvent( { webBridge, onEyeDropper } )
 
   useImperativeHandle( ref, () => {

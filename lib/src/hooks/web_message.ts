@@ -1,4 +1,4 @@
-import { MessageManager } from '../services/MessageManager'
+import { MessageManager } from '../services'
 import { MutableRefObject, useCallback } from 'react'
 import { useMessageManager } from './message_manager'
 import { WebView } from 'react-native-webview'

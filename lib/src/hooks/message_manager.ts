@@ -1,4 +1,4 @@
-import { MessageManager } from '../services/MessageManager'
+import { MessageManager } from '../services'
 import { useMemo } from 'react'
 
 export function useMessageManager(): MessageManager {

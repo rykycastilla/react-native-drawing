@@ -1,3 +1,2 @@
-export * from './DrawHistory'
 export * from './History'
-export * from './HistoryEvent'
+export { HistoryEvent } from './HistoryEvent'

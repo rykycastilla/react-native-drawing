@@ -1,4 +1,6 @@
+import { LoadEvent } from './_events'
+
 export interface LoadListener {
   type: 'load'
-  handle( event:object ): Promise<void> | void
+  handle( event:LoadEvent ): Promise<void> | void
 }

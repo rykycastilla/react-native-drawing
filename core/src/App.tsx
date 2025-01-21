@@ -11,7 +11,7 @@ const App = (): ReactElement | null => {
   if( nativeDrawProps === null ) { return null }
 
   const handleLoad = () => {
-    RNBridge.postMessage( 'loaded', {} )
+    RNBridge.postMessage( 'load', {} )
   }
 
   return <Draw { ...nativeDrawProps } onLoad={ handleLoad } />

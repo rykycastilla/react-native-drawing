@@ -1,13 +1,8 @@
 import { Draw, DrawProps } from '../services'
 import { MessageSystem } from '../shared/utils/MessageSystem'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
-interface UseDrawResult {
-  draw: Draw
-  onLoad( webBridge:MessageSystem ): void
-}
-
-export function useDraw( drawProps:DrawProps ): UseDrawResult {
+export function useDraw( drawProps:DrawProps, webBridge:MessageSystem|null ): Draw {
 
   const { antialiasing, resolution, aspectRatio, tool, color } = drawProps
 
@@ -17,15 +12,16 @@ export function useDraw( drawProps:DrawProps ): UseDrawResult {
   }, [] )  // eslint-disable-line
 
   // Loading web bridge
-  const onLoad = useCallback( ( webBridge:MessageSystem ) => {
+  useEffect( () => {
+    if( webBridge === null ) { return }
     draw.loadWebBridge( webBridge )
-  }, [ draw ] )
+  }, [ draw, webBridge ] )
 
   // Updating props automatically
   useEffect( () => {
     draw.setProps( { antialiasing, resolution, aspectRatio, tool, color } )
   }, [ draw, antialiasing, resolution, aspectRatio, tool, color ] )
 
-  return { draw, onLoad }
+  return draw
 
 }

@@ -15,7 +15,7 @@ export class Draw extends WebDraw implements IDraw {
   ) {
     super()
     const history = new History( this )
-    this.eventService = new EventService( history )
+    this.eventService = new EventService( this, history )
     this.setHistory( history )
   }
 
