@@ -1,6 +1,7 @@
 export * from './draw'
 export * from './draw_state'
 export * from './events'
+export * from './fps'
 export * from './grid_guard'
 export * from './scroll_service'
 export * from './view_resizer'

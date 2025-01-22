@@ -35,6 +35,11 @@ export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
         RNBridge.postMessage( 'filling', { isStarting, x, y, color } )
       }
     }
+    if( drawController.onframereport === null ) {
+      drawController.onframereport = ( fps:number ) => {
+        RNBridge.postMessage( 'fps-report', { fps } )
+      }
+    }
     RNBridge.onMessage( 'draw-clear', async( color:unknown ) => {
       await drawController.clear( color as string | undefined )
     } )

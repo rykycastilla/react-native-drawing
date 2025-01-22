@@ -9,6 +9,7 @@ export interface DrawingScene {
   width: number
   height: number
   image: string
+  onframereport: FrameReportFunction | null
   setImage( image:string ): Promise<void>
   createDot( x:number, y:number, width:number, color:string, isSquare:boolean ): void
   printLine( color:string, width:number, init:Pixel, end:Pixel ): void
@@ -28,4 +29,8 @@ export interface StrokeProps {
 
 export interface ClearPathProps {
   width: number
+}
+
+interface FrameReportFunction {
+  ( fps:number ): void
 }

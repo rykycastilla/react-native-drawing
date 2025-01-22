@@ -22,6 +22,9 @@ export class DrawingService implements IHistoryService {
     this.historyService.onmove = ( canUndo:boolean, canRedo:boolean ) => {
       DrawingService.dispatchHistoryMove( this, canUndo, canRedo )
     }
+    this.scene.onframereport = ( fps:number ) => {
+      DrawingService.dispatchFrameReport( this, fps )
+    }
   }
 
   public async clear( color?:string ) {
@@ -85,6 +88,7 @@ export class DrawingService implements IHistoryService {
 
   public static onhistorymove: HistoryMoveHandler | null = null
   public static onfilling: FillingHandler | null = null
+  public static onframereport: FrameReportFunction | null = null
 
   private static dispatchHistoryMove( target:DrawingService, canUndo:boolean, canRedo:boolean ) {
     if( DrawingService.onhistorymove === null ) { return }
@@ -94,6 +98,11 @@ export class DrawingService implements IHistoryService {
   private static dispatchFilling( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) {
     if( this.onfilling === null ) { return }
     this.onfilling( target, isStarting, x, y, color )
+  }
+
+  private static dispatchFrameReport( target:DrawingService, fps:number ) {
+    if( this.onframereport === null ) { return }
+    this.onframereport( target, fps )
   }
 
 }
@@ -108,4 +117,8 @@ interface HistoryMoveHandler {
 
 interface FillingHandler {
   ( target:DrawingService, isStarting:boolean, x:number, y: number, color:string ): void
+}
+
+interface FrameReportFunction {
+  ( target:DrawingService, fps:number ): void
 }

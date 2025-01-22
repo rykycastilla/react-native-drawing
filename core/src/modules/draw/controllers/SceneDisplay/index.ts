@@ -1,5 +1,6 @@
 import { DrawingScene } from '../../models'
 import { EmptyDisplay } from './EmptyDisplay'
+import { FpsManager, FrameReportFunction } from '../../services'
 import { Shape } from '../shapes'
 import { StrokesCreator } from './StrokesCreator'
 
@@ -9,6 +10,7 @@ import { StrokesCreator } from './StrokesCreator'
 */
 export class SceneDisplay extends StrokesCreator implements DrawingScene {
 
+  private readonly fpsManager = new FpsManager( 500, () => performance.now() )
   override shapeList: Shape[] = []
   override readonly context: CanvasRenderingContext2D
   private nextFrameResolverList: ( () => void )[] = []
@@ -50,6 +52,7 @@ export class SceneDisplay extends StrokesCreator implements DrawingScene {
   private scene() {
     this.render()
     this.resolveNextFrame()
+    this.fpsManager.notifyFrame()
     requestAnimationFrame( () => this.scene() )
   }
 
@@ -66,6 +69,14 @@ export class SceneDisplay extends StrokesCreator implements DrawingScene {
 
   get height(): number {
     return this.canvas.height
+  }
+
+  get onframereport(): FrameReportFunction | null {
+    return this.fpsManager.onreport
+  }
+
+  set onframereport( onframereport:FrameReportFunction|null ) {
+    this.fpsManager.onreport = onframereport
   }
 
   public static createEmpty(): EmptyDisplay {

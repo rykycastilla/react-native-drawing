@@ -5,6 +5,7 @@ import { DrawingStroke } from '../DrawingStroke'
 
 export class EmptyDisplay implements DrawingScene {
 
+  public onframereport = null
   private readonly canvas: HTMLCanvasElement = document.createElement( 'canvas' )
   private readonly context: CanvasRenderingContext2D = this.canvas.getContext( '2d' )!
 

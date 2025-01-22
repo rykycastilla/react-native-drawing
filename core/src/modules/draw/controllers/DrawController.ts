@@ -8,12 +8,14 @@ export class DrawController implements IWebDraw {
 
   public onhistorymove: ( ( canUndo:boolean, canRedo:boolean ) => void ) | null = null
   public onfilling: ( ( isStarting:boolean, x:number, y:number, color:string ) => void ) | null = null
+  public onframereport: ( ( fps:number ) => void ) | null = null
 
   constructor(
     private readonly drawingServiceRef: DrawingServiceRef,
   ) {
     this.setHistoryMoveListener()
     this.setFillerListener()
+    this.setFrameReportListener()
   }
 
   public async clear( color?:string ) {
@@ -41,6 +43,14 @@ export class DrawController implements IWebDraw {
       if( target !== this.drawingService ) { return }
       if( this.onfilling === null ) { return }
       this.onfilling( isStarting, x, y, color )
+    }
+  }
+
+  private setFrameReportListener() {
+    DrawingService.onframereport = ( target:DrawingService, fps:number ) => {
+      if( target !== this.drawingService ) { return }
+      if( this.onframereport === null ) { return }
+      this.onframereport( fps )
     }
   }
 

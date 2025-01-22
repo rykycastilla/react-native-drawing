@@ -1,3 +1,4 @@
+import { FpsStateManager } from './FpsStateManager'
 import { History } from '../History'
 import { IWebDraw } from '../../shared/utils/types/IWebDraw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
@@ -9,6 +10,12 @@ import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'  /
 export class WebDraw extends WebBridgeLoader implements IWebDraw {
 
   private history: History | null = null
+  private readonly fpsStateManager = new FpsStateManager()
+
+  constructor() {
+    super()
+    this.setFpsEvent()
+  }
 
   public async clear( color?:string ): Promise<void> {
     const webBridge: MessageSystem = await this.webBridgeLoaded
@@ -33,8 +40,20 @@ export class WebDraw extends WebBridgeLoader implements IWebDraw {
     await this.history?.redo()
   }
 
+  private async setFpsEvent() {
+    const webBridge: MessageSystem = await this.webBridgeLoaded
+    webBridge.onMessage( 'fps-report', ( args:unknown ) => {
+      const { fps } = args as { fps:number }
+      this.fpsStateManager.setFps( fps )
+    } )
+  }
+
   public setHistory( history:History ) {
     this.history = history
+  }
+
+  public static extractFpsStateManager( instance:WebDraw ): FpsStateManager {
+    return instance.fpsStateManager
   }
 
 }
