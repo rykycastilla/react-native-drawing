@@ -2,8 +2,8 @@ import { Draw } from '../Draw'
 
 export class EyeDropperEvent {
 
-  target: Draw
-  color: string
+  public readonly target: Draw
+  public readonly color: string
 
   private constructor( target:Draw, color:string )
 

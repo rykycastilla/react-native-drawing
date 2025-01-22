@@ -9,11 +9,11 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
 
   private currentUtil: Filler | null = null
   private filled: Promise<void> | null = null
-  public onstarteachtask: ( () => void ) | null = null
+  public onstarteachtask: ( ( args:FillerArgs ) => void ) | null = null
 
-  private dispatchStartEachTask() {
+  private dispatchStartEachTask( args:FillerArgs ) {
     if( this.onstarteachtask === null ) { return }
-    this.onstarteachtask()
+    this.onstarteachtask( args )
   }
 
   protected async runTask( args:FillerArgs ) {
@@ -25,7 +25,7 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
     } )
     this.currentUtil = util
     this.filled = util.fill( x, y, color, pixelList )
-    this.dispatchStartEachTask()
+    this.dispatchStartEachTask( args )
     await this.filled
   }
 

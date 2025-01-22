@@ -1,6 +1,6 @@
 import { EventDispatcher, EventHandler, EventType } from '../../utils/EventDispatcher'
 import { EventListener } from './EventListener'
-import { EyeDropperEvent, LoadEvent } from './_events'
+import { EyeDropperEvent, FillingEvent, LoadEvent } from './_events'
 import { HistoryListener } from './HistoryListener'
 import { IDraw } from '../Draw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
@@ -14,6 +14,7 @@ export class EventService extends EventDispatcher<EventListener> {
     super()
     this.setLoadEvent()
     this.setEyeDropperEvent()
+    this.setFillingEvent()
   }
 
   private async setLoadEvent() {
@@ -30,6 +31,17 @@ export class EventService extends EventDispatcher<EventListener> {
       const { color } = args as { color:string }
       const event = new EyeDropperEvent( this.target, color )
       this.dispatch( 'eye-dropper', event )
+    } )
+  }
+
+  private async setFillingEvent() {
+    const webBridge: MessageSystem = await this.target.webBridgeLoaded
+    webBridge.onMessage( 'filling', ( args:unknown ) => {
+      const {
+        isStarting, x, y, color,
+      } = args as { isStarting:boolean, x:number, y:number, color:string }
+      const event = new FillingEvent( this.target, isStarting, x, y, color )
+      this.dispatch( 'filling', event )
     } )
   }
 

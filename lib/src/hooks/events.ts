@@ -1,5 +1,5 @@
 import { EventHandler, EventType } from '../utils/EventDispatcher'
-import { EventListener, EyeDropperEvent, HistoryEvent, LoadEvent } from '../services'
+import { EventListener, EyeDropperEvent, FillingEvent, HistoryEvent, LoadEvent } from '../services'
 import { Draw } from '../services'
 import { useCallback, useEffect, useRef } from 'react'
 
@@ -30,14 +30,16 @@ function useEvent<T extends EventType<EventListener>>(
 
 interface UseEventsArgs {
   onEyeDropper?: ( event:EyeDropperEvent ) => Promise<void> | void
+  onFilling?: ( event:FillingEvent ) => Promise<void> | void
   onHistoryMove?: ( event:HistoryEvent ) => Promise<void> | void
   onLoad?: ( event:LoadEvent ) => Promise<void> | void
   draw: Draw
 }
 
 export function useEvents( args:UseEventsArgs ) {
-  const { onEyeDropper, onHistoryMove, onLoad, draw } = args
+  const { onEyeDropper, onFilling, onHistoryMove, onLoad, draw } = args
   useEvent( 'eye-dropper', onEyeDropper, draw )
+  useEvent( 'filling', onFilling, draw )
   useEvent( 'history-move', onHistoryMove, draw )
   useEvent( 'load', onLoad, draw )
 }

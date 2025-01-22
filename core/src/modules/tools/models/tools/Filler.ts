@@ -5,8 +5,8 @@ import { Tool } from './Tool'
 
 export class Filler extends Tool implements ColorableTool {
 
-  public onfinish: ( () => void ) | null = null
-  public onstarteachtask: ( () => void ) | null = null
+  public onfinish: ( ( args:FillerData ) => void ) | null = null
+  public onstarteachtask: ( ( args:FillerData ) => void ) | null = null
   #color: string
 
   constructor(
@@ -16,18 +16,18 @@ export class Filler extends Tool implements ColorableTool {
   ) {
     super()
     this.#color = this.filterColor( color )
-    this.fillerQueue.onfinish = () => this.handleFinish()
-    this.fillerQueue.onstarteachtask = () => this.handleStartEachTask()
+    this.fillerQueue.onfinish = ( args:FillerArgs ) => this.handleFinish( args )
+    this.fillerQueue.onstarteachtask = ( args:FillerArgs ) => this.handleStartEachTask( args )
   }
 
-  private handleFinish() {
+  private handleFinish( args:FillerArgs ) {
     if( this.onfinish === null ) { return }
-    this.onfinish()
+    this.onfinish( args )
   }
 
-  private handleStartEachTask() {
+  private handleStartEachTask( args:FillerArgs ) {
     if( this.onstarteachtask === null ) { return }
-    this.onstarteachtask()
+    this.onstarteachtask( args )
   }
 
   override async addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
@@ -58,17 +58,20 @@ export class Filler extends Tool implements ColorableTool {
 
 }
 
-export interface FillerArgs {
+interface FillerData {
   x: number
   y: number
   color: string
+}
+
+export interface FillerArgs extends FillerData {
   scene: DrawingScene
 }
 
 interface FillerQueue {
   isConsuming: boolean
-  onfinish: ( () => void ) | null
-  onstarteachtask: ( () => void ) | null
+  onfinish: ( ( args:FillerArgs ) => void ) | null
+  onstarteachtask: ( ( args:FillerArgs ) => void ) | null
   enqueueTask( args:FillerArgs ): void
   stopTasks(): void
 }

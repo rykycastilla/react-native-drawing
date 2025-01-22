@@ -30,6 +30,11 @@ export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
         RNBridge.postMessage( 'draw-history-move', { canUndo, canRedo } )
       }
     }
+    if( drawController.onfilling === null ) {
+      drawController.onfilling = ( isStarting:boolean, x:number, y:number, color:string ) => {
+        RNBridge.postMessage( 'filling', { isStarting, x, y, color } )
+      }
+    }
     RNBridge.onMessage( 'draw-clear', async( color:unknown ) => {
       await drawController.clear( color as string | undefined )
     } )

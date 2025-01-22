@@ -7,10 +7,14 @@ import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'  // esl
 export class DrawController implements IWebDraw {
 
   public onhistorymove: ( ( canUndo:boolean, canRedo:boolean ) => void ) | null = null
+  public onfilling: ( ( isStarting:boolean, x:number, y:number, color:string ) => void ) | null = null
 
   constructor(
     private readonly drawingServiceRef: DrawingServiceRef,
-  ) { this.setHistoryMoveListener() }
+  ) {
+    this.setHistoryMoveListener()
+    this.setFillerListener()
+  }
 
   public async clear( color?:string ) {
     await this.drawingService.clear( color )
@@ -29,6 +33,14 @@ export class DrawController implements IWebDraw {
       if( target !== this.drawingService ) { return }
       if( this.onhistorymove === null ) { return }
       this.onhistorymove( canUndo, canRedo )
+    }
+  }
+
+  private setFillerListener() {
+    DrawingService.onfilling = ( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) => {
+      if( target !== this.drawingService ) { return }
+      if( this.onfilling === null ) { return }
+      this.onfilling( isStarting, x, y, color )
     }
   }
 

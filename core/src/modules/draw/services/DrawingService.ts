@@ -37,11 +37,19 @@ export class DrawingService implements IHistoryService {
   }
 
   private initFiller( filler:Filler ) {
-    if( filler.onfinish === null ) {
-      filler.onfinish = () => this.historyService.saveSnapShot()
-    }
     if( filler.onstarteachtask === null ) {
-      filler.onstarteachtask = () => DrawingService.dispatchHistoryMove( this, false, false )
+      filler.onstarteachtask = ( args ) => {
+        const { x, y, color } = args
+        DrawingService.dispatchFilling( this, true, x, y, color )
+        DrawingService.dispatchHistoryMove( this, false, false )
+      }
+    }
+    if( filler.onfinish === null ) {
+      filler.onfinish = ( args ) => {
+        const { x, y, color } = args
+        DrawingService.dispatchFilling( this, false, x, y, color )
+        this.historyService.saveSnapShot()
+      }
     }
   }
 
@@ -76,10 +84,16 @@ export class DrawingService implements IHistoryService {
   }
 
   public static onhistorymove: HistoryMoveHandler | null = null
+  public static onfilling: FillingHandler | null = null
 
   private static dispatchHistoryMove( target:DrawingService, canUndo:boolean, canRedo:boolean ) {
     if( DrawingService.onhistorymove === null ) { return }
     DrawingService.onhistorymove( target, canUndo, canRedo )
+  }
+
+  private static dispatchFilling( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) {
+    if( this.onfilling === null ) { return }
+    this.onfilling( target, isStarting, x, y, color )
   }
 
 }
@@ -90,4 +104,8 @@ interface CreateEmptyImageFunction {
 
 interface HistoryMoveHandler {
   ( target:DrawingService, canUndo:boolean, canRedo:boolean ): Promise<void> | void
+}
+
+interface FillingHandler {
+  ( target:DrawingService, isStarting:boolean, x:number, y: number, color:string ): void
 }
