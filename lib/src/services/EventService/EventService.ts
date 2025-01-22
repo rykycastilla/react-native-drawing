@@ -4,12 +4,14 @@ import { EyeDropperEvent, FillingEvent, LoadEvent } from './_events'
 import { HistoryListener } from './HistoryListener'
 import { IDraw } from '../Draw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
+import { ScrollListener } from '../ScrollService'
 
 export class EventService extends EventDispatcher<EventListener> {
 
   constructor(
     private readonly target: Target,
     private readonly historyDispatcher: EventDispatcher<HistoryListener>,
+    private readonly scrollDispatcher: EventDispatcher<ScrollListener>,
   ) {
     super()
     this.setLoadEvent()
@@ -49,6 +51,9 @@ export class EventService extends EventDispatcher<EventListener> {
     if( type === 'history-move' ) {
       this.historyDispatcher.addEventListener( type, handler as any )  // eslint-disable-line
     }
+    else if( type === 'scroll' ) {
+      this.scrollDispatcher.addEventListener( type, handler as any )  // eslint-disable-line
+    }
     else {
       super.addEventListener( type, handler )
     }
@@ -57,6 +62,9 @@ export class EventService extends EventDispatcher<EventListener> {
   override removeEventListener<T extends EventType<EventListener>>( type:T, handler:EventHandler<T,EventListener> ) {
     if( type === 'history-move' ) {
       this.historyDispatcher.removeEventListener( type, handler as any )  // eslint-disable-line
+    }
+    else if( type === 'scroll' ) {
+      this.scrollDispatcher.removeEventListener( type, handler as any )  // eslint-disable-line
     }
     else {
       super.removeEventListener( type, handler )

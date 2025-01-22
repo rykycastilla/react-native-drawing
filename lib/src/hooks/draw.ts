@@ -1,14 +1,16 @@
-import { Draw, DrawProps } from '../services'
+import { Draw, DrawProps, ScrollService } from '../services'
 import { MessageSystem } from '../shared/utils/MessageSystem'
 import { useEffect, useMemo } from 'react'
 
-export function useDraw( drawProps:DrawProps, webBridge:MessageSystem|null ): Draw {
+export function useDraw(
+  drawProps:DrawProps, webBridge:MessageSystem|null, scrollService:ScrollService,
+): Draw {
 
   const { antialiasing, resolution, aspectRatio, tool, color } = drawProps
 
   // Creating draw object
   const draw: Draw = useMemo( () => {
-    return new Draw( { antialiasing, resolution, aspectRatio, tool, color } )
+    return new Draw( { antialiasing, resolution, aspectRatio, tool, color }, scrollService )
   }, [] )  // eslint-disable-line
 
   // Loading web bridge

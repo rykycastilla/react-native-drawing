@@ -3,6 +3,7 @@ import { EventHandler, EventType } from '../../utils/EventDispatcher'
 import { EventListener, EventService } from '../EventService'
 import { History } from '../History'
 import { IDraw } from './IDraw'
+import { ScrollService } from '../ScrollService'
 import { Tool } from '../../shared/modules/tools/models'
 import { WebDraw } from './WebDraw'
 
@@ -12,10 +13,12 @@ export class Draw extends WebDraw implements IDraw {
 
   constructor(
     private props: DrawProps,
+    scrollService:ScrollService,
   ) {
     super()
     const history = new History( this )
-    this.eventService = new EventService( this, history )
+    this.eventService = new EventService( this, history, scrollService )
+    scrollService.setTarget( this )
     this.setHistory( history )
   }
 
