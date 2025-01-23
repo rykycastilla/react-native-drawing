@@ -17,6 +17,7 @@ export abstract class TouchEventProcessor {
   protected triggerTouchDetectedEvent( touch:Touch ) {
     if( this.touchDetectedHandler === null ) { return }
     const { id, x, y } = touch
+    console.log( id, x, y )
     const event = new DrawTouchEvent( id, x, y )
     this.touchDetectedHandler( event )
   }

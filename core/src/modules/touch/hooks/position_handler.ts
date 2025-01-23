@@ -20,7 +20,8 @@ export function usePositionHandler( args:UsePositionHandlerArgs ): UsePositionHa
     if( !viewportControlAllowed ) { event.preventDefault() }
     for( const touch of event.changedTouches ) {
       const { identifier, clientX, clientY } = touch
-      touchService.start( identifier, clientX, clientY )
+      const { innerWidth, innerHeight } = window
+      touchService.start( identifier, clientX, clientY, innerWidth, innerHeight )
     }
   }, [ viewportControlAllowed, touchService ] )
 

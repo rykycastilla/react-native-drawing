@@ -5,8 +5,9 @@ export class TouchService extends TouchEventProcessor {
 
   private readonly touchIndex: Record<number,Touch> = {}
 
-  public start( index:number, x:number, y:number ) {
-    const touch = new Touch( x, y )
+  public start( index:number, x:number, y:number, width:number, height:number ) {
+    const minProgress: number = Touch.calcMinProgress( width, height )
+    const touch = new Touch( x, y, minProgress )
     this.touchIndex[ index ] = touch
     this.triggerTouchDetectedEvent( touch )
   }
@@ -14,8 +15,8 @@ export class TouchService extends TouchEventProcessor {
   public move( index:number, x:number, y:number ) {
     const touch: Touch | undefined = this.touchIndex[ index ]
     if( touch === undefined ) { return }
-    touch.setPosition( x, y )
-    this.triggerTouchDetectedEvent( touch )
+    const moved: boolean = touch.setPosition( x, y )
+    if( moved ) { this.triggerTouchDetectedEvent( touch ) }
   }
 
   public end( index:number ) {
