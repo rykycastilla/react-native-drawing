@@ -5,6 +5,7 @@ export interface _StartDTO {
   colorCode: string
   width: number
   height: number
+  animatedFiller: boolean
   pixelListBuffer: ArrayBuffer
 }
 

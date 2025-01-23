@@ -125,7 +125,7 @@ function useEraser( size:number ): Eraser {
   return eraser
 }
 
-function useFiller( color:string ): Filler {
+function useFiller( color:string, animatedFiller:boolean ): Filler {
 
   const initColor: string = useFreeze( color )
 
@@ -133,6 +133,10 @@ function useFiller( color:string ): Filler {
     const fillerQueue = new FillerQueue()
     return new Filler( initColor, fillerQueue, filterColorAlpha )
   }, [ initColor ] )
+
+  useEffect( () => {
+    filler.setAnimatedFiller( animatedFiller )
+  }, [ filler, animatedFiller ] )
 
   useColorStateSetter( filler, color )
   return filler
@@ -143,12 +147,13 @@ interface UseToolIndexArgs {
   color: string
   size: number
   spryParticles: SpryParticlesProps
+  animatedFiller: boolean
   setViewportControlAllowed( viewportControlAllowed:boolean ): void
 }
 
 export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
 
-  const { color, size, spryParticles, setViewportControlAllowed } = args
+  const { color, size, spryParticles, animatedFiller, setViewportControlAllowed } = args
   const { amount:spryParticlesAmount, scale:spryParticlesScale } = spryParticles
 
   const toolIndex: Record<number,ITool> = useMemo( () => {
@@ -163,7 +168,7 @@ export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
   toolIndex[ Tool.TAPE ] = useTape( color, size )
   toolIndex[ Tool.PENCIL ] = usePencil( color, size )
   toolIndex[ Tool.ERASER ] = useEraser( size )
-  toolIndex[ Tool.FILLER ] = useFiller( color )
+  toolIndex[ Tool.FILLER ] = useFiller( color, animatedFiller )
   return toolIndex
 
 }

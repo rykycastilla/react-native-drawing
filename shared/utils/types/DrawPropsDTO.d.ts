@@ -9,4 +9,5 @@ export interface DrawPropsDTO<T> {
   tool: T
   toolSize: number | undefined
   spryParticles: SpryParticlesProps
+  animatedFiller: boolean
 }

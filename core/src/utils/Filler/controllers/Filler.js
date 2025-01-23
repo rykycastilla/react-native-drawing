@@ -6,9 +6,10 @@ export class Filler extends FillerTask {
   /**
    * @param { number } width
    * @param { number } height
+   * @param { boolean } animatedFiller
   */
-  constructor( width, height ) {
+  constructor( width, height, animatedFiller ) {
     const taskManager = new TaskManager( Thread )
-    super( width, height, taskManager )
+    super( width, height, animatedFiller, taskManager )
   }
 }

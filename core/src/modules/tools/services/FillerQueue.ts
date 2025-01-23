@@ -17,9 +17,9 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
   }
 
   protected async runTask( args:FillerArgs ) {
-    const { x, y, color, scene } = args
+    const { x, y, color, animatedFiller, scene } = args
     const { width, height, pixelList } = scene.getBinaryData()
-    const util = new Filler( width, height )
+    const util = new Filler( width, height, animatedFiller )
     util.onFrame( ( image ) => {
       scene.setBinaryData( { ...image, colorChanels:4, maxChanel:255 } )
     } )

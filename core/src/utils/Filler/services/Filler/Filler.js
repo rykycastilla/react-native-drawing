@@ -11,17 +11,20 @@ export class Filler {
 
   /** @readonly */ width
   /** @readonly */ height
+  /** @readonly */ animatedFiller
   /** @private @type { FrameFunction | null } */ handleFrame = null
   /** @private @readonly */ taskManager
 
   /**
    * @param { number } width
    * @param { number } height
+   * @param { boolean } animatedFiller
    * @param { TaskManager } taskManager
    */
-  constructor( width, height, taskManager ) {
+  constructor( width, height, animatedFiller, taskManager ) {
     this.width = width
     this.height = height
+    this.animatedFiller = animatedFiller
     this.taskManager = taskManager
   }
 
@@ -60,10 +63,10 @@ export class Filler {
    * @returns { Promise<void> }
   */
   fill( x, y, color, pixelList ) {
-    const { width, height } = this
+    const { width, height, animatedFiller } = this
     const { thread:fillerThread, terminated } = this.taskManager.create()
     fillerThread.addEventListener( 'message', ( event ) => this.receive( event, terminated ) )
-    const messageData = { x, y, colorCode:color, width, height, pixelListBuffer:pixelList.buffer }
+    const messageData = { x, y, colorCode:color, width, height, animatedFiller, pixelListBuffer:pixelList.buffer }
     fillerThread.postMessage( { target:'start', ...messageData }, [ pixelList.buffer ] )
     return terminated
   }

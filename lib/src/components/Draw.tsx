@@ -23,6 +23,7 @@ export interface DrawProps {
   tool: Tool
   toolSize?: number
   spryParticles?: { amount?:number, scale?:number }
+  animatedFiller?: boolean
   onLoad?: ( event:LoadEvent ) => void
   onEyeDropper?: ( event:EyeDropperEvent ) => Promise<void> | void
   onFilling?: ( event:FillingEvent ) => Promise<void> | void

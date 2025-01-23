@@ -19,11 +19,12 @@ export class RenderingFiller extends AreaValidator {
    * @param { Color } color
    * @param { Image } image
    * @param { number } area
+   * @param { boolean } animatedFiller
   */
-  constructor( pixel, color, image, area ) {
+  constructor( pixel, color, image, area, animatedFiller ) {
     const previousColor = image.getColor( pixel )
     const circularArea = new CircularArea( pixel )
-    super( previousColor, color, image, area, [ pixel ], circularArea )
+    super( previousColor, color, image, area, [ pixel ], circularArea, animatedFiller )
   }
 
   /**

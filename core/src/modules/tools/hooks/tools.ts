@@ -9,12 +9,13 @@ interface UseToolsArgs {
   color:string,
   size:number,
   spryParticles: SpryParticlesProps
+  animatedFiller: boolean
   setViewportControlAllowed( viewportControlAllowed:boolean ): void
 }
 
 export function useTools( args:UseToolsArgs ): ITool {
-  const { tool, color, size, spryParticles, setViewportControlAllowed } = args
-  const useToolIndexArgs = { color, size, spryParticles, setViewportControlAllowed }
+  const { tool, color, size, spryParticles, animatedFiller, setViewportControlAllowed } = args
+  const useToolIndexArgs = { color, size, spryParticles, animatedFiller, setViewportControlAllowed }
   const toolIndex: Record<number,ITool> =  useToolIndex( useToolIndexArgs )
   return useCurrentTool( toolIndex, tool )
 }

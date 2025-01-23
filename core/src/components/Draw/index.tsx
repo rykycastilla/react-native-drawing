@@ -21,14 +21,27 @@ interface DrawProps {
   tool: Tool
   toolSize: number | undefined
   spryParticles: SpryParticlesProps
+  animatedFiller: boolean
   onLoad(): void
 }
 
 const Draw = ( props:DrawProps ): ReactElement => {
 
-  const { resolution, aspectRatio, color, grid, antialiasing = true, tool, onLoad, toolSize = DEFAULT_TOOL_SIZE, spryParticles } = props
+  const {
+    resolution,
+    aspectRatio,
+    color,
+    grid,
+    antialiasing = true,
+    tool,
+    onLoad,
+    toolSize = DEFAULT_TOOL_SIZE,
+    spryParticles,
+    animatedFiller,
+  } = props
+
   const [ viewportControlAllowed, setViewportControlAllowed ] = useState( false )
-  const useToolsArgs = { tool, color, size:toolSize, spryParticles, setViewportControlAllowed }
+  const useToolsArgs = { tool, color, size:toolSize, spryParticles, animatedFiller, setViewportControlAllowed }
   const currentTool: ITool = useTools( useToolsArgs )
   const drawingServiceRef = useRef<DrawingService|null>( null )
   useConnectDrawController( { drawingServiceRef } )

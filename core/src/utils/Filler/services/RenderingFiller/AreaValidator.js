@@ -13,6 +13,7 @@ export class AreaValidator extends Visitor {
   /** @private @readonly */ areaIncrement
   /** @private */ nextAreaPixelList
   /** @private @readonly */ area
+  /** @private @readonly */ animatedFiller
 
   /**
    * @param { Color } previousColor
@@ -21,12 +22,14 @@ export class AreaValidator extends Visitor {
    * @param { number } areaIncrement
    * @param { Pixel[] } nextAreaPixelList
    * @param { Area } area
+   * @param { boolean } animatedFiller
   */
-  constructor( previousColor, newColor, image, areaIncrement, nextAreaPixelList, area ) {
+  constructor( previousColor, newColor, image, areaIncrement, nextAreaPixelList, area, animatedFiller ) {
     super( previousColor, newColor, image )
     this.areaIncrement = areaIncrement
     this.nextAreaPixelList = nextAreaPixelList
     this.area = area
+    this.animatedFiller = animatedFiller
   }
 
   /**
@@ -74,10 +77,15 @@ export class AreaValidator extends Visitor {
     while( !this.pixelQueue.isEmpty ) {
       this.useNextPixel()
     }
-    this.validate()  // Rendering
+    // Rendering areas only if it is animated
+    if( this.animatedFiller ) { this.validate() }
     // Going to new area
     if( this.nextAreaPixelList.length > 0 ) {
       this.consumeArea()
+    }
+    // Rendering all the area at the end if it is not animated
+    else if( !this.animatedFiller ) {
+      this.validate()
     }
   }
 

@@ -8,6 +8,7 @@ export class Filler extends Tool implements ColorableTool {
   public onfinish: ( ( args:FillerData ) => void ) | null = null
   public onstarteachtask: ( ( args:FillerData ) => void ) | null = null
   #color: string
+  #animatedFiller = false
 
   constructor(
     color:string,
@@ -32,8 +33,8 @@ export class Filler extends Tool implements ColorableTool {
 
   override async addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
     strokeId
-    const { color } = this
-    this.fillerQueue.enqueueTask( { x, y, color, scene } )
+    const { color, animatedFiller } = this
+    this.fillerQueue.enqueueTask( { x, y, color, animatedFiller, scene } )
   }
 
   /**
@@ -56,12 +57,21 @@ export class Filler extends Tool implements ColorableTool {
     return this.fillerQueue.isConsuming
   }
 
+  get animatedFiller(): boolean {
+    return this.#animatedFiller
+  }
+
+  public setAnimatedFiller( animatedFiller:boolean ) {
+    this.#animatedFiller = animatedFiller
+  }
+
 }
 
 interface FillerData {
   x: number
   y: number
   color: string
+  animatedFiller: boolean
 }
 
 export interface FillerArgs extends FillerData {
