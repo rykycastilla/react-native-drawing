@@ -24,4 +24,12 @@ export interface IDraw extends IWebDraw, DrawHistory {
   */
   removeEventListener<T extends EventType<EventListener>>( type:T, handler:EventHandler<T,EventListener> ): void
 
+  /**
+   * Simulates a drawing touch imperatively
+   * @param method  'keep' value indicates that the touch object can be used to draw
+   * @returns  A touch object to draw with it (only with 'kepp' value in method)
+   */
+  touch( x:number, y:number ): void
+  touch( x:number, y:number, method:'keep' ): Promise<SyntheticTouch>
+
 }

@@ -3,3 +3,4 @@ export { EyeDropperEvent, FillingEvent, HistoryEvent, LoadEvent, ScrollEvent } f
 export { HistoryOutOfBoundsError } from './shared/modules/history/errors'
 export { Tool } from './shared/modules/tools/models'
 export { useFps } from './hooks'
+export type { ISyntheticTouch as SyntheticTouch } from './services'
