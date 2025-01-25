@@ -1,11 +1,16 @@
 import { DrawingService } from '../services'
 import { IWebDraw } from '@shared/utils/types/IWebDraw'
 
+import { SymbolParser } from '@shared/utils/SymbolParser'
+import { ITool } from '@tools/models'
+
 // @ts-expect-error - JSDoc Type
 import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'  // eslint-disable-line
 
 export class DrawController implements IWebDraw {
 
+  private readonly symbolParser = new SymbolParser()
+  private tool: ITool | null = null
   public onhistorymove: ( ( canUndo:boolean, canRedo:boolean ) => void ) | null = null
   public onfilling: ( ( isStarting:boolean, x:number, y:number, color:string ) => void ) | null = null
   public onframereport: ( ( fps:number ) => void ) | null = null
@@ -68,8 +73,24 @@ export class DrawController implements IWebDraw {
     await this.drawingService.redo()
   }
 
+  public touch( type:TouchType, x:number, y:number, parsedId:number ) {
+    if( this.tool === null ) { return }
+    const id: symbol = this.symbolParser.toSymbol( parsedId )
+    if( ( type === 'start' ) || ( type === 'move' ) ) {
+      console.log( parsedId )
+      this.drawingService.use( x, y, id, this.tool )
+    }
+    else if( type === 'end' ) {
+      this.drawingService.stopStroke( x, y, id, this.tool )
+    }
+  }
+
   private get drawingService(): DrawingService {
     return this.drawingServiceRef.current
+  }
+
+  public setTool( tool:ITool ) {
+    this.tool = tool
   }
 
 }
@@ -77,3 +98,5 @@ export class DrawController implements IWebDraw {
 interface DrawingServiceRef {
   current: DrawingService
 }
+
+type TouchType = 'start' | 'move' | 'end'

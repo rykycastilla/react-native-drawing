@@ -14,6 +14,13 @@ export class Draw extends WebDraw implements IDraw {
   private readonly eventService: EventService
   private readonly touchService: TouchService
 
+  public readonly ready = new Promise<void>( ( resolve ) => {
+    ( async() => {
+      await this.coreLoaded
+      resolve()
+    } )()
+  } )
+
   constructor(
     private props: DrawProps,
     scrollService:ScrollService,
@@ -21,7 +28,7 @@ export class Draw extends WebDraw implements IDraw {
     super()
     const history = new History( this )
     this.eventService = new EventService( this, history, scrollService )
-    this.touchService = new TouchService( () => this.webBridgeLoaded )
+    this.touchService = new TouchService( () => this.coreLoaded )
     scrollService.setTarget( this )
     this.setHistory( history )
   }

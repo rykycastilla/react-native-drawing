@@ -4,7 +4,7 @@ import { UnexpectedTouchError } from '../../errors'
 export class SyntheticTouch implements ISyntheticTouch {
 
   private readonly id = Symbol()
-  private isPressing = false
+  private isPressing = true
   private latestPixel: Pixel
 
   constructor(

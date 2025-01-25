@@ -26,7 +26,7 @@ export class History extends EventDispatcher<HistoryListener> {
     * @throws { HistoryOutOfBoundsError }
   */
   public async undo() {
-    const webBridge: MessageSystem = await this.target.webBridgeLoaded
+    const webBridge: MessageSystem = await this.target.coreLoaded
     try { await webBridge.postMessage( 'draw-history-undo', null ) }
     catch { throw new HistoryOutOfBoundsError() }
   }
@@ -35,7 +35,7 @@ export class History extends EventDispatcher<HistoryListener> {
    * @throws { HistoryOutOfBoundsError }
   */
   public async redo() {
-    const webBridge: MessageSystem = await this.target.webBridgeLoaded
+    const webBridge: MessageSystem = await this.target.coreLoaded
     try { await webBridge.postMessage( 'draw-history-redo', null ) }
     catch { throw new HistoryOutOfBoundsError() }
   }
@@ -49,4 +49,5 @@ interface HistoryListener {
 
 interface Target extends IDraw {
   webBridgeLoaded: Promise<MessageSystem>
+  coreLoaded: Promise<MessageSystem>
 }

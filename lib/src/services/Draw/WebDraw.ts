@@ -18,17 +18,17 @@ export class WebDraw extends WebBridgeLoader implements IWebDraw {
   }
 
   public async clear( color?:string ): Promise<void> {
-    const webBridge: MessageSystem = await this.webBridgeLoaded
+    const webBridge: MessageSystem = await this.coreLoaded
     await webBridge.postMessage( 'draw-clear', color ) as Promise<string>
   }
 
   public async getImage(): Promise<string> {
-    const webBridge: MessageSystem = await this.webBridgeLoaded
+    const webBridge: MessageSystem = await this.coreLoaded
     return webBridge.postMessage( 'draw-get-image', null ) as Promise<string>
   }
 
   public async setImage( image:string ): Promise<void> {
-    const webBridge: MessageSystem = await this.webBridgeLoaded
+    const webBridge: MessageSystem = await this.coreLoaded
     await webBridge.postMessage( 'draw-set-image', image )
   }
 

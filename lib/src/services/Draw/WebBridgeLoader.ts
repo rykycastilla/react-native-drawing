@@ -5,13 +5,23 @@ import { MessageSystem } from '../../shared/utils/MessageSystem'
 */
 export class WebBridgeLoader {
 
+  /** A promise with the current web bridge when it is loaded */
+  public readonly webBridgeLoaded: Promise<MessageSystem>
+
   private loaded = false
   private resolveWebBridge!: ( webBridge:MessageSystem ) => void
-  #webBridgeLoaded: Promise<MessageSystem>
+
+  /** A promise that occurs when the drawing core is loaded, giving its bridge */
+  public readonly coreLoaded: Promise<MessageSystem>
+
+  private resolveCore!: ( webBridge:MessageSystem ) => void
 
   constructor() {
-    this.#webBridgeLoaded = new Promise<MessageSystem>( ( resolve ) => {
+    this.webBridgeLoaded = new Promise<MessageSystem>( ( resolve ) => {
       this.resolveWebBridge = resolve
+    } )
+    this.coreLoaded = new Promise<MessageSystem>( ( resolve ) => {
+      this.resolveCore = resolve
     } )
   }
 
@@ -24,9 +34,12 @@ export class WebBridgeLoader {
     this.loaded = true
   }
 
-  /** A promise with the current web bridge when it is loaded */
-  get webBridgeLoaded(): Promise<MessageSystem> {
-    return this.#webBridgeLoaded
+  /**
+   * Indicates drawing core was loaded
+  */
+  public async loadCore() {
+    const webBridge: MessageSystem = await this.webBridgeLoaded
+    this.resolveCore( webBridge )
   }
 
 }

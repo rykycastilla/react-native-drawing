@@ -1,27 +1,36 @@
 import { DrawController } from '@draw/controllers'
 import { DrawingService } from '@draw/services'
+import { ITool } from '@tools/models'
 import { MutableRefObject, useEffect, useMemo } from 'react'
 import { RNBridge } from '@utils/RNBridge'
 
-interface UseDrawControllerRefArgs {
-  drawingServiceRef: MutableRefObject<DrawingService|null>
-}
+function useDrawControllerRef(
+  drawingServiceRef:MutableRefObject<DrawingService|null>, currentTool:ITool,
+): DrawController {
 
-function useDrawControllerRef( args:UseDrawControllerRefArgs ): DrawController {
-  const { drawingServiceRef } = args
-  return useMemo( () => {
+  const drawController: DrawController = useMemo( () => {
     return new DrawController( drawingServiceRef as { current:DrawingService } )
   }, [ drawingServiceRef ] )
+
+  useEffect( () => {
+    drawController.setTool( currentTool )
+  }, [ drawController, currentTool ] )
+
+  return drawController
+
 }
 
 interface UseConnectDrawControllerArgs {
   drawingServiceRef: MutableRefObject<DrawingService|null>
+  currentTool: ITool
 }
 
 export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
 
-  const { drawingServiceRef } = args
-  const drawController: DrawController | null = useDrawControllerRef( { drawingServiceRef } )
+  const { drawingServiceRef, currentTool } = args
+  const drawController: DrawController | null = useDrawControllerRef(
+    drawingServiceRef, currentTool,
+  )
 
   useEffect( () => {
     if( drawController === null ) { return }
@@ -55,6 +64,12 @@ export function useConnectDrawController( args:UseConnectDrawControllerArgs ) {
     RNBridge.onMessage( 'draw-history-redo', async() => {
       await drawController.redo()
     } )
+    RNBridge.onMessage( 'draw-touch', ( args:unknown ) => {
+      const { type, x, y, parsedId } = args as { type:TouchType, x:number, y:number, parsedId:number }
+      drawController.touch( type, x, y, parsedId )
+    } )
   }, [ drawController ] )
 
 }
+
+type TouchType = 'start' | 'move' | 'end'

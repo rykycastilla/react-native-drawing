@@ -44,7 +44,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
   const useToolsArgs = { tool, color, size:toolSize, spryParticles, animatedFiller, setViewportControlAllowed }
   const currentTool: ITool = useTools( useToolsArgs )
   const drawingServiceRef = useRef<DrawingService|null>( null )
-  useConnectDrawController( { drawingServiceRef } )
+  useConnectDrawController( { drawingServiceRef, currentTool } )
   const { setDisplayLoaded, setGridLoaded } = useLoader( onLoad )
 
   return (

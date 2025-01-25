@@ -17,7 +17,10 @@ export class SymbolParser {
   */
   public toId( sym:symbol ): number {
     let id: number | undefined = this.index.get( sym )
-    if( id === undefined ) { id = this.idAllocator.getFree() }
+    if( id === undefined ) {
+      id = this.idAllocator.getFree()
+      this.index.set( sym, id )
+    }
     return id
   }
 
@@ -26,7 +29,10 @@ export class SymbolParser {
   */
   public toSymbol( id:number ): symbol {
     let sym: symbol | undefined = this.index.get( id )
-    if( sym === undefined ) { sym = Symbol() }
+    if( sym === undefined ) {
+      sym = Symbol()
+      this.index.set( sym, id )
+    }
     return sym
   }
 
