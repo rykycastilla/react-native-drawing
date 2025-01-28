@@ -1,6 +1,6 @@
 export class StopService {
 
-  private static readonly STOP_TIMEOUT = 60_000
+  private static readonly STOP_TIMEOUT = 3000
   private readonly stopHandlerList: ( () => void )[] = []
   #isStopped = false
 
