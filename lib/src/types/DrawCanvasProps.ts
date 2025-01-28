@@ -1,7 +1,7 @@
 import { Tool } from '../shared/modules/tools/models'
 import { ViewportWidth } from '../components/WebContainer'
 
-interface DrawCanvasProps {
+export interface DrawCanvasProps {
   width?: ViewportWidth
   aspectRatio?: number
   resolution: number

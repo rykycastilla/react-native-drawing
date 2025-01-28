@@ -6,7 +6,7 @@ import { ISyntheticTouch } from '../services/TouchService'
 import { IWebDraw } from '../shared/utils/types/IWebDraw'
 import { Tool } from '../shared/modules/tools/models'
 
-interface Draw extends IWebDraw, Component<DrawProps> {
+export interface Draw extends IWebDraw, Component<DrawProps> {
 
   antialiasing: boolean
   width: number

@@ -30,5 +30,5 @@
     "noFallthroughCasesInSwitch": true,
     
   },
-  "include": ["src", "../core/src/utils/HTMLCanvasElement.ts"]
+  "include": ["src"]
 }
