@@ -1,4 +1,4 @@
-import { IDraw } from '../Draw'
+import { Draw } from '../../types/Draw'
 import { View } from './View'
 
 export class ScrollEvent {
@@ -6,7 +6,7 @@ export class ScrollEvent {
   public readonly view: View
 
   constructor(
-    public readonly target: IDraw,
+    public readonly target: Draw,
     public readonly x: number,
     public readonly y: number,
     public readonly scale: number,
@@ -15,7 +15,7 @@ export class ScrollEvent {
   /**
    * Calculates the curret view dimensions (inside of the content), when you are scrolling or zooming
   */
-  private static calcView( target:IDraw, scale:number ): View {
+  private static calcView( target:Draw, scale:number ): View {
     const width: number = ScrollEvent.calcViewSide( target.width, scale )
     const height: number = ScrollEvent.calcViewSide( target.height, scale )
     return { width, height }

@@ -2,14 +2,16 @@ import { EventDispatcher, EventHandler, EventType } from '../../utils/EventDispa
 import { EventListener } from './EventListener'
 import { EyeDropperEvent, FillingEvent, LoadEvent } from './_events'
 import { HistoryListener } from './HistoryListener'
-import { IDraw } from '../Draw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
 import { ScrollListener } from '../ScrollService'
+
+import { Draw } from '../../types/Draw'
 
 export class EventService extends EventDispatcher<EventListener> {
 
   constructor(
-    private readonly target: Target,
+    private readonly target: Draw,
+    private readonly loader: Loader,
     private readonly historyDispatcher: EventDispatcher<HistoryListener>,
     private readonly scrollDispatcher: EventDispatcher<ScrollListener>,
   ) {
@@ -20,7 +22,7 @@ export class EventService extends EventDispatcher<EventListener> {
   }
 
   private async setLoadEvent() {
-    const webBridge: MessageSystem = await this.target.webBridgeLoaded
+    const webBridge: MessageSystem = await this.loader.webBridgeLoaded
     webBridge.onMessage( 'load', () => {
       const event = new LoadEvent( this.target )
       this.dispatch( 'load', event )
@@ -28,7 +30,7 @@ export class EventService extends EventDispatcher<EventListener> {
   }
 
   private async setEyeDropperEvent() {
-    const webBridge: MessageSystem = await this.target.webBridgeLoaded
+    const webBridge: MessageSystem = await this.loader.webBridgeLoaded
     webBridge.onMessage( 'eye-dropper', ( args:unknown ) => {
       const { color } = args as { color:string }
       const event = new EyeDropperEvent( this.target, color )
@@ -37,7 +39,7 @@ export class EventService extends EventDispatcher<EventListener> {
   }
 
   private async setFillingEvent() {
-    const webBridge: MessageSystem = await this.target.webBridgeLoaded
+    const webBridge: MessageSystem = await this.loader.webBridgeLoaded
     webBridge.onMessage( 'filling', ( args:unknown ) => {
       const {
         isStarting, x, y, color,
@@ -73,6 +75,6 @@ export class EventService extends EventDispatcher<EventListener> {
 
 }
 
-interface Target extends IDraw {
+interface Loader {
   webBridgeLoaded: Promise<MessageSystem>
 }

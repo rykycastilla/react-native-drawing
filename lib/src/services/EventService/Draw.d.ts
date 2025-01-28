@@ -1,3 +1,1 @@
-import { IDraw } from '../Draw'
-
-export interface Draw extends IDraw {}
+export { Draw } from '../../types/Draw'

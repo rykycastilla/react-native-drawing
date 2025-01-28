@@ -1,16 +1,17 @@
+import { Draw } from '../../types/Draw'
 import { EventDispatcher } from '../../utils/EventDispatcher'
-import { IDraw } from '../Draw'
-import { MessageSystem } from '../../shared/utils/MessageSystem'
 import { ScrollEvent } from './_ScrollEvent'
 import { ScrollListener } from './ScrollListener'
 import { View } from './View'
 
 export class ScrollService extends EventDispatcher<ScrollListener> {
 
-  private target: Target | null = null
   #container: View
 
-  constructor( container:View ) {
+  constructor(
+    private readonly target: Draw,
+    container:View,
+  ) {
     super()
     this.#container = container
   }
@@ -41,7 +42,6 @@ export class ScrollService extends EventDispatcher<ScrollListener> {
    * @fires ScrollEvent
   */
   public dispatchScrollEvent( realContainer:View, view:View, x:number, y:number ) {
-    if( this.target === null ) { return }
     // Calculating reference position
     const referenceX: number = this.fixPosition( x, realContainer.width, this.container.width )
     const referenceY: number = this.fixPosition( y, realContainer.height, this.container.height )
@@ -52,10 +52,6 @@ export class ScrollService extends EventDispatcher<ScrollListener> {
     this.dispatch( 'scroll', event )
   }
 
-  public setTarget( target:Target ) {
-    this.target = target
-  }
-
   get container(): View {
     return this.#container
   }
@@ -64,8 +60,4 @@ export class ScrollService extends EventDispatcher<ScrollListener> {
     this.#container = container
   }
 
-}
-
-interface Target extends IDraw {
-  webBridgeLoaded: Promise<MessageSystem>
 }

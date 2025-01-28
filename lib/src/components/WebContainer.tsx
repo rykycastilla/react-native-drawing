@@ -32,4 +32,4 @@ const WebContainer = forwardRef( ( props:WebContainerProps, ref:ForwardedRef<Web
 } )
 
 export default WebContainer
-export type { ViewportWidth }
+export type { ViewportWidth, ScrollHandler }

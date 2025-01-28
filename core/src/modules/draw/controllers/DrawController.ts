@@ -77,7 +77,6 @@ export class DrawController implements IWebDraw {
     if( this.tool === null ) { return }
     const id: symbol = this.symbolParser.toSymbol( parsedId )
     if( ( type === 'start' ) || ( type === 'move' ) ) {
-      console.log( parsedId )
       this.drawingService.use( x, y, id, this.tool )
     }
     else if( type === 'end' ) {

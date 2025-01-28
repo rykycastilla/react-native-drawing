@@ -3,5 +3,6 @@ export { EyeDropperEvent, FillingEvent, HistoryEvent, LoadEvent, ScrollEvent } f
 export { HistoryOutOfBoundsError } from './shared/modules/history/errors'
 export { Tool } from './shared/modules/tools/models'
 export { UnexpectedTouchError } from './errors'
-export { useFps } from './hooks'
+export { useFps } from './hooks/fps'
+export type { DrawProps } from './types/DrawProps'
 export type { ISyntheticTouch as SyntheticTouch } from './services'

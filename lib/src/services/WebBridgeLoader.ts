@@ -1,4 +1,4 @@
-import { MessageSystem } from '../../shared/utils/MessageSystem'
+import { MessageSystem } from '../shared/utils/MessageSystem'
 
 /**
  * Allow to load in runtime a web bridge (Message System)

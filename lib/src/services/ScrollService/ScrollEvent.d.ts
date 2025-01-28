@@ -1,4 +1,4 @@
-import { IDraw } from '../Draw'
+import { IDraw } from '../WebDraw'
 import { View } from './View'
 
 export class ScrollEvent {

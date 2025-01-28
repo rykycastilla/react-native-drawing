@@ -1,4 +1,4 @@
-import { IDraw as Draw } from '../Draw/IDraw'
+import { Draw } from '../../types/Draw'
 
 export class HistoryEvent {
   constructor(
