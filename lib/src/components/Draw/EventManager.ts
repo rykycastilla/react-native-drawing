@@ -22,10 +22,18 @@ export abstract class EventManager extends Renderer {
     useScrollService( resolution, aspectRatio, this.scrollService )  // eslint-disable-line
   }
 
+  /**
+   * Appends an event listener for events whose type attribute
+   * value is type. The callback argument sets the handler that
+   * will be invoked when the event is dispatched.
+  */
   public addEventListener<T extends EventType<EventListener>>( type:T, handler:EventHandler<T,EventListener> ) {
     this.eventService.addEventListener( type, handler )
   }
 
+  /**
+   * Removes the event listener in target's event listener list with the same type and callback
+  */
   public removeEventListener<T extends EventType<EventListener>>( type:T, handler:EventHandler<T,EventListener> ) {
     this.eventService.removeEventListener( type, handler )
   }
