@@ -2,7 +2,7 @@ import { DEFAULT_ASPECT_RATIO } from '../../constants'
 import { DrawManager } from './DrawManager'
 import { DrawProps } from '../../types/DrawProps'
 import { EventService, History, ScrollService } from '../../services'
-import { TouchService, WebBridgeLoader, WebDraw } from '../../services'
+import { TouchService, WebBridgeLoader, DrawCore } from '../../services'
 import { useScrollService } from '../../functions/use_scroll_service'
 
 class Draw extends DrawManager {
@@ -11,7 +11,7 @@ class Draw extends DrawManager {
   protected readonly scrollService: ScrollService
   protected readonly eventService: EventService
   protected readonly touchService: TouchService
-  protected readonly webDraw: WebDraw
+  protected readonly core: DrawCore
 
   public readonly ready = new Promise<void>( ( resolve ) => {
     ( async() => {
@@ -27,7 +27,7 @@ class Draw extends DrawManager {
     this.scrollService = useScrollService( this, resolution, aspectRatio  )  // eslint-disable-line
     this.eventService = new EventService( this, this.loader, history, this.scrollService )
     this.touchService = new TouchService( () => this.loader.coreLoaded )
-    this.webDraw = new WebDraw( this.loader, history )
+    this.core = new DrawCore( this.loader, history )
     this.setComponentEvents()
     this.setCoreLoaded()
   }

@@ -1,12 +1,12 @@
 import { FpsStateManager } from './FpsStateManager'
 import { History } from '../History'
-import { IWebDraw } from '../../shared/utils/types/IWebDraw'
+import { IDrawCore } from '../../shared/utils/types/IDrawCore'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
 
 // @ts-expect-error - JSDoc Type
 import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'  // eslint-disable-line
 
-export class WebDraw implements IWebDraw {
+export class DrawCore implements IDrawCore {
 
   private readonly fpsStateManager = new FpsStateManager()
 

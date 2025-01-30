@@ -1,13 +1,12 @@
 import { DrawingService } from '../services'
-import { IWebDraw } from '@shared/utils/types/IWebDraw'
-
-import { SymbolParser } from '@shared/utils/SymbolParser'
+import { IDrawCore } from '@shared/utils/types/IDrawCore'
 import { ITool } from '@tools/models'
+import { SymbolParser } from '@shared/utils/SymbolParser'
 
 // @ts-expect-error - JSDoc Type
 import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'  // eslint-disable-line
 
-export class DrawController implements IWebDraw {
+export class CoreController implements IDrawCore {
 
   private readonly symbolParser = new SymbolParser()
   private tool: ITool | null = null

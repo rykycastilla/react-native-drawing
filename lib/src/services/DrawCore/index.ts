@@ -1,2 +1,2 @@
 export * from './FpsStateManager'
-export * from './WebDraw'
+export * from './DrawCore'

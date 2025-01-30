@@ -1,7 +1,7 @@
 // @ts-expect-error - JSDoc Type
 import { HistoryOutOfBoundsError } from '../../modules/history/errors'  // eslint-disable-line
 
-export interface IWebDraw {
+export interface IDrawCore {
 
   /**
    * Clear the drawing canvas

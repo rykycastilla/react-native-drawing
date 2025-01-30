@@ -1,10 +1,10 @@
+import { CoreManager } from './CoreManager'
 import { DEFAULT_ANTIALIASING, DEFAULT_ASPECT_RATIO } from '../../constants'
 import { Draw as IDraw } from '../../types/Draw'
 import { Tool } from '../../shared/modules/tools/models'
 import { TouchService } from '../../services'
-import { WebDrawManager } from './WebDrawManager'
 
-export abstract class DrawManager extends WebDrawManager implements IDraw {
+export abstract class DrawManager extends CoreManager implements IDraw {
 
   protected abstract touchService: TouchService
   public abstract readonly ready: Promise<void>

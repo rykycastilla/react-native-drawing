@@ -2,10 +2,10 @@ import { Component } from 'react'
 import { DrawProps } from './DrawProps'
 import { EventHandler, EventType } from '../utils/EventDispatcher'
 import { EventListener } from '../services/EventService'
-import { IWebDraw } from '../shared/utils/types/IWebDraw'
+import { IDrawCore } from '../shared/utils/types/IDrawCore'
 import { Tool } from '../shared/modules/tools/models'
 
-export interface Draw extends IWebDraw, Component<DrawProps> {
+export interface Draw extends IDrawCore, Component<DrawProps> {
 
   antialiasing: boolean
   width: number

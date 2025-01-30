@@ -1,4 +1,4 @@
-import { IDraw } from '../WebDraw/IDraw'
+import { IDraw } from '../DrawCore/IDraw'
 
 export class HistoryEvent {
 

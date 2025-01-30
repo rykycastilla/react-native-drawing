@@ -1,5 +1,5 @@
 import Draw from '../components/Draw'
-import { FpsStateManager, WebDraw } from '../services'
+import { FpsStateManager, DrawCore } from '../services'
 import { MutableRefObject, useEffect, useState } from 'react'
 import { UnexpectedTargetError } from '../errors'
 
@@ -15,8 +15,8 @@ export function useFps( drawRef:MutableRefObject<Draw|null> ): number {
     if( !( draw instanceof Draw ) ) {
       throw new UnexpectedTargetError( useFps.name, draw, Draw )
     }
-    const { webDraw } = draw as unknown as { webDraw:WebDraw }
-    const { fpsStateManager } = webDraw as unknown as { fpsStateManager:FpsStateManager }
+    const { core } = draw as unknown as { core:DrawCore }
+    const { fpsStateManager } = core as unknown as { fpsStateManager:FpsStateManager }
     fpsStateManager.addSetter( setFps )
     return () => fpsStateManager.removeSetter( setFps )
   }, [ drawRef, setFps ] )

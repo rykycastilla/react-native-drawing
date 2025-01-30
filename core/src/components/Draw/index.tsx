@@ -7,7 +7,7 @@ import { ITool } from '@tools/models'
 import { ReactElement, useRef, useState } from 'react'
 import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
-import { useConnectDrawController } from '@draw/hooks'
+import { useCoreConnection } from '@draw/hooks'
 import { useLoader } from './hooks'
 import { useTools } from '@tools/hooks'
 import './styles.css'
@@ -44,7 +44,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
   const useToolsArgs = { tool, color, size:toolSize, spryParticles, animatedFiller, setViewportControlAllowed }
   const currentTool: ITool = useTools( useToolsArgs )
   const drawingServiceRef = useRef<DrawingService|null>( null )
-  useConnectDrawController( { drawingServiceRef, currentTool } )
+  useCoreConnection( { drawingServiceRef, currentTool } )
   const { setDisplayLoaded, setGridLoaded } = useLoader( onLoad )
 
   return (
