@@ -2,6 +2,7 @@ import { DEFAULT_ASPECT_RATIO } from '../../constants'
 import { DrawManager } from './DrawManager'
 import { DrawProps } from '../../types/DrawProps'
 import { EventService, History, ScrollService } from '../../services'
+import { Tool } from '../../shared/modules/tools/models'
 import { TouchService, WebBridgeLoader, DrawCore } from '../../services'
 import { useScrollService } from '../../functions/use_scroll_service'
 
@@ -34,6 +35,16 @@ class Draw extends DrawManager {
 
   private setCoreLoaded() {
     this.addEventListener( 'load', () => this.loader.loadCore() )
+  }
+
+  /**
+   * @override
+  */
+  public toJSON(): object {
+    const { width, height, tool, toolColor } = this
+    const toolName: string = Tool[ tool ].toLowerCase()
+    const message = `DRAW_REF: ${ width }x${ height }, ${ toolColor } ${ toolName }`
+    return [ message ]
   }
 
 }
