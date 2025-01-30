@@ -2,10 +2,11 @@ import { DEFAULT_ASPECT_RATIO } from '../../constants'
 import { DrawProps } from '../../types/DrawProps'
 import { EventListener, EventService, ScrollService, View } from '../../services'
 import { EventHandler, EventType } from '../../utils/EventDispatcher'
-import { NativeScrollEvent, Renderer } from './Renderer'
+import { NativeScrollEvent } from './Renderer'
+import { StateReceptionManager } from './StateReceptionManager'
 import { useScrollService } from '../../functions/use_scroll_service'
 
-export abstract class EventManager extends Renderer {
+export abstract class EventManager extends StateReceptionManager {
 
   protected abstract eventService: EventService
   protected abstract scrollService: ScrollService

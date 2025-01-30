@@ -1,8 +1,7 @@
 import { DrawingService } from '../services'
-import { IWebDraw } from '@shared/utils/types/IWebDraw'
-
-import { SymbolParser } from '@shared/utils/SymbolParser'
 import { ITool } from '@tools/models'
+import { IWebDraw } from '@shared/utils/types/IWebDraw'
+import { SymbolParser } from '@shared/utils/SymbolParser'
 
 // @ts-expect-error - JSDoc Type
 import { HistoryOutOfBoundsError } from '@shared/modules/history/errors'  // eslint-disable-line
@@ -76,6 +75,7 @@ export class DrawController implements IWebDraw {
   public touch( type:TouchType, x:number, y:number, parsedId:number ) {
     if( this.tool === null ) { return }
     const id: symbol = this.symbolParser.toSymbol( parsedId )
+    console.log( '%c Tocando: ', 'color: orange;', x, y )
     if( ( type === 'start' ) || ( type === 'move' ) ) {
       this.drawingService.use( x, y, id, this.tool )
     }
@@ -90,6 +90,7 @@ export class DrawController implements IWebDraw {
 
   public setTool( tool:ITool ) {
     this.tool = tool
+    console.log( '%c herramienta establecida', 'color: green;', tool )
   }
 
 }

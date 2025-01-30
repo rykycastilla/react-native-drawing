@@ -19,6 +19,11 @@ export abstract class Renderer extends Component<DrawProps> {
   protected abstract dispatchScrollEvent( event:NativeScrollEvent ): void
 
   /**
+   * Indicates a state reception
+  */
+  protected abstract onNewState(): void
+
+  /**
    * @throws { InvalidGridError }
    */
   override render(): ReactElement {
@@ -26,6 +31,7 @@ export abstract class Renderer extends Component<DrawProps> {
       <DrawCanvas
         dispatchScrollEvent={ ( event ) => this.dispatchScrollEvent( event ) }
         onWebBridge={ ( webBridge:MessageSystem ) => this.loader.loadWebBridge( webBridge ) }
+        onNewState={ () => this.onNewState() }
         { ...this.props } />
     )
   }

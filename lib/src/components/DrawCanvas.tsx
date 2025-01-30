@@ -17,6 +17,7 @@ import { InvalidGridError } from '../errors'  // eslint-disable-line
 
 interface DrawCanvasProps extends PublicDrawCanvasProps {
   onWebBridge( webBridge:MessageSystem ): void
+  onNewState(): void
   dispatchScrollEvent: ScrollHandler
 }
 
@@ -26,7 +27,8 @@ interface DrawCanvasProps extends PublicDrawCanvasProps {
 const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
 
   const {
-    width = '100%', aspectRatio = DEFAULT_ASPECT_RATIO, grid, onWebBridge, dispatchScrollEvent,
+    width = '100%', aspectRatio = DEFAULT_ASPECT_RATIO, grid,
+    onWebBridge, onNewState, dispatchScrollEvent,
   } = props
 
   const webViewRef = useRef<WebView|null>( null )
@@ -34,7 +36,7 @@ const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
   const { webBridge, onLoadWebView } = useWebBridge( suscribe, postMessage, onWebBridge )
   useGridGuard( grid )
   useViewResizer( webBridge, width, aspectRatio )
-  useDrawState( webBridge, props )
+  useDrawState( webBridge, props, onNewState )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent
