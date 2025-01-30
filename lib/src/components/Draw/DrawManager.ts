@@ -1,7 +1,7 @@
 import { DEFAULT_ANTIALIASING, DEFAULT_ASPECT_RATIO } from '../../constants'
 import { Draw as IDraw } from '../../types/Draw'
-import { SyntheticTouch, TouchService } from '../../services'
 import { Tool } from '../../shared/modules/tools/models'
+import { TouchService } from '../../services'
 import { WebDrawManager } from './WebDrawManager'
 
 export abstract class DrawManager extends WebDrawManager implements IDraw {
@@ -9,12 +9,12 @@ export abstract class DrawManager extends WebDrawManager implements IDraw {
   protected abstract touchService: TouchService
   public abstract readonly ready: Promise<void>
 
-  public touch( x:number, y:number ): Promise<void>
-  public touch( x:number, y:number, method:'keep' ): Promise<SyntheticTouch>
+  // public touch( x:number, y:number ): Promise<void>
+  // public touch( x:number, y:number, method:'keep' ): Promise<SyntheticTouch>
 
-  public touch( x:number, y:number, method?:'keep' ): Promise<SyntheticTouch|void> {
-    return this.touchService.touch( x, y, method )
-  }
+  // public touch( x:number, y:number, method?:'keep' ): Promise<SyntheticTouch|void> {
+  //   return this.touchService.touch( x, y, method )
+  // }
 
   get antialiasing(): boolean {
     return this.props.antialiasing ?? DEFAULT_ANTIALIASING
