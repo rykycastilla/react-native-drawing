@@ -5,7 +5,8 @@
   "main": "./lib/dist/lib/src/index.js",
   "types": "./lib/dist/lib/src/index.d.ts",
   "scripts": {
-    "postinstall": "npm install --prefix ./core ; npm install --prefix ./lib ; npm run create-env ; npm run create-bundle-blank",
+    "delete-duplicated-react": "node ./scripts/delete-react",
+    "postinstall": "npm install --prefix ./core ; npm install --prefix ./lib ; npm run create-env ; npm run create-bundle-blank ; npm run delete-duplicated-react",
     "dev": "cd core ; npm run dev",
     "lint": "tsc --noEmit -p ./core/tsconfig.app.json ; tsc --noEmit -p ./lib/tsconfig.json ; eslint .",
     "build": "npm run build-core ; npm run create-bundle ; npm run build-lib ; npm run set-production",
