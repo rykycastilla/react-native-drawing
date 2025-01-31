@@ -1,8 +1,9 @@
-./.git/
-./core/
-./lib/src/
-./shared/
-./.env.json
-./.eslintrc.cjs
-./ARCHITECTURE.md
-./build.json
+/.git/
+/core/
+/lib/node_modules
+/lib/src/
+/shared/
+/.env.json
+/.eslintrc.cjs
+/ARCHITECTURE.md
+/build.json
