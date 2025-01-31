@@ -1,53 +1,40 @@
-import { Layout, Point } from '../models'
+import { Point } from '../models'
 
 export class CoordinatesService {
 
-  public static NULL_POINT: Point = {
-    x: NaN,
-    y: NaN,
+  #layout: number
+  #resolution: number
+
+  constructor( layout:number, resolution:number ) {
+    this.#layout = layout
+    this.#resolution = resolution
   }
 
-  private layout: Layout | null = null
-  #resolutionWidth: number
-  #resolutionHeight: number
-
-  constructor( resolutionWidth:number, resolutionHeight:number ) {
-    this.#resolutionWidth = resolutionWidth
-    this.#resolutionHeight = resolutionHeight
-  }
-
-  private fixAxis( resolution:number, axis:number, size:number, position:number ): number {
-    const scale: number = resolution / size,
-      result = ( axis - position ) * scale
+  private fix( value:number ) {
+    const result: number = value / this.layout * this.resolution
     return Math.round( result )
   }
 
   public toInternal( externalX:number, externalY:number ): Point {
-    if( this.layout === null ) { return CoordinatesService.NULL_POINT }
-    const { width, height, top, left } = this.layout
-    const x: number = this.fixAxis( this.resolutionWidth, externalX, width, left ),
-      y = this.fixAxis( this.resolutionHeight, externalY, height, top )
+    const x = this.fix( externalX )
+    const y = this.fix( externalY )
     return { x, y }
   }
 
-  get resolutionWidth(): number {
-    return this.#resolutionWidth
+  get layout(): number {
+    return this.#layout
   }
 
-  public setResolutionWidth( resolutionWidth:number ) {
-    this.#resolutionWidth = resolutionWidth
+  public setLayout( layout:number ) {
+    this.#layout = layout
   }
 
-  get resolutionHeight(): number {
-    return this.#resolutionHeight
+  get resolution(): number {
+    return this.#resolution
   }
 
-  public setResolutionHeight( resolutionHeight:number ) {
-    this.#resolutionHeight = resolutionHeight
-  }
-
-  public setLayout( layout:Layout ) {
-    this.layout = layout
+  public setResolution( resolution:number ) {
+    this.#resolution = resolution
   }
 
 }

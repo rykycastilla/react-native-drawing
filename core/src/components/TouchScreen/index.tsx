@@ -8,7 +8,6 @@ import './styles.css'
 
 interface TouchScreenProps {
   resolution: number
-  aspectRatio: number
   tool: ITool
   viewportControlAllowed: boolean
   drawingServiceRef: MutableRefObject<DrawingService|null>
@@ -16,9 +15,9 @@ interface TouchScreenProps {
 
 const TouchScreen = ( props:TouchScreenProps ): ReactElement => {
 
-  const { resolution, aspectRatio, tool, viewportControlAllowed, drawingServiceRef } = props
+  const { resolution, tool, viewportControlAllowed, drawingServiceRef } = props
   const screenRef = useRef<HTMLDivElement|null>( null )
-  const useInteractionDepsArgs = { resolution, aspectRatio, viewportControlAllowed, screenRef }
+  const useInteractionDepsArgs = { resolution, viewportControlAllowed, screenRef }
   const { coordinatesService, touchService } = useInteractionDeps( useInteractionDepsArgs )
 
   const onTouchDetected = useCallback( ( event:DrawTouchEvent ) => {

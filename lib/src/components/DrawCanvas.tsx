@@ -6,7 +6,6 @@ import { ReactElement } from 'react'
 import { useCallback, useRef } from 'react'
 import { useDrawState } from '../hooks/draw_state'
 import { useGridGuard } from '../hooks/grid_guard'
-import { useViewResizer } from '../hooks/view_resizer'
 import { useWebBridge } from '../hooks/web_bridge'
 import { useWebMessage } from '../hooks/web_message'
 import { webSource } from '../utils/web_source'
@@ -33,7 +32,6 @@ const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
   const { receive, suscribe, postMessage } = useWebMessage( webViewRef )
   const { webBridge, onLoadWebView } = useWebBridge( suscribe, postMessage, onWebBridge )
   useGridGuard( grid )
-  useViewResizer( webBridge, width, aspectRatio )
   useDrawState( webBridge, props )
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {

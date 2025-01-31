@@ -58,7 +58,6 @@ const Draw = ( props:DrawProps ): ReactElement => {
       <Grid amount={ grid } aspectRatio={ aspectRatio } onLoad={ setGridLoaded } />
       <TouchScreen
         resolution={ resolution }
-        aspectRatio={ aspectRatio }
         viewportControlAllowed={ viewportControlAllowed }
         tool={ currentTool }
         drawingServiceRef={ drawingServiceRef } />

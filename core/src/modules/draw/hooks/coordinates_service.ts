@@ -1,24 +1,16 @@
 import { CoordinatesService } from '../services'
-import { Layout } from '../models'
 import { useEffect, useMemo } from 'react'
-import { useFreeze } from '@hooks'
 
-export function useCoordinatesService( layout:Layout, resolution:number, aspectRatio:number ): CoordinatesService {
-
-  const width: number = resolution
-  const height: number = resolution / aspectRatio
-  const initWidth: number = useFreeze( width )
-  const initHeight: number = useFreeze( height )
+export function useCoordinatesService( layout:number, resolution:number ): CoordinatesService {
 
   const coordinatesService: CoordinatesService =  useMemo( () => {
-    return new CoordinatesService( initWidth, initHeight )
-  }, [ initWidth, initHeight ] )
+    return new CoordinatesService( layout, resolution )
+  }, [] )  // eslint-disable-line
 
   useEffect( () => {
-    coordinatesService.setResolutionWidth( width )
-    coordinatesService.setResolutionHeight( height )
     coordinatesService.setLayout( layout )
-  }, [ coordinatesService, width, height, layout ] )
+    coordinatesService.setResolution( resolution )
+  }, [ coordinatesService, layout, resolution ] )
 
   return coordinatesService
 

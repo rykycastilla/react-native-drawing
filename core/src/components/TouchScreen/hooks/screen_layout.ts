@@ -1,47 +1,27 @@
-import { DEFAULT_LAYOUT } from '../constants'
 import { MutableRefObject, useCallback, useEffect } from 'react'
-import { RNBridge } from '@utils/RNBridge'
-import { ScreenLayout } from '../models'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
-export function useScreenLayout( screenRef:MutableRefObject<HTMLDivElement|null> ): ScreenLayout {
+export function useScreenLayout( screenRef:MutableRefObject<HTMLDivElement|null> ): number {
 
-  const [ layout, setLayout ] = useState( DEFAULT_LAYOUT )
-  const buildLayoutRef = useRef<( ()=>void )|null>( null )
+  const [ layout, setLayout ] = useState( 0 )
 
   // Peparing instructions to get layout information
   const buildLayout = useCallback( () => {
-    const $screen: HTMLDivElement | null = screenRef.current
-    if( $screen === null ) { return }
-    const { width, height, top, left } = $screen.getBoundingClientRect()
-    const layout = new ScreenLayout( width, height, top, left )
-    setLayout( layout )
+    const $screen: HTMLDivElement | null = screenRef.current!
+    const { width } = $screen.getBoundingClientRect()
+    setLayout( width )
   }, [ screenRef ] )
 
   // Creating by default
   useEffect( () => {
     buildLayout()
-  }, [ buildLayout ] )
-
-  useEffect( () => {
-    buildLayoutRef.current = buildLayout
-  }, [ buildLayoutRef, buildLayout ] )
-
-  // Updating by native command
-  useEffect( () => {
-    RNBridge.onMessage( 'resize', () => {
-      if( buildLayoutRef.current === null ) { return }
-      buildLayoutRef.current()
-    } )
-  }, [ buildLayoutRef ] )
+  }, [] )  // eslint-disable-line
 
   // Updating by browser
   useEffect( () => {
-    const $display: HTMLDivElement | null = screenRef.current
-    if( $display === null ) { return }
-    $display.addEventListener( 'resize', () => buildLayout() )
-    return () => $display.removeEventListener( 'resize', () => buildLayout() )
-  }, [ screenRef, buildLayout ] )
+    window.addEventListener( 'resize', () => buildLayout() )
+    return () => window.removeEventListener( 'resize', () => buildLayout() )
+  }, [ buildLayout ] )
 
   return layout
 
