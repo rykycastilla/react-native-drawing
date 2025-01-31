@@ -1,0 +1,8 @@
+./.git/
+./core/
+./lib/src/
+./shared/
+./.env.json
+./.eslintrc.cjs
+./ARCHITECTURE.md
+./build.json
