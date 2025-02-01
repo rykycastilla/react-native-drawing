@@ -29,5 +29,9 @@
     "eslint-plugin-react-refresh": "0.4.7",
     "typescript": "~5.5.0"
   },
+  "peerDependencies": {
+    "expo": "*",
+    "react-native-webview": "*"
+  },
   "packageManager": "npm@10.8.2"
 }
