@@ -28,6 +28,13 @@
     "strictFunctionTypes": true,
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
+
+    /* Alias */
+    "baseUrl": "./",
+    "paths": {
+      "react-native-webview": [ "./types/react-native-webview" ],
+      "react-native": [ "./types/react-native/types" ],
+    },
     
   },
   "include": ["src"]

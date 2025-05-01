@@ -27,7 +27,6 @@
 
     "allowJs": true,
     "checkJs": true,
-    "maxNodeModuleJsDepth": 1,
 
     /* Alias */
     "baseUrl": "./",
