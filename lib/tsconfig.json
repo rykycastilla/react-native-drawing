@@ -11,7 +11,8 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "outDir": "./dist/",
-    "jsx": "react-jsx",
+    "jsx": "react-native",
+    "jsxImportSource": "react",
     "declaration": true,
     "removeComments": false,
 
@@ -37,5 +38,5 @@
     },
     
   },
-  "include": ["src"]
+  "include": ["src"],
 }

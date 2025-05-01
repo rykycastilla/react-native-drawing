@@ -6,7 +6,7 @@
   "types": "./lib/dist/lib/src/index.d.ts",
   "scripts": {
     "delete-duplicated-react": "node ./scripts/delete-react",
-    "postinstall": "npm install --prefix ./core ; npm install --prefix ./lib ; npm run create-env ; npm run create-bundle-blank ; npm run delete-duplicated-react",
+    "postinstall": "npm install --prefix ./core ; npm run create-env ; npm run create-bundle-blank ; npm run delete-duplicated-react",
     "dev": "cd core ; npm run dev",
     "lint": "tsc --noEmit -p ./core/tsconfig.app.json ; tsc --noEmit -p ./lib/tsconfig.json ; eslint .",
     "build": "npm run build-core ; npm run create-bundle ; npm run build-lib ; npm run set-production",
@@ -22,6 +22,7 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
+    "@types/react": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "7.15.0",
     "@typescript-eslint/parser": "7.15.0",
     "eslint": "8.57.0",
