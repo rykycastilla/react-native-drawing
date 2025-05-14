@@ -3,7 +3,7 @@ import { ColorableTool } from '../ColorableTool'
 import { ResizableTool } from '../ResizableTool'
 import { Tool } from './Tool'
 
-export class Spry extends Tool implements ColorableTool, ResizableTool {
+export class Spray extends Tool implements ColorableTool, ResizableTool {
 
   #color: string
   #size: number

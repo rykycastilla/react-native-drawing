@@ -5,7 +5,7 @@ import { DEFAULT_TOOL_SIZE } from './constants'
 import { DrawingService } from '@draw/services'
 import { ITool } from '@tools/models'
 import { ReactElement, useRef, useState } from 'react'
-import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
+import { SprayParticlesProps } from '@shared/utils/types/SprayParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useCoreConnection } from '@draw/hooks'
 import { useLoader } from './hooks'
@@ -20,7 +20,7 @@ interface DrawProps {
   antialiasing: boolean | undefined
   tool: Tool
   toolSize: number | undefined
-  spryParticles: SpryParticlesProps
+  sprayParticles: SprayParticlesProps
   animatedFiller: boolean
   onLoad(): void
 }
@@ -36,12 +36,12 @@ const Draw = ( props:DrawProps ): ReactElement => {
     tool,
     onLoad,
     toolSize = DEFAULT_TOOL_SIZE,
-    spryParticles,
+    sprayParticles,
     animatedFiller,
   } = props
 
   const [ viewportControlAllowed, setViewportControlAllowed ] = useState( false )
-  const useToolsArgs = { tool, color, size:toolSize, spryParticles, animatedFiller, setViewportControlAllowed }
+  const useToolsArgs = { tool, color, size:toolSize, sprayParticles, animatedFiller, setViewportControlAllowed }
   const currentTool: ITool = useTools( useToolsArgs )
   const drawingServiceRef = useRef<DrawingService|null>( null )
   useCoreConnection( { drawingServiceRef, currentTool } )

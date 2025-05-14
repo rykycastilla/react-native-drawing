@@ -10,6 +10,6 @@ export interface DrawCanvasProps {
   antialiasing?: boolean
   tool: Tool
   toolSize?: number
-  spryParticles?: { amount?:number, scale?:number }
+  sprayParticles?: { amount?:number, scale?:number }
   animatedFiller?: boolean
 }

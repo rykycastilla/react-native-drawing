@@ -1,8 +1,8 @@
 import { ColorableTool, DotPen, Eraser, EyeDropper, Filler, ITool, Pencil } from '../models'
 import { exposeColorToRN, fadeColor, filterColorAlpha } from '../controllers'
 import { FillerQueue, Viewport } from '../services'
-import { ResizableTool, Spry, SquareDotPen, Tape, Zoom } from '../models'
-import { SpryParticlesProps } from '@shared/utils/types/SpryParticlesProps'
+import { ResizableTool, Spray, SquareDotPen, Tape, Zoom } from '../models'
+import { SprayParticlesProps } from '@shared/utils/types/SprayParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useEffect, useMemo } from 'react'
 import { useFreeze } from '@hooks'
@@ -34,25 +34,25 @@ function useEyeDropper(): EyeDropper {
   }, [] )
 }
 
-function useSpry( color:string, size:number, particlesAmount:number, particlesScale:number ): Spry {
+function useSpray( color:string, size:number, particlesAmount:number, particlesScale:number ): Spray {
 
   const initColor: string = useFreeze( color )
   const initSize: number = useFreeze( size )
   const initParticlesAmount: number = useFreeze( particlesAmount )
   const initParticlesScale: number = useFreeze( particlesScale )
 
-  const spry = useMemo( () => {
-    return new Spry( initColor, initSize, initParticlesAmount, initParticlesScale )
+  const spray = useMemo( () => {
+    return new Spray( initColor, initSize, initParticlesAmount, initParticlesScale )
   }, [ initColor, initSize, initParticlesAmount, initParticlesScale ] )
 
   useEffect( () => {
-    spry.setParticlesAmount( particlesAmount )
-    spry.setParticlesScale( particlesScale )
-  }, [ spry, particlesAmount, particlesScale ] )
+    spray.setParticlesAmount( particlesAmount )
+    spray.setParticlesScale( particlesScale )
+  }, [ spray, particlesAmount, particlesScale ] )
 
-  useColorStateSetter( spry, color )
-  useSizeStateSetter( spry, size )
-  return spry
+  useColorStateSetter( spray, color )
+  useSizeStateSetter( spray, size )
+  return spray
 
 }
 
@@ -146,15 +146,15 @@ function useFiller( color:string, animatedFiller:boolean ): Filler {
 interface UseToolIndexArgs {
   color: string
   size: number
-  spryParticles: SpryParticlesProps
+  sprayParticles: SprayParticlesProps
   animatedFiller: boolean
   setViewportControlAllowed( viewportControlAllowed:boolean ): void
 }
 
 export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
 
-  const { color, size, spryParticles, animatedFiller, setViewportControlAllowed } = args
-  const { amount:spryParticlesAmount, scale:spryParticlesScale } = spryParticles
+  const { color, size, sprayParticles, animatedFiller, setViewportControlAllowed } = args
+  const { amount:sprayParticlesAmount, scale:sprayParticlesScale } = sprayParticles
 
   const toolIndex: Record<number,ITool> = useMemo( () => {
     return {}
@@ -162,7 +162,7 @@ export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
 
   toolIndex[ Tool.ZOOM ] = useZoom( setViewportControlAllowed )
   toolIndex[ Tool.EYE_DROPPER ] = useEyeDropper()
-  toolIndex[ Tool.SPRY ] = useSpry( color, size, spryParticlesAmount, spryParticlesScale )
+  toolIndex[ Tool.SPRY ] = useSpray( color, size, sprayParticlesAmount, sprayParticlesScale )
   toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
   toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )
   toolIndex[ Tool.TAPE ] = useTape( color, size )

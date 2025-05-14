@@ -1,9 +1,9 @@
 import { DrawPropsDTO } from '../shared/utils/types/DrawPropsDTO'
 import { MessageSystem } from '../shared/utils/MessageSystem'
-import { SpryParticlesProps } from '../shared/utils/types/SpryParticlesProps'
+import { SprayParticlesProps } from '../shared/utils/types/SprayParticlesProps'
 import { Tool } from '../shared/modules/tools/models'
 import { useEffect } from 'react'
-import { useSpryParticlesPropsDefinition } from './spry_particles_props_definition'
+import { useSprayParticlesPropsDefinition } from './spray_particles_props_definition'
 
 export interface WebDrawProps {
   resolution: number
@@ -13,7 +13,7 @@ export interface WebDrawProps {
   antialiasing?: boolean
   tool: Tool
   toolSize?: number
-  spryParticles?: { amount?:number, scale?:number }
+  sprayParticles?: { amount?:number, scale?:number }
   animatedFiller?: boolean
 }
 
@@ -22,14 +22,14 @@ export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawPr
   const {
     resolution, aspectRatio = 1, color, grid, antialiasing, tool, toolSize, animatedFiller = false,
   } = stateProps
-  const spryParticles: SpryParticlesProps =
-    useSpryParticlesPropsDefinition( stateProps.spryParticles )
+  const sprayParticles: SprayParticlesProps =
+    useSprayParticlesPropsDefinition( stateProps.sprayParticles )
 
   useEffect( () => {
     if( webBridge === null ) { return }
     const state: DrawPropsDTO<Tool> =
-      { resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, spryParticles, animatedFiller }
+      { resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller }
     webBridge.postMessage( 'state-update', state )
-  }, [ webBridge, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, spryParticles, animatedFiller ] )
+  }, [ webBridge, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller ] )
 
 }
