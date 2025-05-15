@@ -1,4 +1,4 @@
-import { EyeDropperEvent } from './_events'
+import { EyeDropperEvent } from './events'
 
 export interface EyeDropperListener {
   type: 'eye-dropper'

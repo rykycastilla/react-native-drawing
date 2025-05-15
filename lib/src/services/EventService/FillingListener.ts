@@ -1,4 +1,4 @@
-import { FillingEvent } from './_events'
+import { FillingEvent } from './events'
 
 export interface FillingListener {
   type: 'filling'

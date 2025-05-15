@@ -1,6 +1,6 @@
 import { EventDispatcher, EventHandler, EventType } from '../../utils/EventDispatcher'
 import { EventListener } from './EventListener'
-import { EyeDropperEvent, FillingEvent, LoadEvent } from './_events'
+import { EyeDropperEvent, FillingEvent, LoadEvent } from './events'
 import { HistoryListener } from './HistoryListener'
 import { MessageSystem } from '../../shared/utils/MessageSystem'
 import { ScrollListener } from '../ScrollService'

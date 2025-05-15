@@ -1,5 +1,5 @@
 import { EventDispatcher } from '../../utils/EventDispatcher'
-import { HistoryEvent } from './_HistoryEvent'
+import { HistoryEvent } from './HistoryEvent'
 import { HistoryOutOfBoundsError } from '../../shared/modules/history/errors'
 import { Draw } from '../../types/Draw'
 import { MessageSystem } from '../../shared/utils/MessageSystem'

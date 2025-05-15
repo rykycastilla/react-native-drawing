@@ -1,4 +1,4 @@
-import { ScrollEvent } from './_ScrollEvent'
+import { ScrollEvent } from './ScrollEvent'
 
 export interface ScrollListener {
   type: 'scroll'

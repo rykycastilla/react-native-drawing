@@ -1,6 +1,6 @@
 import { Draw } from '../../types/Draw'
 import { EventDispatcher } from '../../utils/EventDispatcher'
-import { ScrollEvent } from './_ScrollEvent'
+import { ScrollEvent } from './ScrollEvent'
 import { ScrollListener } from './ScrollListener'
 import { View } from './View'
 
