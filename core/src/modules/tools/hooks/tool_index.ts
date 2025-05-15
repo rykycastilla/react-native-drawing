@@ -162,7 +162,7 @@ export function useToolIndex( args:UseToolIndexArgs ): Record<number,ITool> {
 
   toolIndex[ Tool.ZOOM ] = useZoom( setViewportControlAllowed )
   toolIndex[ Tool.EYE_DROPPER ] = useEyeDropper()
-  toolIndex[ Tool.SPRY ] = useSpray( color, size, sprayParticlesAmount, sprayParticlesScale )
+  toolIndex[ Tool.SPRAY ] = useSpray( color, size, sprayParticlesAmount, sprayParticlesScale )
   toolIndex[ Tool.SQUARE_DOT_PEN ] = useSquareDotPen( color, size )
   toolIndex[ Tool.DOT_PEN ] = useDotPen( color, size )
   toolIndex[ Tool.TAPE ] = useTape( color, size )
