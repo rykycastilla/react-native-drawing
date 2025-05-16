@@ -21,14 +21,25 @@
     "type": "git",
     "url": "git+https://github.com/rykycastilla/react-native-drawing.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "react-native",
+    "react",
+    "canvas",
+    "drawing",
+    "artboard",
+    "finger-paint",
+    "touch-drawing",
+    "react-native-drawing",
+    "mobile-drawing",
+    "custom-view"
+  ],
+  "author": "Orestes Ricardo Castilla Escalona",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rykycastilla/react-native-drawing/issues"
   },
   "homepage": "https://rn-drawing.ryky.tech",
-  "description": "",
+  "description": "A React Native library that provides a canvas to perform drawing actions",
   "devDependencies": {
     "@types/react": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "7.15.0",
