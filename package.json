@@ -17,9 +17,17 @@
     "create-env": "node ./scripts/create-env.js",
     "set-production": "node ./scripts/set-production-state.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rykycastilla/react-native-drawing.git"
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rykycastilla/react-native-drawing/issues"
+  },
+  "homepage": "https://rn-drawing.ryky.tech",
   "description": "",
   "devDependencies": {
     "@types/react": "^18.0.3",

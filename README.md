@@ -1,11 +1,6 @@
 # react-native-drawing
 A drawing library for React Native using Expo. This library provides an easy-to-use drawing canvas with customizable features.
 
-**⚠️ Warning:**
-**react-native-drawing** is sill in development, that's why some details are unavailable right now:
- - Installation
- - API reference
-
 ## Installation
 To install the library, you must be in the root of your working project
 
@@ -15,7 +10,7 @@ npx expo install react-native-drawing
 ```
 
 ## API Reference
-For detailed API documentation, visit API Reference.
+For detailed API documentation, visit [API Reference](https://rn-drawing.ryky.tech/docs).
 
 ## Local Testing
 To test the project locally, follow these steps:
