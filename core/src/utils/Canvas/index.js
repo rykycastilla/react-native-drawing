@@ -5,7 +5,7 @@ export class Canvas {
    * @param { number } height
   */
   constructor( width, height ) {
-    if( window.OffscreenCanvas !== undefined ) {
+    if( self.OffscreenCanvas !== undefined ) {
       return new OffscreenCanvas( width, height )
     }
     else {
