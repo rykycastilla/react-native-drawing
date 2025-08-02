@@ -16,7 +16,8 @@ export abstract class FillerUtil extends DrawUtil {
       filler.onfinish = ( args ) => {
         const { x, y, color } = args
         FillerUtil.dispatchFilling( this as unknown as DrawingService, false, x, y, color )
-        this.historyService.saveSnapShot()
+        this.historyService.saveSnapShot( true )  // Updating history state again (even if the state is the same)
+        // The previous action is required because the filler tasks disable the history state and it needs to be re-enabled
       }
     }
   }

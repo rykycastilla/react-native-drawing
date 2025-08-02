@@ -28,10 +28,17 @@ export class HistoryService implements IHistoryService {
     await this.scene.setImage( snapshot )
   }
 
-  public async saveSnapShot() {
+  /**
+   * Includes a new snapshot on the History
+   * @param forceHistoryUpdate  If true, the history will be updated even if the
+   * current state is the same as the last one. It only must emit an event, not
+   * change the history.
+   * @fires History#Move
+  */
+  public async saveSnapShot( forceHistoryUpdate?:boolean ) {
     await this.scene.waitNextFrame()
     const snapShot: string = this.scene.image
-    this.history.add( snapShot )
+    this.history.add( snapShot, forceHistoryUpdate )
   }
 
   private dispatchHistoryMove( canUndo:boolean, canRedo:boolean ) {

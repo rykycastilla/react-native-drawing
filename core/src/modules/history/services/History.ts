@@ -57,13 +57,20 @@ export class History {
   }
 
   /**
-   * Includes a new snpahot on the History
+   * Includes a new snapshot on the History
+   * @param base64  Base64 encoded image to be added to the history
+   * @param forceHistoryUpdate  If true, the history will be updated even if the
+   * current state is the same as the last one. It only must emit an event,
+   * not change the history.
    * @fires History#Move
   */
-  public async add( base64:string ) {
+  public async add( base64:string, forceHistoryUpdate?:boolean ) {
     const url: string = await this.snapShotUtil.compactURL( base64 )
     const areEquals: boolean = await this.checkSameState( base64 )
-    if( areEquals ) { return }
+    if( areEquals ) {
+      if( forceHistoryUpdate ) { this.dispatchMove() }
+      return
+    }
     this.cleanFront()
     this.memory.add( url )
     this.snapShotIndex = this.memory.length - 1
