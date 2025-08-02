@@ -12,7 +12,7 @@ export class Receiver extends MessageEventDispatcher {
     private readonly codec: Codec<MessageDTO>,
     private readonly receivedAck: ReceivedAck,
     private readonly answerAck: AnswerAck,
-    suscribe:MessageEventSuscriber,
+    suscribe:MessageEventSubscriber,
   ) {
     super()
     suscribe( ( data:string ) => this.receive( data ) )
@@ -55,6 +55,6 @@ export class Receiver extends MessageEventDispatcher {
 
 }
 
-export interface MessageEventSuscriber {
+export interface MessageEventSubscriber {
   ( receive:SendDataFunction ): void
 }

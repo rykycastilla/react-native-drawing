@@ -1,7 +1,9 @@
+import { Canvas, CanvasContext } from '@utils/Canvas'
+
 export function filterColorAlpha( color:string ): string {
   // Creating canvas to render color
-  const canvas = new OffscreenCanvas( 1, 1 )
-  const context: OffscreenCanvasRenderingContext2D = canvas.getContext( '2d' )!
+  const canvas = new Canvas( 1, 1 )
+  const context = canvas.getContext( '2d' ) as CanvasContext
   // Rendering color
   context.fillStyle = color
   context.rect( 0, 0, 1, 1 )

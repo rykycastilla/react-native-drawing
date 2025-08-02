@@ -1,5 +1,5 @@
 interface Performance {
-  memory: {
+  memory?: {
     jsHeapSizeLimit: number
   }
 }

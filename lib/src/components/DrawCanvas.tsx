@@ -1,6 +1,7 @@
 import WebContainer, { ScrollHandler } from './WebContainer'
 import { DEFAULT_ASPECT_RATIO } from '../constants'
 import { DrawCanvasProps as PublicDrawCanvasProps } from '../types/DrawCanvasProps'
+import { INIT_MESSAGE_SYSTEM } from '../shared/constants'
 import { MessageSystem } from '../shared/utils/MessageSystem'
 import { ReactElement } from 'react'
 import { useCallback, useRef } from 'react'
@@ -36,8 +37,9 @@ const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
 
   const onMessage = useCallback( ( event:WebViewMessageEvent ) => {
     const { data } = event.nativeEvent
-    receive( data )
-  }, [ receive ] )
+    if( data === INIT_MESSAGE_SYSTEM ) { onLoadWebView() }
+    else { receive( data ) }
+  }, [ onLoadWebView, receive ] )
 
   return (
     <WebContainer
@@ -45,7 +47,6 @@ const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
       width={ width }
       aspectRatio={ aspectRatio }
       source={ webSource }
-      onLoad={ onLoadWebView }
       onMessage={ onMessage }
       onScroll={ dispatchScrollEvent } />
   )

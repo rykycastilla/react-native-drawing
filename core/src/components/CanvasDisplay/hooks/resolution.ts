@@ -1,9 +1,9 @@
+import { Canvas, CanvasContext } from '@utils/Canvas'
 import { MutableRefObject, useEffect } from 'react'
 
-type Canvas = HTMLCanvasElement | OffscreenCanvas
-type CanvasContext = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
+type ICanvas = HTMLCanvasElement | OffscreenCanvas
 
-function copyCanvas( from:Canvas, to:Canvas, drawWidth?:number, drawHeight?:number ) {
+function copyCanvas( from:ICanvas, to:ICanvas, drawWidth?:number, drawHeight?:number ) {
   const { width, height } = to
   const toContext: CanvasContext = to.getContext( '2d' )!
   toContext.clearRect( 0, 0, width, height )
@@ -23,7 +23,7 @@ function updateResolution( $display:HTMLCanvasElement, resolution:number, aspect
   const width: number = resolution
   const height: number = resolution / aspectRatio
   // Saving previous state
-  const displayClone = new OffscreenCanvas( previousWidth, previousHeight )
+  const displayClone = new Canvas( previousWidth, previousHeight )
   copyCanvas( $display, displayClone )
   // Reescaling
   $display.width = width

@@ -1,6 +1,6 @@
 import { AnswerAck } from './AnswerAck'
 import { Codec } from './Codec'
-import { MessageEventSuscriber, Receiver } from './Receiver'
+import { MessageEventSubscriber, Receiver } from './Receiver'
 import { MessageDTO } from './MessageDTO'
 import { MessageHandler } from './MessageEventDispatcher'
 import { ReceivedAck } from './ReceivedAck'
@@ -12,7 +12,7 @@ export class MessageSystem {
   private readonly sender: Sender
   private readonly receiver: Receiver
 
-  constructor( suscribe:MessageEventSuscriber, sendData:SendDataFunction ) {
+  constructor( suscribe:MessageEventSubscriber, sendData:SendDataFunction ) {
     // Building codec
     const codec = new Codec<MessageDTO>( ( struct:object ) => {
       return MessageSystem.fixCodecStruct( struct )
@@ -49,3 +49,6 @@ export class MessageSystem {
   }
 
 }
+
+export type { MessageEventSubscriber } from './Receiver'
+export type { SendDataFunction } from './SendDataFunction'

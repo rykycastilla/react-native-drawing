@@ -1,10 +1,12 @@
+import { Canvas, CanvasContext } from '@utils/Canvas'
+
 const TOTAL_PERCENTAGE = 100
 const MAX_COLOR_CHANEL = 255
 
 export function fadeColor( color:string, fadePercentage:number ): string {
   // Creating canvas to render color
-  const canvas = new OffscreenCanvas( 1, 1 )
-  const context: OffscreenCanvasRenderingContext2D = canvas.getContext( '2d' )!
+  const canvas = new Canvas( 1, 1 )
+  const context = canvas.getContext( '2d' ) as CanvasContext
   // Rendering color
   context.fillStyle = color
   context.rect( 0, 0, 1, 1 )

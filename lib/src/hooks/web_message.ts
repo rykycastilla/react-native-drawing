@@ -26,7 +26,8 @@ export function useWebMessage( webViewRef:MutableRefObject<WebView|null> ): UseW
   const postMessage = useCallback( ( message:string ) => {
     const webView: WebView | null = webViewRef.current
     if( webView === null ) { return }
-    webView.postMessage( message )
+    message = JSON.stringify( message )  // Passed encoded data as JSON String (double encoding to avoid next parsing)
+    webView.injectJavaScript( `window.ReactNativeWebView.onmessage( ${ message } )` )
   }, [ webViewRef ] )
 
   return { receive, suscribe, postMessage }

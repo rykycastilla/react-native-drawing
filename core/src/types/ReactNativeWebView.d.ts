@@ -1,15 +1,12 @@
+interface MessageHandler {
+  ( message:string ): void
+}
+
 interface ReactNativeWebView {
   postMessage( data:string ): void
+  onmessage: MessageHandler | undefined
 }
 
 interface Window {
   ReactNativeWebView: ReactNativeWebView
-}
-
-interface ReactNativeMessageListener {
-  ( event:MessageEvent<string> ): void
-}
-
-interface Document {
-  addEventListener( type:'message', listener:ReactNativeMessageListener ): void
 }

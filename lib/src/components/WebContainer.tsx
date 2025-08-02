@@ -11,20 +11,18 @@ interface WebContainerProps {
   width: ViewportWidth
   aspectRatio: number
   source: WebViewSource
-  onLoad(): void
   onMessage( event:WebViewMessageEvent ): void
   onScroll: ScrollHandler
 }
 
 const WebContainer = forwardRef( ( props:WebContainerProps, ref:ForwardedRef<WebView|null> ): ReactElement => {
-  const { width, aspectRatio, source, onLoad, onMessage, onScroll } = props
+  const { width, aspectRatio, source, onMessage, onScroll } = props
   return (
     <View style={ { width, aspectRatio } }>
       <WebView
         ref={ ref }
         webviewDebuggingEnabled={ !PRODUCTION }
         source={ source }
-        onLoad={ onLoad }
         onScroll={ onScroll }
         onMessage={ onMessage } />
     </View>
