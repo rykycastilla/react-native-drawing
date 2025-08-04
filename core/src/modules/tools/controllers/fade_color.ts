@@ -1,11 +1,11 @@
-import { Canvas, CanvasContext } from '@utils/Canvas'
+import { HeadlessCanvasFactory, CanvasContext } from '@utils/HeadlessCanvasFactory'
 
 const TOTAL_PERCENTAGE = 100
 const MAX_COLOR_CHANEL = 255
 
 export function fadeColor( color:string, fadePercentage:number ): string {
   // Creating canvas to render color
-  const canvas = new Canvas( 1, 1 )
+  const canvas = HeadlessCanvasFactory.createInstance( 1, 1 )
   const context = canvas.getContext( '2d' ) as CanvasContext
   // Rendering color
   context.fillStyle = color

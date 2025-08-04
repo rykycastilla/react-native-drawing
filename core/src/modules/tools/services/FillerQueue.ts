@@ -1,5 +1,6 @@
-import { Filler } from '@utils/Filler'
+import { DynamicFiller, IFiller } from '@utils/Filler'
 import { FillerArgs } from '../models'
+import { FillerFactory } from '@utils/FillerFactory'
 import { TaskQueue } from '@utils/TaskQueue'
 
 /**
@@ -7,7 +8,7 @@ import { TaskQueue } from '@utils/TaskQueue'
 */
 export class FillerQueue extends TaskQueue<FillerArgs> {
 
-  private currentUtil: Filler | null = null
+  private currentUtil: IFiller | null = null
   private filled: Promise<void> | null = null
   public onstarteachtask: ( ( args:FillerArgs ) => void ) | null = null
 
@@ -19,12 +20,13 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
   protected async runTask( args:FillerArgs ) {
     const { x, y, color, animatedFiller, scene } = args
     const { width, height, pixelList } = scene.getBinaryData()
-    const util = new Filler( width, height, animatedFiller )
+    const util: IFiller = FillerFactory.createInstance( width, height, animatedFiller )
     util.onFrame( ( image ) => {
       scene.setBinaryData( { ...image, colorChanels:4, maxChanel:255 } )
     } )
     this.currentUtil = util
-    this.filled = util.fill( x, y, color, pixelList )
+    const fillingResult: Promise<void> | void = util.fill( x, y, color, pixelList )
+    this.filled = ( fillingResult instanceof Promise ) ? fillingResult : null
     this.dispatchStartEachTask( args )
     await this.filled
   }
@@ -32,8 +34,9 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
   override stopTasks() {
     super.stopTasks()
     // Stopping current tool filling too
-    if( ( this.currentUtil === null ) || ( this.filled === null ) ) { return }
-    this.currentUtil.stop( this.filled )
+    const { currentUtil:util, filled } = this
+    if( ( util === null ) || ( filled === null ) || !( util instanceof DynamicFiller ) ) { return }
+    util.stop( filled )
   }
 
 }

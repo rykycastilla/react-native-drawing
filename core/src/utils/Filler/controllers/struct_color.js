@@ -1,8 +1,8 @@
-import { Canvas } from '@utils/Canvas'
+import { HeadlessCanvasFactory } from '@utils/HeadlessCanvasFactory'
 import { Color } from '../models/Color.js'
 
 /**
- * @typedef { import( '@utils/Canvas' ).CanvasContext } CanvasContext
+ * @typedef { import( '@utils/HeadlessCanvasFactory' ).CanvasContext } CanvasContext
  */
 
 /**
@@ -10,7 +10,7 @@ import { Color } from '../models/Color.js'
  * @returns { Color }
 */
 export function structColor( color ) {
-  const colorCanvas = new Canvas( 1, 1 )
+  const colorCanvas = HeadlessCanvasFactory.createInstance( 1, 1 )
   const colorContext =
   /** @type { CanvasContext } */ ( colorCanvas.getContext( '2d' ) )
   // Building single color pixel

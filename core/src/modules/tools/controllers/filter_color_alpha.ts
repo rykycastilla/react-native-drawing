@@ -1,8 +1,8 @@
-import { Canvas, CanvasContext } from '@utils/Canvas'
+import { CanvasContext, HeadlessCanvasFactory } from '@utils/HeadlessCanvasFactory'
 
 export function filterColorAlpha( color:string ): string {
   // Creating canvas to render color
-  const canvas = new Canvas( 1, 1 )
+  const canvas = HeadlessCanvasFactory.createInstance( 1, 1 )
   const context = canvas.getContext( '2d' ) as CanvasContext
   // Rendering color
   context.fillStyle = color

@@ -1,11 +1,11 @@
-import { Canvas, CanvasContext } from '@utils/Canvas'
+import { HeadlessCanvasFactory, CanvasContext } from '@utils/HeadlessCanvasFactory'
 import { MutableRefObject, useEffect } from 'react'
 
 type ICanvas = HTMLCanvasElement | OffscreenCanvas
 
 function copyCanvas( from:ICanvas, to:ICanvas, drawWidth?:number, drawHeight?:number ) {
   const { width, height } = to
-  const toContext: CanvasContext = to.getContext( '2d' )!
+  const toContext: CanvasContext = to.getContext( '2d' ) as CanvasContext
   toContext.clearRect( 0, 0, width, height )
   // Copying
   if( ( drawWidth !== undefined ) && ( drawHeight !== undefined ) ) {
@@ -23,7 +23,7 @@ function updateResolution( $display:HTMLCanvasElement, resolution:number, aspect
   const width: number = resolution
   const height: number = resolution / aspectRatio
   // Saving previous state
-  const displayClone = new Canvas( previousWidth, previousHeight )
+  const displayClone = HeadlessCanvasFactory.createInstance( previousWidth, previousHeight )
   copyCanvas( $display, displayClone )
   // Reescaling
   $display.width = width

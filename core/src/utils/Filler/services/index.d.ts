@@ -1,5 +1,6 @@
 export * from './AnimationDTO.d.ts'
 export * from './ControlDTO.d.ts'
-export * from './Filler/index.js'
+export * from './FillerWorkerThread/index.js'
+export * from './IFiller.d.ts'
 export * from './RenderingFiller/index.js'
 export * from './Thread.d.ts'

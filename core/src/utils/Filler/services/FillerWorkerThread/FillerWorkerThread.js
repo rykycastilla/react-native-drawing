@@ -7,7 +7,7 @@
 /**
  * @implements {IFiller<[ x:number, y:number, color:string, pixelList:Uint8ClampedArray ]>}
 */
-export class Filler {
+export class FillerWorkerThread {
 
   /** @readonly */ width
   /** @readonly */ height

@@ -1,1 +1,3 @@
-export { Filler } from './controllers/index.js'
+export { DynamicFiller, Filler } from './controllers/index.js'
+
+/** @typedef { import( './services' ).IFiller } IFiller */
