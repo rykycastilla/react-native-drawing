@@ -41,6 +41,11 @@ export class History extends EventDispatcher<HistoryListener> {
     catch { throw new HistoryOutOfBoundsError() }
   }
 
+  public async reset() {
+    const webBridge: MessageSystem = await this.loader.coreLoaded
+    await webBridge.postMessage( 'draw-history-reset', null )
+  }
+
 }
 
 interface HistoryListener {

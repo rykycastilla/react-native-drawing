@@ -38,6 +38,10 @@ export class DrawCore implements IDrawCore {
     await this.history.redo()
   }
 
+  public async resetHistory() {
+    await this.history.reset()
+  }
+
   private async setFpsEvent() {
     const webBridge: MessageSystem = await this.loader.webBridgeLoaded
     webBridge.onMessage( 'fps-report', ( args:unknown ) => {

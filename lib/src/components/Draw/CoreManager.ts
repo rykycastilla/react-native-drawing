@@ -18,6 +18,10 @@ export abstract class CoreManager extends EventManager implements IDrawCore {
     await this.core.redo()
   }
 
+  public async resetHistory() {
+    await this.core.resetHistory()
+  }
+
   public getImage(): Promise<string> {
     return this.core.getImage()
   }

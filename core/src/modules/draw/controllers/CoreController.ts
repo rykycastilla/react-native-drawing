@@ -91,6 +91,10 @@ export class CoreController implements IDrawCore {
     this.tool = tool
   }
 
+  public async resetHistory() {
+    await this.drawingService.resetHistory()
+  }
+
 }
 
 interface DrawingServiceRef {

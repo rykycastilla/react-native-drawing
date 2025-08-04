@@ -64,6 +64,9 @@ export function useCoreConnection( args:UseConnectDrawControllerArgs ) {
     RNBridge.onMessage( 'draw-history-redo', async() => {
       await coreController.redo()
     } )
+    RNBridge.onMessage( 'draw-history-reset', async() => {
+      await coreController.resetHistory()
+    } )
     RNBridge.onMessage( 'draw-touch', ( args:unknown ) => {
       const { type, x, y, parsedId } = args as { type:TouchType, x:number, y:number, parsedId:number }
       coreController.touch( type, x, y, parsedId )

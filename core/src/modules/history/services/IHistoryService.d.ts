@@ -18,6 +18,11 @@ export interface IHistoryService {
   redo(): Promise<void>
 
   /**
+   * Resets the history, taking the current snapshot as the new base state
+  */
+  resetHistory(): Promise<void>
+
+  /**
    * Set a new history instance to be controlled by the DrawingService
    * @param history  The history passed to this object shouldn't use its onmove method
    * in another place, because it is readed and modified by this object

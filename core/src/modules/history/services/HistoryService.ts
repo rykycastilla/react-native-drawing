@@ -30,7 +30,7 @@ export class HistoryService implements IHistoryService {
 
   /**
    * Includes a new snapshot on the History
-   * @param forceHistoryUpdate  If true, the history will be updated even if the
+   * @param forceHistoryUpdate  If true, the `onmove` event will be emitted even if the
    * current state is the same as the last one. It only must emit an event, not
    * change the history.
    * @fires History#Move
@@ -39,6 +39,11 @@ export class HistoryService implements IHistoryService {
     await this.scene.waitNextFrame()
     const snapShot: string = this.scene.image
     this.history.add( snapShot, forceHistoryUpdate )
+  }
+
+  public async resetHistory() {
+    History.clean( this.history )
+    await this.saveSnapShot()
   }
 
   private dispatchHistoryMove( canUndo:boolean, canRedo:boolean ) {

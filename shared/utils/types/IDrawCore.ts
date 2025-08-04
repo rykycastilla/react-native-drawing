@@ -1,5 +1,4 @@
-// @ts-expect-error - JSDoc Type
-import { HistoryOutOfBoundsError } from '../../modules/history/errors'  // eslint-disable-line
+import { HistoryOutOfBoundsError } from '../../modules/history/errors'
 
 export interface IDrawCore {
 
@@ -20,8 +19,8 @@ export interface IDrawCore {
   setImage( image:string ): Promise<void>
 
   /**
-    * Go back in the history timeline
-    * @throws { HistoryOutOfBoundsError }
+   * Go back in the history timeline
+   * @throws { HistoryOutOfBoundsError }
   */
   undo(): Promise<void>
 
@@ -31,4 +30,11 @@ export interface IDrawCore {
   */
   redo(): Promise<void>
 
+  /**
+   * Resets the history, taking the current image as the new base state
+   */
+  resetHistory(): Promise<void>
+
 }
+
+export { HistoryOutOfBoundsError }

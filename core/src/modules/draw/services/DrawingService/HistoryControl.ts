@@ -38,6 +38,10 @@ export abstract class HistoryControl {
     await this.historyService.redo()
   }
 
+  public async resetHistory() {
+    await this.historyService.resetHistory()
+  }
+
   public setHistory( history:History ) {
     this.historyService.setHistory( history )
   }

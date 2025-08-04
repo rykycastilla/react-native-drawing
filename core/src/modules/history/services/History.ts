@@ -12,19 +12,21 @@ export class History {
   public static MEMORY_PERCENTAGE = 25
 
   private snapShotIndex = -1
-  private readonly memory: DynamicMemory<string>
+  private memory: DynamicMemory<string>
 
   /**
    * @param availableMemory  Available memory in the System (MB)
-   * @param snapShotProvider  Usefull tool to incorporate tasks related to the 'snapshot'
+   * @param snapShotUtil  Useful tool to incorporate tasks related to the 'snapshot'
   */
   constructor(
-    availableMemory:number,
+    private readonly availableMemory: number,
     private readonly snapShotUtil: SnapShotUtil,
-  ) {
-    const memoryCap: number = History.calculateMemoryCap( availableMemory )
-    const imageSize: number = snapShotUtil.referenceSize
-    this.memory = new DynamicMemory<string>( memoryCap, imageSize, GarbageCollector )
+  ) { this.memory = this.setupMemory() }
+
+  private setupMemory(): DynamicMemory<string> {
+    const memoryCap: number = History.calculateMemoryCap( this.availableMemory )
+    const imageSize: number = this.snapShotUtil.referenceSize
+    return new DynamicMemory<string>( memoryCap, imageSize, GarbageCollector )
   }
 
   /**
@@ -59,7 +61,7 @@ export class History {
   /**
    * Includes a new snapshot on the History
    * @param base64  Base64 encoded image to be added to the history
-   * @param forceHistoryUpdate  If true, the history will be updated even if the
+   * @param forceHistoryUpdate  If true, the `onmove` event will be emitted even if the
    * current state is the same as the last one. It only must emit an event,
    * not change the history.
    * @fires History#Move
@@ -118,6 +120,16 @@ export class History {
 
   private static calculateMemoryCap( availableMemory:number ): number {
     return availableMemory / 100 * History.MEMORY_PERCENTAGE
+  }
+
+  /**
+   * Erases all history data, returning to its initial state (without content)
+   * to start tracking again.
+   * It does not emit any event.
+  */
+  public static clean( history:History ) {
+    history.memory = history.setupMemory()
+    history.snapShotIndex = -1
   }
 
 }
