@@ -1,8 +1,8 @@
 import { DrawingService } from '@draw/services'
+import { forwardRef, ForwardedRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import { ITool } from '@tools/models'
 import { MutableRefObject, ReactElement } from 'react'
 import { DrawTouchEvent } from '@touch/services'
-import { useCallback, useEffect, useRef } from 'react'
 import { useInteractionDeps } from './hooks'
 import './styles.css'
 
@@ -13,10 +13,13 @@ interface TouchScreenProps {
   drawingServiceRef: MutableRefObject<DrawingService|null>
 }
 
-const TouchScreen = ( props:TouchScreenProps ): ReactElement => {
+const TouchScreen = forwardRef( ( props:TouchScreenProps, ref:ForwardedRef<HTMLDivElement|null> ): ReactElement => {
 
   const { resolution, tool, viewportControlAllowed, drawingServiceRef } = props
+
   const screenRef = useRef<HTMLDivElement|null>( null )
+  useImperativeHandle( ref, () => screenRef.current!, [ screenRef ] )
+
   const useInteractionDepsArgs = { resolution, viewportControlAllowed, screenRef }
   const { coordinatesService, touchService } = useInteractionDeps( useInteractionDepsArgs )
 
@@ -46,6 +49,6 @@ const TouchScreen = ( props:TouchScreenProps ): ReactElement => {
     </div>
   )
 
-}
+} )
 
 export default TouchScreen

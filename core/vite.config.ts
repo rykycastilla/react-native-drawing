@@ -16,6 +16,7 @@ export default defineConfig( {
       '@history': join( __dirname, 'src/modules/history' ),
       '@tools': join( __dirname, 'src/modules/tools' ),
       '@touch': join( __dirname, 'src/modules/touch' ),
+      '@cursor': join( __dirname, 'src/modules/cursor' ),
     },
   },
 } )

@@ -40,6 +40,7 @@
       "@history/*": [ "src/modules/history/*" ],
       "@tools/*": [ "src/modules/tools/*" ],
       "@touch/*": [ "src/modules/touch/*" ],
+      "@cursor/*": [ "src/modules/cursor/*" ],
     },
     
   },

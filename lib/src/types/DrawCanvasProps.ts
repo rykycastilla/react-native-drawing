@@ -16,4 +16,7 @@ export interface DrawCanvasProps {
   /** Provides animation for Filler tool. It is only supported in **Android** and **iOS** 16.4+ */
   animatedFiller?: boolean
 
+  /** Use a cursor to identify touch position */
+  cursor?: boolean
+
 }

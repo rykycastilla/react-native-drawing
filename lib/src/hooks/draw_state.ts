@@ -15,12 +15,13 @@ export interface WebDrawProps {
   toolSize?: number
   sprayParticles?: { amount?:number, scale?:number }
   animatedFiller?: boolean
+  cursor?: boolean
 }
 
 export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawProps ) {
 
   const {
-    resolution, aspectRatio = 1, color, grid, antialiasing, tool, toolSize, animatedFiller = false,
+    resolution, aspectRatio = 1, color, grid, antialiasing, tool, toolSize, animatedFiller = false, cursor,
   } = stateProps
   const sprayParticles: SprayParticlesProps =
     useSprayParticlesPropsDefinition( stateProps.sprayParticles )
@@ -28,8 +29,8 @@ export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawPr
   useEffect( () => {
     if( webBridge === null ) { return }
     const state: DrawPropsDTO<Tool> =
-      { resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller }
+      { resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller, cursor }
     webBridge.postMessage( 'state-update', state )
-  }, [ webBridge, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller ] )
+  }, [ webBridge, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller, cursor ] )
 
 }

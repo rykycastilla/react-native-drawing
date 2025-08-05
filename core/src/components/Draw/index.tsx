@@ -8,6 +8,8 @@ import { ReactElement, useRef, useState } from 'react'
 import { SprayParticlesProps } from '@shared/utils/types/SprayParticlesProps'
 import { Tool } from '@shared/modules/tools/models'
 import { useCoreConnection } from '@draw/hooks'
+import { useCursor } from '@cursor/hooks'
+import { useElemLayout } from '@hooks'
 import { useLoader } from './hooks'
 import { useTools } from '@tools/hooks'
 import './styles.css'
@@ -22,6 +24,7 @@ interface DrawProps {
   toolSize: number | undefined
   sprayParticles: SprayParticlesProps
   animatedFiller: boolean
+  cursor: boolean | undefined
   onLoad(): void
 }
 
@@ -38,6 +41,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
     toolSize = DEFAULT_TOOL_SIZE,
     sprayParticles,
     animatedFiller,
+    cursor = false,
   } = props
 
   const [ viewportControlAllowed, setViewportControlAllowed ] = useState( false )
@@ -46,6 +50,13 @@ const Draw = ( props:DrawProps ): ReactElement => {
   const drawingServiceRef = useRef<DrawingService|null>( null )
   useCoreConnection( { drawingServiceRef, currentTool } )
   const { setDisplayLoaded, setGridLoaded } = useLoader( onLoad )
+
+  // Using cursor
+  const touchScreenRef = useRef<HTMLDivElement|null>( null )
+  const [ width ] = useElemLayout( touchScreenRef )
+  const isInvalidToolForCursor: boolean = ( tool === Tool.NONE ) || ( tool === Tool.ZOOM )
+  const showCursor: boolean = cursor && !isInvalidToolForCursor
+  useCursor( showCursor, toolSize / resolution * width, touchScreenRef )
 
   return (
     <div className="draw">
@@ -57,6 +68,7 @@ const Draw = ( props:DrawProps ): ReactElement => {
         onLoad={ setDisplayLoaded } />
       <Grid amount={ grid } aspectRatio={ aspectRatio } onLoad={ setGridLoaded } />
       <TouchScreen
+        ref={ touchScreenRef }
         resolution={ resolution }
         viewportControlAllowed={ viewportControlAllowed }
         tool={ currentTool }

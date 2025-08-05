@@ -10,4 +10,5 @@ export interface DrawPropsDTO<T> {
   toolSize: number | undefined
   sprayParticles: SprayParticlesProps
   animatedFiller: boolean
+  cursor: boolean | undefined
 }

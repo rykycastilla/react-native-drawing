@@ -1,0 +1,8 @@
+.cursor-pointer {
+  width: var( --cursor-size );
+  height: var( --cursor-size );
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid black;
+  transform: translate( -50%, -50% );
+}
