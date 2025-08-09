@@ -19,17 +19,17 @@ export function usePositionHandler( args:UsePositionHandlerArgs ): UsePositionHa
   const onTouchStart = useCallback( ( event:TouchEvent ) => {
     if( !viewportControlAllowed ) { event.preventDefault() }
     for( const touch of event.changedTouches ) {
-      const { identifier, clientX, clientY } = touch
+      const { identifier, pageX, pageY } = touch
       const { innerWidth, innerHeight } = window
-      touchService.start( identifier, clientX, clientY, innerWidth, innerHeight )
+      touchService.start( identifier, pageX, pageY, innerWidth, innerHeight )
     }
   }, [ viewportControlAllowed, touchService ] )
 
   const onTouchMove = useCallback( ( event:TouchEvent ) => {
     if( !viewportControlAllowed ) { event.preventDefault() }
     for( const touch of event.changedTouches ) {
-      const { identifier, clientX, clientY } = touch
-      touchService.move( identifier, clientX, clientY )
+      const { identifier, pageX, pageY } = touch
+      touchService.move( identifier, pageX, pageY )
     }
   }, [ viewportControlAllowed, touchService ] )
 
