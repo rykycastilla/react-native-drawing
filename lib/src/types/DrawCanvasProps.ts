@@ -1,3 +1,4 @@
+import { CursorStyle } from '../shared/modules/cursor/models'
 import { Tool } from '../shared/modules/tools/models'
 import { ViewportWidth } from '../components/WebContainer'
 
@@ -18,5 +19,6 @@ export interface DrawCanvasProps {
 
   /** Use a cursor to identify touch position */
   cursor?: boolean
+  cursorStyle?: CursorStyle
 
 }

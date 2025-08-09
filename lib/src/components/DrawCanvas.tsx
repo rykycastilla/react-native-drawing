@@ -4,6 +4,7 @@ import { DrawCanvasProps as PublicDrawCanvasProps } from '../types/DrawCanvasPro
 import { INIT_MESSAGE_SYSTEM } from '../shared/constants'
 import { MessageSystem } from '../shared/utils/MessageSystem'
 import { ReactElement } from 'react'
+import { unableShadowOnIOS } from '../functions/unable_shadow_on_ios'
 import { useCallback, useRef } from 'react'
 import { useDrawState } from '../hooks/draw_state'
 import { useGridGuard } from '../hooks/grid_guard'
@@ -28,6 +29,7 @@ const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
   const {
     width = '100%', aspectRatio = DEFAULT_ASPECT_RATIO, grid, onWebBridge, dispatchScrollEvent,
   } = props
+  unableShadowOnIOS( props.cursorStyle )
 
   const webViewRef = useRef<WebView|null>( null )
   const { receive, suscribe, postMessage } = useWebMessage( webViewRef )

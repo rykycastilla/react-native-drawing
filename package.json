@@ -41,6 +41,7 @@
   "homepage": "https://rn-drawing.ryky.tech",
   "description": "A React Native library that provides a canvas to perform drawing actions",
   "devDependencies": {
+    "@types/lodash": "^4.17.20",
     "@types/react": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "7.15.0",
     "@typescript-eslint/parser": "7.15.0",
@@ -49,5 +50,8 @@
     "eslint-plugin-react-refresh": "0.4.7",
     "typescript": "~5.5.0"
   },
-  "packageManager": "npm@10.8.2"
+  "packageManager": "npm@10.8.2",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }

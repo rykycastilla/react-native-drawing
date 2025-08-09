@@ -1,3 +1,4 @@
+import { CursorStyle } from '../../modules/cursor/models'
 import { SprayParticlesProps } from './SprayParticlesProps'
 
 export interface DrawPropsDTO<T> {
@@ -11,4 +12,5 @@ export interface DrawPropsDTO<T> {
   sprayParticles: SprayParticlesProps
   animatedFiller: boolean
   cursor: boolean | undefined
+  cursorStyle: CursorStyle
 }

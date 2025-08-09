@@ -1,7 +1,9 @@
+import { CursorStyle } from '@shared/modules/cursor/models'
 import { Pointer } from '../models'
 
 export interface CursorRenderer {
 
+  style: CursorStyle
   cursorSize: number
 
   /**
@@ -20,6 +22,7 @@ export interface CursorRenderer {
    */
   clear(): void
 
+  setStyle( style:CursorStyle ): void
   setCursorSize( size:number ): void
 
 }

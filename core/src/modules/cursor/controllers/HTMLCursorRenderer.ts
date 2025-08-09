@@ -1,11 +1,13 @@
+import { CSSCursorStyleManager } from './CSSCursorStyleManager'
 import { CursorRenderer } from '../services'
+import { CursorStyle } from '@shared/modules/cursor/models'
 import { Pointer } from '../models'
-import '../styles.css'
+import { PropertyValueTransformer } from '@utils/PropertyValueTransformer'
 
 /**
  * An utility to creates pointers in a DOM Element
  */
-export class HTMLCursorRenderer implements CursorRenderer {
+export class HTMLCursorRenderer extends CSSCursorStyleManager implements CursorRenderer {
 
   private static POINTER_CLASS_NAME = 'cursor-pointer'
   #cursorSize!: number
@@ -15,10 +17,8 @@ export class HTMLCursorRenderer implements CursorRenderer {
    * @param cursorSize
    * @param element
    */
-  constructor(
-    cursorSize:number,
-    private readonly element: HTMLElement,
-  ) {
+  constructor( cursorSize:number, style:CursorStyle, element:HTMLElement, pixelsParser:PropertyValueTransformer ) {
+    super( style, element, pixelsParser )
     element.style.position = 'relative'
     this.setCursorSize( cursorSize )
     this.setupElementPos()

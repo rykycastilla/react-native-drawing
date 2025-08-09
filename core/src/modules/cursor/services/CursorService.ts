@@ -8,8 +8,8 @@ export class CursorService {
 
   constructor(
     isAvailable:boolean,
-    private readonly pointerEventEmitter: PointerEventEmitter,
-    private readonly cursorRenderer: CursorRenderer,
+    protected readonly pointerEventEmitter: PointerEventEmitter,
+    protected readonly cursorRenderer: CursorRenderer,
   ) {
     this.#isAvailable = isAvailable
     this.setupEventListener()
