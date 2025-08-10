@@ -10,16 +10,17 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
 
   private currentUtil: IFiller | null = null
   private filled: Promise<void> | null = null
-  public onstarteachtask: ( ( args:FillerArgs ) => void ) | null = null
+  public onstarteachtask: ( ( args:FillerArgs ) => Promise<void> | void ) | null = null
 
-  private dispatchStartEachTask( args:FillerArgs ) {
+  private async dispatchStartEachTask( args:FillerArgs ) {
     if( this.onstarteachtask === null ) { return }
-    this.onstarteachtask( args )
+    await this.onstarteachtask( args )
   }
 
   protected async runTask( args:FillerArgs ) {
     const { x, y, color, animatedFiller, scene } = args
     const { width, height, pixelList } = scene.getBinaryData()
+    await this.dispatchStartEachTask( args )
     const util: IFiller = FillerFactory.createInstance( width, height, animatedFiller )
     util.onFrame( ( image ) => {
       scene.setBinaryData( { ...image, colorChanels:4, maxChanel:255 } )
@@ -27,7 +28,6 @@ export class FillerQueue extends TaskQueue<FillerArgs> {
     this.currentUtil = util
     const fillingResult: Promise<void> | void = util.fill( x, y, color, pixelList )
     this.filled = ( fillingResult instanceof Promise ) ? fillingResult : null
-    this.dispatchStartEachTask( args )
     await this.filled
   }
 

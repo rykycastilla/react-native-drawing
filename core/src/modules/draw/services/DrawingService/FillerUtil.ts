@@ -6,9 +6,9 @@ export abstract class FillerUtil extends DrawUtil {
 
   protected initFiller( filler:Filler ) {
     if( filler.onstarteachtask === null ) {
-      filler.onstarteachtask = ( args ) => {
+      filler.onstarteachtask = async( args ) => {
         const { x, y, color } = args
-        FillerUtil.dispatchFilling( this as unknown as DrawingService, true, x, y, color )
+        await FillerUtil.dispatchFilling( this as unknown as DrawingService, true, x, y, color )
         FillerUtil.dispatchHistoryMove( this as unknown as DrawingService, false, false )
       }
     }
@@ -24,13 +24,13 @@ export abstract class FillerUtil extends DrawUtil {
 
   public static onfilling: FillingHandler | null = null
 
-  private static dispatchFilling( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) {
+  private static async dispatchFilling( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) {
     if( this.onfilling === null ) { return }
-    this.onfilling( target, isStarting, x, y, color )
+    await this.onfilling( target, isStarting, x, y, color )
   }
 
 }
 
 interface FillingHandler {
-  ( target:DrawingService, isStarting:boolean, x:number, y: number, color:string ): void
+  ( target:DrawingService, isStarting:boolean, x:number, y: number, color:string ): Promise<void> | void
 }

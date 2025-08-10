@@ -6,7 +6,7 @@ import { Tool } from './Tool'
 export class Filler extends Tool implements ColorableTool {
 
   public onfinish: ( ( args:FillerData ) => void ) | null = null
-  public onstarteachtask: ( ( args:FillerData ) => void ) | null = null
+  public onstarteachtask: ( ( args:FillerData ) => Promise<void> | void ) | null = null
   #color: string
   #animatedFiller = false
 
@@ -18,7 +18,7 @@ export class Filler extends Tool implements ColorableTool {
     super()
     this.#color = this.filterColor( color )
     this.fillerQueue.onfinish = ( args:FillerArgs ) => this.handleFinish( args )
-    this.fillerQueue.onstarteachtask = ( args:FillerArgs ) => this.handleStartEachTask( args )
+    this.fillerQueue.onstarteachtask = async( args:FillerArgs ) => await this.handleStartEachTask( args )
   }
 
   private handleFinish( args:FillerArgs ) {
@@ -26,9 +26,9 @@ export class Filler extends Tool implements ColorableTool {
     this.onfinish( args )
   }
 
-  private handleStartEachTask( args:FillerArgs ) {
+  private async handleStartEachTask( args:FillerArgs ) {
     if( this.onstarteachtask === null ) { return }
-    this.onstarteachtask( args )
+    await this.onstarteachtask( args )
   }
 
   override async addStrokePoint( x:number, y:number, strokeId:symbol, scene:DrawingScene ) {
@@ -81,7 +81,7 @@ export interface FillerArgs extends FillerData {
 interface FillerQueue {
   isConsuming: boolean
   onfinish: ( ( args:FillerArgs ) => void ) | null
-  onstarteachtask: ( ( args:FillerArgs ) => void ) | null
+  onstarteachtask: ( ( args:FillerArgs ) => Promise<void> | void ) | null
   enqueueTask( args:FillerArgs ): void
   stopTasks(): void
 }

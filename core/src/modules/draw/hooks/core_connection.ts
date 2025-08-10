@@ -40,8 +40,8 @@ export function useCoreConnection( args:UseConnectDrawControllerArgs ) {
       }
     }
     if( coreController.onfilling === null ) {
-      coreController.onfilling = ( isStarting:boolean, x:number, y:number, color:string ) => {
-        RNBridge.postMessage( 'filling', { isStarting, x, y, color } )
+      coreController.onfilling = async( isStarting:boolean, x:number, y:number, color:string ) => {
+        await RNBridge.postMessage( 'filling', { isStarting, x, y, color } )
       }
     }
     if( coreController.onframereport === null ) {

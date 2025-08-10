@@ -11,7 +11,7 @@ export class CoreController implements IDrawCore {
   private readonly symbolParser = new SymbolParser()
   private tool: ITool | null = null
   public onhistorymove: ( ( canUndo:boolean, canRedo:boolean ) => void ) | null = null
-  public onfilling: ( ( isStarting:boolean, x:number, y:number, color:string ) => void ) | null = null
+  public onfilling: ( ( isStarting:boolean, x:number, y:number, color:string ) => Promise<void> | void ) | null = null
   public onframereport: ( ( fps:number ) => void ) | null = null
 
   constructor(
@@ -43,10 +43,10 @@ export class CoreController implements IDrawCore {
   }
 
   private setFillerListener() {
-    DrawingService.onfilling = ( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) => {
+    DrawingService.onfilling = async( target:DrawingService, isStarting:boolean, x:number, y:number, color:string ) => {
       if( target !== this.drawingService ) { return }
       if( this.onfilling === null ) { return }
-      this.onfilling( isStarting, x, y, color )
+      await this.onfilling( isStarting, x, y, color )
     }
   }
 
