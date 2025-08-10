@@ -39,7 +39,10 @@ export abstract class Stroke<T extends object> extends Renderable<T> implements 
   }
 
   public onStop( handle:( () => void ) ) {
-    this.stopService.onStop( handle )
+    this.stopService.onStop( () => {
+      this.clearRenderCache()
+      handle()
+    } )
   }
 
   public stop() {

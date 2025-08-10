@@ -8,6 +8,7 @@ export abstract class Renderable<T extends object> {
   ) {}
 
   protected abstract renderSection( path:Path2D, props:T ): void
+  protected abstract clearRenderCache(): void
 
   public render() {
     for( const section of this.sectionManager.sectionList ) {
