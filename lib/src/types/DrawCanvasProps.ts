@@ -4,6 +4,7 @@ import { ViewportWidth } from '../components/WebContainer'
 
 export interface DrawCanvasProps {
 
+  backgroundColor?: string
   width?: ViewportWidth
   aspectRatio?: number
   resolution: number

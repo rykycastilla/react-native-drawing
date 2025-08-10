@@ -5,6 +5,7 @@ import { useDrawingDeps } from './hooks'
 import './styles.css'
 
 interface DisplayProps {
+  backgroundColor: string | undefined
   resolution: number
   aspectRatio: number
   antialiasing: boolean
@@ -13,7 +14,7 @@ interface DisplayProps {
 
 const Display = forwardRef( ( props:DisplayProps, ref:ForwardedRef<DrawingService> ): ReactElement => {
 
-  const { resolution, aspectRatio, antialiasing, onLoad } = props
+  const { backgroundColor, resolution, aspectRatio, antialiasing, onLoad } = props
   const resolutionHeight: number = Math.round( resolution / aspectRatio )
   const { loadDisplay, drawingService } = useDrawingDeps( resolution, resolutionHeight )
 
@@ -23,6 +24,7 @@ const Display = forwardRef( ( props:DisplayProps, ref:ForwardedRef<DrawingServic
 
   return (
     <CanvasDisplay
+      backgroundColor={ backgroundColor }
       className={ antialiasing ? '' : 'pixelated' }
       resolution={ resolution }
       aspectRatio={ aspectRatio }
