@@ -69,10 +69,9 @@ function textToBase64Url( mime, input ) {
 */
 function includeWorkers( javascript, workerList ) {
   for( const worker of workerList ) {
-    const workerURLRawPattern = `"([^"]*(?:/[^"]*)*/${ worker.name })"`
-    const workerURLPattern = new RegExp( workerURLRawPattern )
+    const workerURLPattern = `new Worker("/assets/${ worker.name }"`
     const workerBase64URL = textToBase64Url( 'text/javascript', worker.data )
-    javascript = javascript.replace( workerURLPattern, `"${ workerBase64URL }"` )
+    javascript = javascript.replace( workerURLPattern, `new Worker("${ workerBase64URL }"` )
   }
   return javascript
 }
