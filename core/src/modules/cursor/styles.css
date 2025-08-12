@@ -5,7 +5,7 @@
   border-radius: var( --custom-borderRadius, 50% );
   border: var( --custom-borderStyle, solid ) var( --custom-borderWidth, 1px ) var( --custom-borderColor, black );
   background-color: var( --custom-backgroundColor, rgba( 0, 0, 0, 0 ) );
-  transform: translate( -50%, -50% );
+  transform: translate( -50%, -50% ) scale( var( --custom-scale, 1 ) );
   display: var( --custom-display, block );
   filter: var( --custom-shadowFilter );
 }
