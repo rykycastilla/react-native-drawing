@@ -3,6 +3,7 @@ import { PointerEventEmitter, PointerEventHandler } from '../services'
 
 export class DOMPointerEventEmitter implements PointerEventEmitter {
 
+  private readonly currentPointersIndex = new Map<number,Pointer>()
   oninteract: PointerEventHandler | null = null
   onleave: PointerEventHandler | null = null
 
@@ -16,25 +17,43 @@ export class DOMPointerEventEmitter implements PointerEventEmitter {
     element.addEventListener( 'touchend', ( event:TouchEvent ) => {
       this.dispatchLeaveEvent( event )
     } )
-    element.addEventListener( 'touchcancel', ( event:TouchEvent ) => {
-      this.dispatchLeaveEvent( event )
+    element.addEventListener( 'touchcancel', () => {
+      this.leaveAll()
     } )
   }
 
   private dispatchInteractEvent( event:TouchEvent ) {
     const pointerList: Pointer[] = DOMPointerEventEmitter.createPointerEvent( event )
-    if( this.oninteract === null ) { return }
     for( const pointer of pointerList ) {
+      this.currentPointersIndex.set( pointer.id, pointer )  // Handling pointers state
+      // Ensuring handler is defined
+      if( this.oninteract === null ) { continue }
       this.oninteract( pointer )
     }
   }
 
-  private dispatchLeaveEvent( event:TouchEvent ) {
-    const pointerList: Pointer[] = DOMPointerEventEmitter.createPointerEvent( event )
-    if( this.onleave === null ) { return }
+  /**
+   * Accepts `TouchEvent` and `Pointer` to *leave* its targets dispatching a new event
+   */
+  private dispatchLeaveEvent( eventTarget:TouchEvent|Pointer ) {
+    const pointerList: Pointer[] = eventTarget instanceof Pointer
+      ? [ eventTarget ]
+      : DOMPointerEventEmitter.createPointerEvent( eventTarget )
     for( const pointer of pointerList ) {
+      this.currentPointersIndex.delete( pointer.id )  // Handling pointers state
+      // Ensuring handler is defined
+      if( this.onleave === null ) { continue }
       this.onleave( pointer )
     }
+  }
+
+  /**
+   * Free all the pointers saved in the current state
+   */
+  private leaveAll() {
+    this.currentPointersIndex.forEach( ( pointer:Pointer ) => {
+      this.dispatchLeaveEvent( pointer )
+    } )
   }
 
   private static createPointerEvent( event:TouchEvent ): Pointer[] {
