@@ -3,6 +3,8 @@ import { PointerEventEmitter, PointerEventHandler } from '../services'
 
 export class DOMPointerEventEmitter implements PointerEventEmitter {
 
+  private static readonly CURSOR_LIVE = 100 // ms
+
   private readonly currentPointersIndex = new Map<number,Pointer>()
   oninteract: PointerEventHandler | null = null
   onleave: PointerEventHandler | null = null
@@ -26,6 +28,11 @@ export class DOMPointerEventEmitter implements PointerEventEmitter {
     const pointerList: Pointer[] = DOMPointerEventEmitter.createPointerEvent( event )
     for( const pointer of pointerList ) {
       this.currentPointersIndex.set( pointer.id, pointer )  // Handling pointers state
+      setTimeout( () => {
+        const currentPointer: Pointer | undefined = this.currentPointersIndex.get( pointer.id )
+        // Leaving pointer if it hasn't moved for a while
+        if( pointer === currentPointer ) { this.dispatchLeaveEvent( pointer ) }
+      }, DOMPointerEventEmitter.CURSOR_LIVE )
       // Ensuring handler is defined
       if( this.oninteract === null ) { continue }
       this.oninteract( pointer )
