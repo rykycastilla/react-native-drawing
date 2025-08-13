@@ -8,7 +8,6 @@ import { useObjectStructure } from '../shared/hooks/object_structure'
 import { useSprayParticlesPropsDefinition } from './spray_particles_props_definition'
 
 export interface WebDrawProps {
-  backgroundColor?: string
   resolution: number
   aspectRatio?: number
   color: string
@@ -25,7 +24,6 @@ export interface WebDrawProps {
 export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawProps ) {
 
   const {
-    backgroundColor,
     resolution,
     aspectRatio = 1,
     color,
@@ -44,8 +42,8 @@ export function useDrawState( webBridge:MessageSystem|null, stateProps:WebDrawPr
   useEffect( () => {
     if( webBridge === null ) { return }
     const state: DrawPropsDTO<Tool> =
-      { backgroundColor, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller, cursor, cursorStyle:fixedCursorStyle }
+      { resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller, cursor, cursorStyle:fixedCursorStyle }
     webBridge.postMessage( 'state-update', state )
-  }, [ webBridge, backgroundColor, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller, cursor, fixedCursorStyle ] )
+  }, [ webBridge, resolution, aspectRatio, color, grid, antialiasing, tool, toolSize, sprayParticles, animatedFiller, cursor, fixedCursorStyle ] )
 
 }

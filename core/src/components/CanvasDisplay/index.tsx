@@ -3,7 +3,6 @@ import { useResolution } from './hooks'
 import './styles.css'
 
 interface CanvasDisplayProps {
-  backgroundColor?: string
   className?: string
   resolution: number
   aspectRatio: number
@@ -13,7 +12,7 @@ interface CanvasDisplayProps {
 
 const CanvasDisplay = ( props:CanvasDisplayProps ): ReactElement => {
 
-  const { backgroundColor, className = '', resolution, aspectRatio, onLoad, onCanvasCreate } = props
+  const { className = '', resolution, aspectRatio, onLoad, onCanvasCreate } = props
   const displayRef = useRef<HTMLCanvasElement|null>( null )
   useResolution( { resolution, aspectRatio, displayRef } )
 
@@ -31,7 +30,6 @@ const CanvasDisplay = ( props:CanvasDisplayProps ): ReactElement => {
   return (
     <canvas
       ref={ displayRef }
-      style={ { backgroundColor } }
       className={ `canvas-display ${ className }` }>
     </canvas>
   )

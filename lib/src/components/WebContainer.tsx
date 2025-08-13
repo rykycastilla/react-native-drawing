@@ -8,6 +8,7 @@ type WebViewSource = NonNullable<WebViewProps[ 'source' ]>
 type ScrollHandler = NonNullable<WebViewProps[ 'onScroll' ]>
 
 interface WebContainerProps {
+  backgroundColor?: string
   width: ViewportWidth
   aspectRatio: number
   source: WebViewSource
@@ -16,11 +17,12 @@ interface WebContainerProps {
 }
 
 const WebContainer = forwardRef( ( props:WebContainerProps, ref:ForwardedRef<WebView|null> ): ReactElement => {
-  const { width, aspectRatio, source, onMessage, onScroll } = props
+  const { backgroundColor, width, aspectRatio, source, onMessage, onScroll } = props
   return (
     <View style={ { width, aspectRatio } }>
       <WebView
         ref={ ref }
+        style={ { backgroundColor } }
         webviewDebuggingEnabled={ !PRODUCTION }
         source={ source }
         onScroll={ onScroll }

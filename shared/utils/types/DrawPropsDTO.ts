@@ -2,7 +2,6 @@ import { CursorStyle } from '../../modules/cursor/models'
 import { SprayParticlesProps } from './SprayParticlesProps'
 
 export interface DrawPropsDTO<T> {
-  backgroundColor: string | undefined
   resolution: number
   aspectRatio: number
   color: string

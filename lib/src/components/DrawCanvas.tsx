@@ -27,7 +27,7 @@ interface DrawCanvasProps extends PublicDrawCanvasProps {
 const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
 
   const {
-    width = '100%', aspectRatio = DEFAULT_ASPECT_RATIO, grid, onWebBridge, dispatchScrollEvent,
+    backgroundColor, width = '100%', aspectRatio = DEFAULT_ASPECT_RATIO, grid, onWebBridge, dispatchScrollEvent,
   } = props
   unableShadowOnIOS( props.cursorStyle )
 
@@ -46,6 +46,7 @@ const DrawCanvas = ( props:DrawCanvasProps ): ReactElement => {
   return (
     <WebContainer
       ref={ webViewRef }
+      backgroundColor={ backgroundColor }
       width={ width }
       aspectRatio={ aspectRatio }
       source={ webSource }

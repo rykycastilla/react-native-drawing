@@ -15,7 +15,6 @@ import { useTools } from '@tools/hooks'
 import './styles.css'
 
 interface DrawProps {
-  backgroundColor: string | undefined
   resolution: number
   aspectRatio: number
   color: string
@@ -33,7 +32,6 @@ interface DrawProps {
 const Draw = ( props:DrawProps ): ReactElement => {
 
   const {
-    backgroundColor,
     resolution,
     aspectRatio,
     color,
@@ -65,7 +63,6 @@ const Draw = ( props:DrawProps ): ReactElement => {
     <div className="draw">
       <Display
         ref={ drawingServiceRef }
-        backgroundColor={ backgroundColor }
         resolution={ resolution }
         aspectRatio={ aspectRatio }
         antialiasing={ antialiasing }
